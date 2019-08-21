@@ -1,17 +1,12 @@
 #pragma once
-#include "ResourceManager.h"
-#include "Animation.h"
+#include "Phantom.h"
 
-class Player
+class Player : public Phantom
 {
 public:
 	Player();
 	void input();
 	void update(float deltaTime);
-	void draw(sf::RenderWindow& w);
-	void play(int buffer_no, float pitch, float vol);
-	const sf::Vector2f& getPosition() { return sprite.getPosition(); }
-	const bool& isShooting() { return try_shoot; }
 
 	enum WeaponType
 	{
@@ -19,16 +14,15 @@ public:
 	};
 	const WeaponType& shoot() { return curr_weapon; }
 private:
+	void tryReload(float deltaTime);
+	void tryFire(float deltaTime);
+	void checkMovement(float deltaTime);
+
 	Animation stationary;
 	Animation movingleft;
 	Animation movingright;
-	sf::Sprite sprite;
-	sf::Vector2f velocity;
-	std::vector<sf::SoundBuffer> buffer;
-	std::vector<sf::Sound> sound;
 	bool moving = false;
 	bool facing_right = false;
-	bool try_shoot = false;
 	//stats
 	unsigned magazine_size = 5;
 	unsigned magazine_curr = 5;

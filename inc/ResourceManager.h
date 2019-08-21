@@ -10,6 +10,7 @@ public:
 	{
 		textures.add("player");
 		textures.add("bullets");
+		textures.add("enemies");
 		buffers.add("blaster1");
 	}
 

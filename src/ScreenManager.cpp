@@ -8,8 +8,11 @@ ScreenManager::ScreenManager()
 void ScreenManager::update(float deltaTime)
 {
 	player.update(deltaTime);
+	for (unsigned i = 0; i < enemies.size(); i++)
+		enemies[i].update(deltaTime);
 	checkFiredShots();
 	updateProjectiles(deltaTime);
+	trySpawn(deltaTime);
 }
 
 void ScreenManager::updateProjectiles(float deltaTime)
@@ -21,6 +24,16 @@ void ScreenManager::updateProjectiles(float deltaTime)
 		{
 			player_projectiles.erase(player_projectiles.begin() + i);
 		}
+	}
+}
+
+void ScreenManager::trySpawn(float deltaTime)
+{
+	enemyTotalTime += deltaTime;
+	if (enemyTotalTime >= enemySpawnTime)
+	{
+		enemyTotalTime -= enemySpawnTime;
+		enemies.push_back(Enemy(2.f, 20.f, 0));
 	}
 }
 
@@ -44,5 +57,10 @@ void ScreenManager::draw(sf::RenderWindow& w)
 	unsigned len = player_projectiles.size();
 	for (unsigned i = 0; i < len; i++)
 		player_projectiles[i].draw(w);
+
+	len = enemies.size();
+	for (unsigned i = 0; i < len; i++)
+		enemies[i].draw(w);
+
 	player.draw(w);
 }

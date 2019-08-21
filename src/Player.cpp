@@ -1,7 +1,7 @@
 #include "..\inc\Player.h"
 
-Player::Player() : stationary(sf::IntRect(0, 0, 70, 70), 3, 0.25f), movingleft(sf::IntRect(0, 70, 70, 70), 3, 0.25f), 
-				   movingright(sf::IntRect(70, 70, -70, 70), 3, 0.25f), sound(20)
+Player::Player() : Phantom(20), stationary(sf::IntRect(0, 0, 70, 70), 3, 0.25f), movingleft(sf::IntRect(0, 70, 70, 70), 3, 0.25f),
+				   movingright(sf::IntRect(70, 70, -70, 70), 3, 0.25f)
 {
 	velocity = { 0,0 };
 	buffer.push_back(ResourceManager::get().buffers.get("blaster1"));
@@ -14,6 +14,7 @@ void Player::input()
 {
 	float speed = 300.f;
 	velocity.x = 0;
+
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 	{
 		velocity.x -= speed;
@@ -48,6 +49,16 @@ void Player::update(float deltaTime)
 	facing_right = false;
 	try_shoot = false;
 
+	tryReload(deltaTime);
+	tryFire(deltaTime);
+	input();
+	checkMovement(deltaTime);
+
+	sprite.move(velocity * deltaTime);
+}
+
+void Player::tryReload(float deltaTime)
+{
 	reloadTotalTime += deltaTime;
 	if (reloadTotalTime >= reloadTime)
 	{
@@ -55,13 +66,17 @@ void Player::update(float deltaTime)
 		if (magazine_curr < magazine_size)
 			magazine_curr++;
 	}
+}
 
+void Player::tryFire(float deltaTime)
+{
 	shootTotalTime += deltaTime;
 	if (shootTotalTime >= shotGap)
 		shootTotalTime = shotGap;
+}
 
-	input();
-
+void Player::checkMovement(float deltaTime)
+{
 	if (moving)
 	{
 		if (facing_right)
@@ -71,26 +86,4 @@ void Player::update(float deltaTime)
 	}
 	else
 		sprite.setTextureRect(stationary.update(deltaTime));
-
-	sprite.move(velocity * deltaTime);
-}
-
-void Player::draw(sf::RenderWindow& w)
-{
-	w.draw(sprite);
-}
-
-void Player::play(int buffer_no, float pitch, float vol)
-{
-	for (auto& x : sound)
-	{
-		if (x.getStatus() == 0)
-		{
-			x.setBuffer(buffer[buffer_no]);
-			x.setPitch(pitch);
-			x.setVolume(vol);
-			x.play();
-			return;
-		}
-	}
 }
