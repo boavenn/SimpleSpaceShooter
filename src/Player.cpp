@@ -1,7 +1,7 @@
 #include "..\inc\Player.h"
-#include <iostream>
 
-Player::Player() : stationary(sf::IntRect(0, 0, 70, 70), 3, 0.25f), movingleft(sf::IntRect(0, 70, 70, 70), 3, 0.25f), movingright(sf::IntRect(70, 70, -70, 70), 3, 0.25f), sound(20)
+Player::Player() : stationary(sf::IntRect(0, 0, 70, 70), 3, 0.25f), movingleft(sf::IntRect(0, 70, 70, 70), 3, 0.25f), 
+				   movingright(sf::IntRect(70, 70, -70, 70), 3, 0.25f), sound(20)
 {
 	velocity = { 0,0 };
 	buffer.push_back(ResourceManager::get().buffers.get("blaster1"));
@@ -34,6 +34,7 @@ void Player::input()
 				{
 					shootTotalTime -= shotGap;
 					magazine_curr--;
+					try_shoot = true;
 					play(0, 1.f, 100.f);
 				}			
 			}
@@ -42,8 +43,10 @@ void Player::input()
 
 void Player::update(float deltaTime)
 {
+	curr_weapon = static_cast<WeaponType>(curr_weapon_no);
 	moving = false;
 	facing_right = false;
+	try_shoot = false;
 
 	reloadTotalTime += deltaTime;
 	if (reloadTotalTime >= reloadTime)
@@ -69,7 +72,6 @@ void Player::update(float deltaTime)
 	else
 		sprite.setTextureRect(stationary.update(deltaTime));
 
-	std::cout << getPosition().x << std::endl;
 	sprite.move(velocity * deltaTime);
 }
 
@@ -91,9 +93,4 @@ void Player::play(int buffer_no, float pitch, float vol)
 			return;
 		}
 	}
-}
-
-const sf::Vector2f& Player::getPosition() const
-{
-	return sprite.getPosition();
 }

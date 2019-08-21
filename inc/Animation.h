@@ -4,7 +4,7 @@ class Animation
 {
 public:
 	Animation(sf::IntRect startingFrame, unsigned imgCount, float delay);
-	sf::IntRect& update(float deltaTime);
+	const sf::IntRect& update(float deltaTime);
 
 private:
 	sf::IntRect currentFrame;

@@ -7,7 +7,7 @@ Animation::Animation(sf::IntRect startingFrame, unsigned imgCount, float delay)
 	currentFrame = startingFrame;
 }
 
-sf::IntRect& Animation::update(float deltaTime)
+const sf::IntRect& Animation::update(float deltaTime)
 {
 	totalTime += deltaTime;
 	if (totalTime >= delay)

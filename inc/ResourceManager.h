@@ -9,6 +9,7 @@ public:
 	void init() // we load all needed resources down here
 	{
 		textures.add("player");
+		textures.add("bullets");
 		buffers.add("blaster1");
 	}
 
