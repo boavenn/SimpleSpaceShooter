@@ -11,7 +11,11 @@ public:
 	int getCurrImg() { return explosion.getCurrImg(); }
 
 private:
+	void updateParticles(float deltaTime);
+
 	Animation explosion;
 	sf::Sprite sprite;
+	sf::VertexArray particles;
+	unsigned particles_size;
 };
 
