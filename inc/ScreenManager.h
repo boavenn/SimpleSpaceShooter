@@ -3,12 +3,16 @@
 #include "Enemy.h"
 #include "ResourceManager.h"
 #include "Projectile.h"
+#include <random>
+#include <chrono>
+
 class ScreenManager
 {
 public:
 	ScreenManager();
 	void update(float deltaTime);
 	void draw(sf::RenderWindow& w);
+
 private:
 	void checkFiredShots();
 	void updateProjectiles(float deltaTime);

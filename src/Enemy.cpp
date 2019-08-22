@@ -34,8 +34,6 @@ void Enemy::tryFire(float deltaTime)
 		float chance = float(eng() % 100);
 
 		if (chance < shootingChance)
-		{
 			try_shoot = true;
-		}
 	}
 }

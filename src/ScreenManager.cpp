@@ -21,18 +21,14 @@ void ScreenManager::updateProjectiles(float deltaTime)
 	{
 		player_projectiles[i].update(deltaTime);
 		if (player_projectiles[i].isOut())
-		{
 			player_projectiles.erase(player_projectiles.begin() + i);
-		}
 	}
 
 	for (unsigned i = 0; i < enemy_projectiles.size(); i++)
 	{
 		enemy_projectiles[i].update(deltaTime);
 		if (enemy_projectiles[i].isOut())
-		{
 			enemy_projectiles.erase(enemy_projectiles.begin() + i);
-		}
 	}
 }
 

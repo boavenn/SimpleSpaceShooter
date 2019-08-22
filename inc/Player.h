@@ -4,15 +4,17 @@
 class Player : public Phantom
 {
 public:
-	Player();
-	void input();
-	void update(float deltaTime);
-
 	enum WeaponType
 	{
 		oneshot = 1
 	};
+
+public:
+	Player();
+	void input();
+	void update(float deltaTime);
 	const WeaponType& shoot() { return curr_weapon; }
+
 private:
 	void tryReload(float deltaTime);
 	void tryFire(float deltaTime);
