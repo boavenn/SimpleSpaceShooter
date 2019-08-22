@@ -1,7 +1,7 @@
 #include "..\inc\Enemy.h"
 
-Enemy::Enemy(float shootingDelay, float shootingChance, unsigned type, sf::Vector2f pos)
-	: Phantom(1), movement(sf::IntRect(0, type * 40, 40, 40), 2, 0.5f), gettingHit(sf::IntRect(80, type * 40, 40, 40), 1, 0.25f)
+Enemy::Enemy(float maxHealth, float shootingDelay, float shootingChance, unsigned type, sf::Vector2f pos)
+	: Phantom(1), movement(sf::IntRect(0, type * 40, 40, 40), 2, 0.5f, 1), gettingHit(sf::IntRect(80, type * 40, 40, 40), 1, 0.1f, 0)
 {
 	velocity = { 0, 50 };
 	buffer.push_back(ResourceManager::get().buffers.get("blaster1"));
@@ -11,6 +11,7 @@ Enemy::Enemy(float shootingDelay, float shootingChance, unsigned type, sf::Vecto
 	this->shootingDelay = shootingDelay;
 	this->shootingChance = shootingChance;
 	this->type = type;
+	currHealth = maxHealth;
 }
 
 void Enemy::update(float deltaTime)
@@ -18,7 +19,14 @@ void Enemy::update(float deltaTime)
 	try_shoot = false;
 
 	tryFire(deltaTime);
-	sprite.setTextureRect(movement.update(deltaTime));
+	if (gotHit)
+	{
+		sprite.setTextureRect(gettingHit.update(deltaTime));
+		if (gettingHit.getCurrImg() == -1)
+			gotHit = false;
+	}
+	else
+		sprite.setTextureRect(movement.update(deltaTime));
 	sprite.move(velocity * deltaTime);
 }
 

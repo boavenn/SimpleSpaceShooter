@@ -1,13 +1,14 @@
 #include "..\inc\Player.h"
 
-Player::Player() : Phantom(20), stationary(sf::IntRect(0, 0, 70, 70), 3, 0.25f), movingleft(sf::IntRect(0, 70, 70, 70), 3, 0.25f),
-				   movingright(sf::IntRect(70, 70, -70, 70), 3, 0.25f)
+Player::Player() : Phantom(20), stationary(sf::IntRect(0, 0, 70, 70), 3, 0.25f, 1), movingleft(sf::IntRect(0, 70, 70, 70), 3, 0.25f, 1),
+				   movingright(sf::IntRect(70, 70, -70, 70), 3, 0.25f, 1)
 {
 	velocity = { 0,0 };
 	buffer.push_back(ResourceManager::get().buffers.get("blaster1"));
 	sprite.setTexture(ResourceManager::get().textures.get("player"));
 	sprite.setOrigin({ 35.f,35.f });
 	sprite.setPosition({ 683,731 });
+	currHealth = 1.f;
 }
 
 void Player::input()

@@ -4,8 +4,9 @@
 class Animation
 {
 public:
-	Animation(sf::IntRect startingFrame, unsigned imgCount, float delay);
+	Animation(sf::IntRect startingFrame, unsigned imgCount, float delay, bool is_looped);
 	const sf::IntRect& update(float deltaTime);
+	unsigned getCurrImg() const { return currentImg; }
 
 private:
 	sf::IntRect currentFrame;
@@ -15,6 +16,7 @@ private:
 	const int width;
 	const int height;
 	float totalTime = 0.f;
-	unsigned currentImg = 0;
+	int currentImg = 0;
+	bool is_looped;
 };
 

@@ -44,7 +44,7 @@ void ScreenManager::trySpawn(float deltaTime)
 		std::default_random_engine eng(seed);
 		float rand_x_pos = float(eng() % 955 + 205);
 
-		enemies.push_back(new Enemy(2.f, 20.f, 0, {rand_x_pos, -50}));
+		enemies.push_back(new Enemy(15.f, 2.f, 20.f, 0, {rand_x_pos, -50}));
 	}
 }
 
@@ -91,9 +91,12 @@ void ScreenManager::checkCollisions()
 	{
 		if (enemies[i]->isHit(player_projectiles))
 		{
-			delete enemies[i]; // firstly we delete an object a pointer is pointing to
-			enemies.erase(enemies.begin() + i); // and then that pointer
-			i--;
+			if (enemies[i]->died)
+			{
+				delete enemies[i]; // firstly we delete an object a pointer is pointing to
+				enemies.erase(enemies.begin() + i); // and then that pointer
+				i--;
+			}
 		}
 	}
 }

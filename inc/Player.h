@@ -34,7 +34,7 @@ private:
 	float shootTotalTime = 0.f;
 	WeaponType curr_weapon = oneshot;
 	unsigned curr_weapon_no = 1;
-
+	unsigned lives = 1;
 };
 
 
