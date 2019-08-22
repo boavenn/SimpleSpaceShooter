@@ -16,6 +16,7 @@ private:
 
 	Player player;
 	std::vector<Projectile> player_projectiles;
+	std::vector<Projectile> enemy_projectiles;
 	std::vector<Enemy> enemies;
 	float enemySpawnTime = 2.f;
 	float enemyTotalTime = 0.f;

@@ -17,7 +17,25 @@ void Enemy::update(float deltaTime)
 {
 	try_shoot = false;
 
+	tryFire(deltaTime);
 	sprite.setTextureRect(movement.update(deltaTime));
-
 	sprite.move(velocity * deltaTime);
+}
+
+void Enemy::tryFire(float deltaTime)
+{
+	shootingTotalTime += deltaTime;
+	if (shootingTotalTime >= shootingDelay)
+	{
+		shootingTotalTime -= shootingDelay;
+
+		unsigned seed = std::chrono::steady_clock::now().time_since_epoch().count();
+		std::default_random_engine eng(seed);
+		float chance = float(eng() % 100);
+
+		if (chance < shootingChance)
+		{
+			try_shoot = true;
+		}
+	}
 }
