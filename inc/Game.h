@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "ScreenManager.h"
+
 class Game
 {
 public:

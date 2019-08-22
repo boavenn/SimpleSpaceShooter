@@ -6,9 +6,10 @@
 class Enemy : public Phantom
 {
 public:
-	Enemy(float shototingDelay, float shootingChance, unsigned type);
+	Enemy(float shototingDelay, float shootingChance, unsigned type, sf::Vector2f pos);
 	void update(float deltaTime);
 	const unsigned& getType() { return type; }
+
 private:
 	void tryFire(float deltaTime);
 

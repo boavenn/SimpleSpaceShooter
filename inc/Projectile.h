@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "ResourceManager.h"
+
 class Projectile
 {
 public:
@@ -10,6 +11,7 @@ public:
 	const sf::Vector2f& getPosition() { return sprite.getPosition(); }
 	const void setInitialPosition(sf::Vector2f pos) { sprite.setPosition(pos); }
 	bool isOut();
+
 private:
 	sf::Sprite sprite;
 	sf::Vector2f velocity;

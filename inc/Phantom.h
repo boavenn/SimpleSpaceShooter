@@ -1,6 +1,8 @@
 #pragma once
 #include "ResourceManager.h"
 #include "Animation.h"
+#include <Projectile.h>
+
 class Phantom
 {
 public:
@@ -10,6 +12,8 @@ public:
 	virtual void play(int buffer_no, float pitch, float vol);
 	virtual const sf::Vector2f& getPosition() { return sprite.getPosition(); }
 	virtual const bool& isShooting() { return try_shoot; }
+	virtual bool isHit(std::vector<Projectile>& projectiles);
+
 protected:
 	sf::Sprite sprite;
 	sf::Vector2f velocity;
