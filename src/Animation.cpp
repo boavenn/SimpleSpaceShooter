@@ -1,9 +1,8 @@
 #include "..\inc\Animation.h"
 
 Animation::Animation(sf::IntRect startingFrame, unsigned imgCount, float delay, bool is_looped)
-	: delay{ delay }, imgCount{ imgCount }, width{ startingFrame.width }, height{ startingFrame.height }
+	: delay{ delay }, imgCount{ imgCount }, width{ startingFrame.width }, height{ startingFrame.height }, startingFrame{startingFrame}
 {
-	this->startingFrame = startingFrame;
 	this->is_looped = is_looped;
 	currentFrame = startingFrame;
 }
@@ -18,7 +17,7 @@ const sf::IntRect& Animation::update(float deltaTime)
 		totalTime -= delay;
 		currentFrame.left += abs(width);
 		currentImg++;
-		if (currentImg >= imgCount)
+		if (currentImg >= int(imgCount))
 		{
 			if (is_looped)
 			{

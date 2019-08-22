@@ -6,11 +6,11 @@ class Animation
 public:
 	Animation(sf::IntRect startingFrame, unsigned imgCount, float delay, bool is_looped);
 	const sf::IntRect& update(float deltaTime);
-	unsigned getCurrImg() const { return currentImg; }
+	const int& getCurrImg() const { return currentImg; }
 
 private:
 	sf::IntRect currentFrame;
-	sf::IntRect startingFrame;
+	const sf::IntRect startingFrame;
 	const unsigned imgCount;
 	const float delay;
 	const int width;

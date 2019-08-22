@@ -7,12 +7,14 @@ ScreenManager::ScreenManager()
 
 void ScreenManager::update(float deltaTime)
 {
+	// order of these functions is important!
 	player.update(deltaTime);
 	for (unsigned i = 0; i < enemies.size(); i++)
 		enemies[i]->update(deltaTime);
 	checkFiredShots();
-	updateProjectiles(deltaTime);
 	checkCollisions();
+	updateProjectiles(deltaTime);
+	updateExplosions(deltaTime);
 	trySpawn(deltaTime);
 }
 
@@ -30,6 +32,20 @@ void ScreenManager::updateProjectiles(float deltaTime)
 		enemy_projectiles[i].update(deltaTime);
 		if (enemy_projectiles[i].isOut())
 			enemy_projectiles.erase(enemy_projectiles.begin() + i);
+	}
+}
+
+void ScreenManager::updateExplosions(float deltaTime)
+{
+	for (unsigned i = 0; i < explosions.size(); i++)
+	{
+		explosions[i]->update(deltaTime);
+		if (explosions[i]->getCurrImg() == -1)
+		{
+			delete explosions[i];
+			explosions.erase(explosions.begin() + i);
+			i--;
+		}
 	}
 }
 
@@ -93,6 +109,7 @@ void ScreenManager::checkCollisions()
 		{
 			if (enemies[i]->died)
 			{
+				explosions.push_back(new Explosion(enemies[i]->getPosition()));
 				delete enemies[i]; // firstly we delete an object a pointer is pointing to
 				enemies.erase(enemies.begin() + i); // and then that pointer
 				i--;
@@ -114,6 +131,10 @@ void ScreenManager::draw(sf::RenderWindow& w)
 	len = enemies.size();
 	for (unsigned i = 0; i < len; i++)
 		enemies[i]->draw(w);
+
+	len = explosions.size();
+	for (unsigned i = 0; i < len; i++)
+		explosions[i]->draw(w);
 
 	player.draw(w);
 }

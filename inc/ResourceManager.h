@@ -12,6 +12,7 @@ public:
 		textures.add("player");
 		textures.add("bullets");
 		textures.add("enemies");
+		textures.add("explosion");
 		buffers.add("blaster1");
 	}
 
