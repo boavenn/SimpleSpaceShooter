@@ -14,6 +14,8 @@ public:
 		textures.add("enemies");
 		textures.add("explosion");
 		textures.add("background"); textures.setTexRepeated("background");
+		textures.add("layer1"); textures.setTexRepeated("layer1");
+		textures.add("sidebar"); textures.setTexRepeated("sidebar");
 		buffers.add("blaster1");
 	}
 

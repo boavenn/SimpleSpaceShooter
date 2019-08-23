@@ -3,6 +3,9 @@
 ScreenManager::ScreenManager()
 {
 	background_layers.push_back(Background(0.06f, { 171.f,0 }, "background"));
+	background_layers.push_back(Background(0.03f, { 171.f,0 }, "layer1"));
+	background_layers.push_back(Background(0.03f, { 0,0 }, "sidebar"));
+	background_layers.push_back(Background(0.03f, { 1195,0 }, "sidebar", 1));
 }
 
 void ScreenManager::update(float deltaTime)
