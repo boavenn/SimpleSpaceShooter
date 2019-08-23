@@ -1,6 +1,6 @@
 #include "..\inc\Enemy.h"
 
-Enemy::Enemy(float maxHealth, float shootingDelay, float shootingChance, unsigned type, sf::Vector2f pos)
+Enemy::Enemy(float healthMod, float shootingDelay, float shootingChance, unsigned type, sf::Vector2f pos)
 	: Phantom(1), movement(sf::IntRect(0, type * 40, 40, 40), 2, 0.5f), gettingHit(sf::IntRect(80, type * 40, 40, 40), 1, 0.1f, 0)
 {
 	velocity = { 0, 50 };
@@ -11,7 +11,16 @@ Enemy::Enemy(float maxHealth, float shootingDelay, float shootingChance, unsigne
 	this->shootingDelay = shootingDelay;
 	this->shootingChance = shootingChance;
 	this->type = type;
-	currHealth = maxHealth;
+
+	switch (type)
+	{
+	case 0:
+		currHealth = 15.f * healthMod;
+		break;
+	case 1:
+		currHealth = 20.f * healthMod;
+		break;
+	}
 }
 
 void Enemy::update(float deltaTime)

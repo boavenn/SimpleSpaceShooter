@@ -87,4 +87,9 @@ void Player::checkMovement(float deltaTime)
 	}
 	else
 		sprite.setTextureRect(stationary.update(deltaTime));
+
+	if (sprite.getPosition().x <= 216)
+		sprite.setPosition({ 216.0f, sprite.getPosition().y });
+	if (sprite.getPosition().x >= 1150.f)
+		sprite.setPosition({ 1150.f, sprite.getPosition().y });
 }

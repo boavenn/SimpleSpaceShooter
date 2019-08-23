@@ -1,6 +1,6 @@
 #include "..\inc\Game.h"
 
-Game::Game() : window({ 1366,768,32 }, "SimpleStarShooter")
+Game::Game() : window({ 1366,768,32 }, "SimpleSpaceShooter")
 {
 
 }

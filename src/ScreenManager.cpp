@@ -11,6 +11,9 @@ ScreenManager::ScreenManager()
 void ScreenManager::update(float deltaTime)
 {
 	// order of these functions is important!
+	// first we add, then update, otherwise some texture loading bugs may appear
+	// (because of not updating sprites for the first time before drawing them)
+	trySpawn(deltaTime);
 	player.update(deltaTime);
 	for (unsigned i = 0; i < enemies.size(); i++)
 		enemies[i]->update(deltaTime);
@@ -19,7 +22,6 @@ void ScreenManager::update(float deltaTime)
 	updateProjectiles(deltaTime);
 	updateExplosions(deltaTime);
 	updateBackground(deltaTime);
-	trySpawn(deltaTime);
 }
 
 void ScreenManager::updateProjectiles(float deltaTime)
@@ -71,7 +73,7 @@ void ScreenManager::trySpawn(float deltaTime)
 		std::default_random_engine eng(seed);
 		float rand_x_pos = float(eng() % 955 + 205);
 
-		enemies.push_back(new Enemy(15.f, 1.f, 10.f, 0, {rand_x_pos, -50}));
+		enemies.push_back(new Enemy(1.f, 1.f, 10.f, 0, { rand_x_pos, -50 }));
 	}
 }
 
