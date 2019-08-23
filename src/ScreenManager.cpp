@@ -2,7 +2,7 @@
 
 ScreenManager::ScreenManager()
 {
-
+	background_layers.push_back(Background(0.06f, { 171.f,0 }, "background"));
 }
 
 void ScreenManager::update(float deltaTime)
@@ -15,6 +15,7 @@ void ScreenManager::update(float deltaTime)
 	checkCollisions();
 	updateProjectiles(deltaTime);
 	updateExplosions(deltaTime);
+	updateBackground(deltaTime);
 	trySpawn(deltaTime);
 }
 
@@ -47,6 +48,13 @@ void ScreenManager::updateExplosions(float deltaTime)
 			i--;
 		}
 	}
+}
+
+void ScreenManager::updateBackground(float deltaTime)
+{
+	unsigned len = background_layers.size();
+	for (unsigned i = 0; i < len; i++)
+		background_layers[i].update(deltaTime);
 }
 
 void ScreenManager::trySpawn(float deltaTime)
@@ -120,7 +128,11 @@ void ScreenManager::checkCollisions()
 
 void ScreenManager::draw(sf::RenderWindow& w)
 {
-	unsigned len = player_projectiles.size();
+	unsigned len = background_layers.size();
+	for (unsigned i = 0; i < len; i++)
+		background_layers[i].draw(w);
+
+	len = player_projectiles.size();
 	for (unsigned i = 0; i < len; i++)
 		player_projectiles[i].draw(w);
 

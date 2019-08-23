@@ -14,6 +14,7 @@ public:
 		r.loadFromFile(getPath(name));
 		resources.insert(std::make_pair(name, r));
 	}
+	void setTexRepeated(const std::string& name) { resources.at(name).setRepeated(true); }
 
 private:
 	const std::string getPath(const std::string& name) { return directory + name + extension; }

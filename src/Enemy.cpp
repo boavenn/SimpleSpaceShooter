@@ -1,7 +1,7 @@
 #include "..\inc\Enemy.h"
 
 Enemy::Enemy(float maxHealth, float shootingDelay, float shootingChance, unsigned type, sf::Vector2f pos)
-	: Phantom(1), movement(sf::IntRect(0, type * 40, 40, 40), 2, 0.5f, 1), gettingHit(sf::IntRect(80, type * 40, 40, 40), 1, 0.1f, 0)
+	: Phantom(1), movement(sf::IntRect(0, type * 40, 40, 40), 2, 0.5f), gettingHit(sf::IntRect(80, type * 40, 40, 40), 1, 0.1f, 0)
 {
 	velocity = { 0, 50 };
 	buffer.push_back(ResourceManager::get().buffers.get("blaster1"));

@@ -13,6 +13,7 @@ public:
 		textures.add("bullets");
 		textures.add("enemies");
 		textures.add("explosion");
+		textures.add("background"); textures.setTexRepeated("background");
 		buffers.add("blaster1");
 	}
 
