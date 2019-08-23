@@ -6,7 +6,11 @@ class Player : public Phantom
 public:
 	enum WeaponType
 	{
-		oneshot = 1
+		oneshot = 1,
+		doubleshot,
+		tripleshot,
+		quadshot,
+		plasma
 	};
 
 public:

@@ -80,10 +80,45 @@ void ScreenManager::checkFiredShots()
 	if (player.isShooting())
 	{
 		Player::WeaponType type = player.shoot();
+		float posx; // most left bullet pos
+		std::vector<sf::Vector2f> v; // consecutive bullets velocity
 		switch (type)
 		{
 		case Player::WeaponType::oneshot:
-			player_projectiles.push_back(Projectile(sf::IntRect(0, 0, 8, 16), { 0,-250.f }, 5.f));
+			player_projectiles.push_back(Projectile(sf::IntRect(0, 0, 8, 16), { 0,-300.f }, 5.f));
+			player_projectiles.back().setInitialPosition({ player.getPosition().x, player.getPosition().y - 35.f });
+			break;
+		case Player::WeaponType::doubleshot:
+			posx = -10.f;
+			for (unsigned i = 0; i < 2; i++)
+			{
+				player_projectiles.push_back(Projectile(sf::IntRect(8, 0, 8, 16), { 0,-300.f }, 5.f));
+				player_projectiles.back().setInitialPosition({ player.getPosition().x + posx, player.getPosition().y - 35.f });
+				posx += 20.f;
+			}
+			break;
+		case Player::WeaponType::tripleshot:
+			posx = -16.f;
+			v = { {-110.f, -300.f}, {0.0f, -300.f}, {110.f, -300.f} };
+			for (unsigned i = 0; i < 3; i++)
+			{
+				player_projectiles.push_back(Projectile(sf::IntRect(16, 0, 8, 16), v[i], 10.f));
+				player_projectiles.back().setInitialPosition({ player.getPosition().x + posx, player.getPosition().y - 35.f });
+				posx += 16.f;
+			}
+			break;
+		case Player::WeaponType::quadshot:
+			posx = -24.f;
+			v = { {-30.f, -300.f}, {-10.0f, -300.f}, {10.f, -300.f}, {30.f, -300.f} };
+			for (unsigned i = 0; i < 4; i++)
+			{
+				player_projectiles.push_back(Projectile(sf::IntRect(24, 0, 8, 16), v[i], 10.f));
+				player_projectiles.back().setInitialPosition({ player.getPosition().x + posx, player.getPosition().y - 35.f });
+				posx += 16.f;
+			}
+			break;
+		case Player::WeaponType::plasma:
+			player_projectiles.push_back(Projectile(sf::IntRect(0, 16, 12, 18), { 0,-450.f }, 15.f));
 			player_projectiles.back().setInitialPosition({ player.getPosition().x, player.getPosition().y - 35.f });
 			break;
 		}
