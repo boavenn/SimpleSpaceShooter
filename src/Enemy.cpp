@@ -12,6 +12,7 @@ Enemy::Enemy(float healthMod, float shootingDelay, float shootingChance, unsigne
 	this->shootingDelay = shootingDelay;
 	this->shootingChance = shootingChance;
 	this->type = type;
+	maxDepth = float(rand.getIntInRange(150, 250));
 
 	switch (type)
 	{
@@ -31,6 +32,7 @@ void Enemy::update(float deltaTime)
 {
 	try_shoot = false;
 
+	updateMovement(deltaTime);
 	tryFire(deltaTime);
 	if (gotHit)
 	{
@@ -73,6 +75,65 @@ void Enemy::playShotSound()
 	case 2:
 		play("blaster4", 1.f);
 		break;
+	}
+}
+
+void Enemy::updateMovement(float deltaTime)
+{
+	if (getPosition().x < 300.f)
+		turning_right = true;
+	else if (getPosition().x > 1066.f)
+		turning_right = false;
+
+	if (getPosition().y > maxDepth)
+		try_go_up = true;
+	else if (getPosition().y < 100.f)
+		try_go_up = false;
+
+	movementTotalTime += deltaTime;
+	turningTotalTime += deltaTime;
+
+	if (movementTotalTime >= movementTick)
+	{
+		movementTotalTime -= movementTick;
+
+		if (turningTotalTime >= turningTick)
+		{
+			turningTotalTime -= turningTick;
+
+			turning_right = bool(rand.getIntInRange(0, 2));
+			try_go_up = bool(rand.getIntInRange(0, 2));
+		}
+
+		if (turning_right)
+		{
+			if (velocity.x < -40.f)
+				velocity.x += 30.f;
+			else
+				velocity.x += 10.f;
+		}
+		else
+		{
+			if (velocity.x > 40.f)
+				velocity.x -= 30.f;
+			else
+				velocity.x -= 10.f;
+		}
+
+		if (try_go_up)
+		{
+			if (velocity.y > 40.f)
+				velocity.y -= 30.f;
+			else
+				velocity.y -= 10.f;
+		}
+		else
+		{
+			if (velocity.y < -40.f)
+				velocity.y += 30.f;
+			else
+				velocity.y += 10.f;
+		}
 	}
 }
 

@@ -204,11 +204,10 @@ void ScreenManager::checkCollisions()
 
 void ScreenManager::draw(sf::RenderWindow& w)
 {
-	unsigned len = background_layers.size();
-	for (unsigned i = 0; i < len; i++)
+	for (unsigned i = 0; i < 2; i++)
 		background_layers[i].draw(w);
 
-	len = player_projectiles.size();
+	unsigned len = player_projectiles.size();
 	for (unsigned i = 0; i < len; i++)
 		player_projectiles[i].draw(w);
 
@@ -223,6 +222,9 @@ void ScreenManager::draw(sf::RenderWindow& w)
 	len = explosions.size();
 	for (unsigned i = 0; i < len; i++)
 		explosions[i]->draw(w);
+
+	for (unsigned i = 2; i < 4; i++)  // we draw sidebars as last so enemies can go behind it
+		background_layers[i].draw(w);
 
 	player.draw(w);
 }
