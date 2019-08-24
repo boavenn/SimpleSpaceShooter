@@ -4,7 +4,8 @@ Player::Player() : Phantom(20), stationary(sf::IntRect(0, 0, 70, 70), 3, 0.25f),
 				   movingright(sf::IntRect(70, 70, -70, 70), 3, 0.25f)
 {
 	velocity = { 0,0 };
-	buffer.push_back(ResourceManager::get().buffers.get("blaster1"));
+	buffer.insert(std::make_pair("blaster2", ResourceManager::get().buffers.get("blaster2")));
+	buffer.insert(std::make_pair("blaster3", ResourceManager::get().buffers.get("blaster3")));
 	sprite.setTexture(ResourceManager::get().textures.get("player"));
 	sprite.setOrigin({ 35.f,35.f });
 	sprite.setPosition({ 683,731 });
@@ -37,7 +38,7 @@ void Player::input()
 					shootTotalTime -= shotGap;
 					magazine_curr--;
 					try_shoot = true;
-					play(0, 1.f, 100.f);
+					playShotSound();
 				}			
 			}
 	}
@@ -92,4 +93,26 @@ void Player::checkMovement(float deltaTime)
 		sprite.setPosition({ 216.0f, sprite.getPosition().y });
 	if (sprite.getPosition().x >= 1150.f)
 		sprite.setPosition({ 1150.f, sprite.getPosition().y });
+}
+
+void Player::playShotSound()
+{
+	switch (curr_weapon)
+	{
+	case oneshot:
+		play("blaster2", 1.f);
+		break;
+	case doubleshot:
+		play("blaster2", 0.8f);
+		break;
+	case tripleshot:
+		play("blaster3", 1.f);
+		break;
+	case quadshot:
+		play("blaster3", 0.8f);
+		break;
+	case plasma:
+		play("blaster3", 0.5f);
+		break;
+	}
 }

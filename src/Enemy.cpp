@@ -4,7 +4,8 @@ Enemy::Enemy(float healthMod, float shootingDelay, float shootingChance, unsigne
 	: Phantom(1), movement(getMovRect(type), 2, 0.5f), gettingHit(getHitRect(type), 1, 0.1f, 0)
 {
 	velocity = { 0, 50 };
-	buffer.push_back(ResourceManager::get().buffers.get("blaster1"));
+	buffer.insert(std::make_pair("blaster1", ResourceManager::get().buffers.get("blaster1")));
+	buffer.insert(std::make_pair("blaster4", ResourceManager::get().buffers.get("blaster4")));
 	sprite.setTexture(ResourceManager::get().textures.get("enemies"));
 	sprite.setOrigin({ getMovRect(type).width / 2.f, getMovRect(type).height / 2.f });
 	sprite.setPosition(pos);
@@ -52,7 +53,26 @@ void Enemy::tryFire(float deltaTime)
 		float chance = float(rand.getIntInRange(0, 100));
 
 		if (chance < shootingChance)
+		{
+			playShotSound();
 			try_shoot = true;
+		}
+	}
+}
+
+void Enemy::playShotSound()
+{
+	switch (type)
+	{
+	case 0:
+		play("blaster1", 1.f);
+		break;
+	case 1:
+		play("blaster1", 1.f);
+		break;
+	case 2:
+		play("blaster4", 1.f);
+		break;
 	}
 }
 

@@ -11,6 +11,7 @@ public:
 
 private:
 	void tryFire(float deltaTime);
+	void playShotSound();
 	sf::IntRect getMovRect(unsigned type);
 	sf::IntRect getHitRect(unsigned type);
 

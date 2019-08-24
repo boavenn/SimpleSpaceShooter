@@ -1,12 +1,12 @@
 #include "..\inc\ScreenManager.h"
-#include <iostream>
 
-ScreenManager::ScreenManager()
+ScreenManager::ScreenManager() : sound(30)
 {
 	background_layers.push_back(Background(0.06f, { 171.f,0 }, "background"));
 	background_layers.push_back(Background(0.03f, { 171.f,0 }, "layer1"));
 	background_layers.push_back(Background(0.03f, { 0,0 }, "sidebar"));
 	background_layers.push_back(Background(0.03f, { 1195,0 }, "sidebar", 1));
+	buffer.insert(std::make_pair("blaster3", ResourceManager::get().buffers.get("blaster3")));
 }
 
 void ScreenManager::update(float deltaTime)
@@ -85,6 +85,21 @@ void ScreenManager::trySpawn(float deltaTime)
 			type = 0;
 
 		enemies.push_back(new Enemy(1.f, 1.f, 10.f, type, { rand_x_pos, -50 }));
+	}
+}
+
+void ScreenManager::play(std::string name, float pitch, float vol)
+{
+	for (auto& x : sound)
+	{
+		if (x.getStatus() == 0)
+		{
+			x.setBuffer(buffer.at(name));
+			x.setPitch(pitch);
+			x.setVolume(vol);
+			x.play();
+			return;
+		}
 	}
 }
 
@@ -177,6 +192,7 @@ void ScreenManager::checkCollisions()
 		{
 			if (enemies[i]->died)
 			{
+				play("blaster3", 0.3f); // actually blaster3 sound with modified pitch makes better explosion sound than actual explosion lol
 				explosions.push_back(new Explosion(enemies[i]->getPosition()));
 				delete enemies[i]; // firstly we delete an object a pointer is pointing to
 				enemies.erase(enemies.begin() + i); // and then that pointer

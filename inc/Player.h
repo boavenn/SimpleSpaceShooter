@@ -23,6 +23,7 @@ private:
 	void tryReload(float deltaTime);
 	void tryFire(float deltaTime);
 	void checkMovement(float deltaTime);
+	void playShotSound();
 
 	Animation stationary;
 	Animation movingleft;

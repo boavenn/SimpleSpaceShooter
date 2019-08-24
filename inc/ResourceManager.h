@@ -17,6 +17,10 @@ public:
 		textures.add("layer1"); textures.setTexRepeated("layer1");
 		textures.add("sidebar"); textures.setTexRepeated("sidebar");
 		buffers.add("blaster1");
+		buffers.add("blaster2");
+		buffers.add("blaster3");
+		buffers.add("blaster4");
+		buffers.add("explosion");
 	}
 
 	ResourceHolder<sf::Texture> textures;

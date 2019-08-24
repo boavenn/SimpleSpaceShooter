@@ -6,6 +6,7 @@
 #include "Explosion.h"
 #include "Background.h"
 #include "Random.h"
+#include <unordered_map>
 
 class ScreenManager
 {
@@ -21,6 +22,7 @@ private:
 	void updateExplosions(float deltaTime);
 	void updateBackground(float deltaTime);
 	void trySpawn(float deltaTime);
+	void play(std::string name, float pitch, float vol = 100.f);
 
 	Player player;
 	Random rand;
@@ -29,6 +31,8 @@ private:
 	std::vector<Enemy*> enemies;
 	std::vector<Explosion*> explosions;
 	std::vector<Background> background_layers;
+	std::unordered_map<std::string, sf::SoundBuffer> buffer;
+	std::vector<sf::Sound> sound;
 	float enemySpawnTime = 2.f;
 	float enemyTotalTime = 0.f;
 };
