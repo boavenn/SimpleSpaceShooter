@@ -6,6 +6,7 @@
 #include "Explosion.h"
 #include "Background.h"
 #include "Random.h"
+#include "Pickup.h"
 #include <unordered_map>
 
 class ScreenManager
@@ -29,6 +30,7 @@ private:
 	std::vector<Projectile> player_projectiles;
 	std::vector<Projectile> enemy_projectiles;
 	std::vector<Enemy*> enemies;
+	std::vector<Pickup> pickups;
 	std::vector<Explosion*> explosions;
 	std::vector<Background> background_layers;
 	std::unordered_map<std::string, sf::SoundBuffer> buffer;

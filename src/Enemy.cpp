@@ -1,13 +1,13 @@
 #include "..\inc\Enemy.h"
 
 Enemy::Enemy(float healthMod, float shootingDelay, float shootingChance, unsigned type, sf::Vector2f pos)
-	: Phantom(1), movement(getMovRect(type), 2, 0.5f), gettingHit(getHitRect(type), 1, 0.1f, 0)
+	: Phantom(1), movement(setMovRect(type), 2, 0.5f), gettingHit(setHitRect(type), 1, 0.1f, 0)
 {
 	velocity = { 0, 50 };
 	buffer.insert(std::make_pair("blaster1", ResourceManager::get().buffers.get("blaster1")));
 	buffer.insert(std::make_pair("blaster4", ResourceManager::get().buffers.get("blaster4")));
 	sprite.setTexture(ResourceManager::get().textures.get("enemies"));
-	sprite.setOrigin({ getMovRect(type).width / 2.f, getMovRect(type).height / 2.f });
+	sprite.setOrigin({ setMovRect(type).width / 2.f, setMovRect(type).height / 2.f });
 	sprite.setPosition(pos);
 	this->shootingDelay = shootingDelay;
 	this->shootingChance = shootingChance;
@@ -137,7 +137,7 @@ void Enemy::updateMovement(float deltaTime)
 	}
 }
 
-sf::IntRect Enemy::getMovRect(unsigned type)
+sf::IntRect Enemy::setMovRect(unsigned type)
 {
 	switch (type)
 	{
@@ -156,7 +156,7 @@ sf::IntRect Enemy::getMovRect(unsigned type)
 	}
 }
 
-sf::IntRect Enemy::getHitRect(unsigned type)
+sf::IntRect Enemy::setHitRect(unsigned type)
 {
 	switch (type)
 	{

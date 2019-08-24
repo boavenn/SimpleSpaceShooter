@@ -14,7 +14,7 @@ Player::Player() : Phantom(20), stationary(sf::IntRect(0, 0, 70, 70), 3, 0.25f),
 
 void Player::input()
 {
-	float speed = 300.f;
+	float speed = 300.f * speedMod;
 	velocity.x = 0;
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
@@ -57,6 +57,33 @@ void Player::update(float deltaTime)
 	checkMovement(deltaTime);
 
 	sprite.move(velocity * deltaTime);
+}
+
+bool Player::gotPickup(std::vector<Pickup>& pickups)
+{
+	float half_width = sprite.getLocalBounds().width / 2.f;
+	float half_height = sprite.getLocalBounds().height / 2.f;
+	for (unsigned i = 0; i < pickups.size(); i++)
+	{
+		if (pickups[i].getPosition().x >= sprite.getPosition().x - half_width && pickups[i].getPosition().x <= sprite.getPosition().x + half_width &&
+			pickups[i].getPosition().y >= sprite.getPosition().y - half_height && pickups[i].getPosition().y <= sprite.getPosition().y + half_height)
+		{ 
+			upgrade(pickups[i].getType());
+			pickups.erase(pickups.begin() + i);
+			return true;		
+		}
+	}
+	return false;
+}
+
+void Player::upgrade(Pickup::PickupType type)
+{
+	switch (type)
+	{
+	case Pickup::PickupType::speedInc:
+		speedMod += 0.05f;
+		break;
+	}
 }
 
 void Player::tryReload(float deltaTime)

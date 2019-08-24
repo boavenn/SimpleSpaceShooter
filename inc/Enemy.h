@@ -13,8 +13,8 @@ private:
 	void tryFire(float deltaTime);
 	void playShotSound();
 	void updateMovement(float deltaTime);
-	sf::IntRect getMovRect(unsigned type);
-	sf::IntRect getHitRect(unsigned type);
+	sf::IntRect setMovRect(unsigned type);
+	sf::IntRect setHitRect(unsigned type);
 
 	Animation movement;
 	Animation gettingHit;

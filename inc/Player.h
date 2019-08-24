@@ -1,5 +1,6 @@
 #pragma once
 #include "Phantom.h"
+#include "Pickup.h"
 
 class Player : public Phantom
 {
@@ -17,6 +18,8 @@ public:
 	Player();
 	void input();
 	void update(float deltaTime);
+	bool gotPickup(std::vector<Pickup>& pickups);
+	void upgrade(Pickup::PickupType type);
 	const WeaponType& shoot() { return curr_weapon; }
 
 private:
@@ -40,6 +43,7 @@ private:
 	WeaponType curr_weapon = oneshot;
 	unsigned curr_weapon_no = 1;
 	unsigned lives = 1;
+	float speedMod = 1.f;
 };
 
 

@@ -31,14 +31,30 @@ void ScreenManager::updateProjectiles(float deltaTime)
 	{
 		player_projectiles[i].update(deltaTime);
 		if (player_projectiles[i].isOut())
+		{
 			player_projectiles.erase(player_projectiles.begin() + i);
+			i--;
+		}
 	}
 
 	for (unsigned i = 0; i < enemy_projectiles.size(); i++)
 	{
 		enemy_projectiles[i].update(deltaTime);
 		if (enemy_projectiles[i].isOut())
+		{
 			enemy_projectiles.erase(enemy_projectiles.begin() + i);
+			i--;
+		}
+	}
+
+	for (unsigned i = 0; i < pickups.size(); i++)
+	{
+		pickups[i].update(deltaTime);
+		if (pickups[i].isOut())
+		{
+			pickups.erase(pickups.begin() + i);
+			i--;
+		}
 	}
 }
 
@@ -186,6 +202,12 @@ void ScreenManager::checkCollisions()
 	{
 
 	}
+
+	if (player.gotPickup(pickups))
+	{
+		
+	}
+
 	for (unsigned i = 0; i < enemies.size(); i++)
 	{
 		if (enemies[i]->isHit(player_projectiles))
@@ -194,6 +216,11 @@ void ScreenManager::checkCollisions()
 			{
 				play("blaster3", 0.3f); // actually blaster3 sound with modified pitch makes better explosion sound than actual explosion lol
 				explosions.push_back(new Explosion(enemies[i]->getPosition()));
+
+				float pickupSpawningChance = float(rand.getIntInRange(0, 100));
+				if (pickupSpawningChance < 25.f)
+					pickups.push_back(Pickup(enemies[i]->getPosition()));
+
 				delete enemies[i]; // firstly we delete an object a pointer is pointing to
 				enemies.erase(enemies.begin() + i); // and then that pointer
 				i--;
@@ -210,6 +237,10 @@ void ScreenManager::draw(sf::RenderWindow& w)
 	unsigned len = player_projectiles.size();
 	for (unsigned i = 0; i < len; i++)
 		player_projectiles[i].draw(w);
+
+	len = pickups.size();
+	for (unsigned i = 0; i < len; i++)
+		pickups[i].draw(w);
 
 	len = enemy_projectiles.size();
 	for (unsigned i = 0; i < len; i++)

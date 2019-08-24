@@ -16,6 +16,7 @@ public:
 		textures.add("background"); textures.setTexRepeated("background");
 		textures.add("layer1"); textures.setTexRepeated("layer1");
 		textures.add("sidebar"); textures.setTexRepeated("sidebar");
+		textures.add("pickups");
 		buffers.add("blaster1");
 		buffers.add("blaster2");
 		buffers.add("blaster3");
