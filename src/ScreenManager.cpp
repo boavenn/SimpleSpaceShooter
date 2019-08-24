@@ -73,7 +73,7 @@ void ScreenManager::trySpawn(float deltaTime)
 		std::default_random_engine eng(seed);
 		float rand_x_pos = float(eng() % 955 + 205);
 
-		enemies.push_back(new Enemy(1.f, 1.f, 10.f, 0, { rand_x_pos, -50 }));
+		enemies.push_back(new Enemy(1.f, 1.f, 10.f, 2, { rand_x_pos, -50 }));
 	}
 }
 
@@ -130,14 +130,23 @@ void ScreenManager::checkFiredShots()
 	{
 		if (enemies[i]->isShooting())
 		{
+			sf::Vector2f v;
 			switch (enemies[i]->getType())
 			{
 			case 0:
-				enemy_projectiles.push_back(Projectile(sf::IntRect(33, 0, 6, 16), { 0, 250.f }, 1000.f ));
+				v = { 0, 250 };
+				enemy_projectiles.push_back(Projectile(sf::IntRect(33, 0, 6, 16), v, 1000.f ));
 				enemy_projectiles.back().setInitialPosition({ enemies[i]->getPosition().x, enemies[i]->getPosition().y + 20.f });
 				break;
 			case 1:
-				enemy_projectiles.push_back(Projectile(sf::IntRect(39, 0, 6, 16), { 0, 250.f }, 1000.f));
+				v = { 0, 250 };
+				enemy_projectiles.push_back(Projectile(sf::IntRect(39, 0, 6, 16), v, 1000.f));
+				enemy_projectiles.back().setInitialPosition({ enemies[i]->getPosition().x, enemies[i]->getPosition().y + 20.f });
+				break;
+			case 2:
+				v.y = 250;
+				v.x = v.y * (player.getPosition().x - enemies[i]->getPosition().x) / (player.getPosition().y - enemies[i]->getPosition().y);
+				enemy_projectiles.push_back(Projectile(sf::IntRect(12, 17, 12, 12), v, 1000.f));
 				enemy_projectiles.back().setInitialPosition({ enemies[i]->getPosition().x, enemies[i]->getPosition().y + 20.f });
 				break;
 			}

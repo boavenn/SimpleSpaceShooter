@@ -1,12 +1,12 @@
 #include "..\inc\Enemy.h"
 
 Enemy::Enemy(float healthMod, float shootingDelay, float shootingChance, unsigned type, sf::Vector2f pos)
-	: Phantom(1), movement(sf::IntRect(0, type * 40, 40, 40), 2, 0.5f), gettingHit(sf::IntRect(80, type * 40, 40, 40), 1, 0.1f, 0)
+	: Phantom(1), movement(getMovRect(type), 2, 0.5f), gettingHit(getHitRect(type), 1, 0.1f, 0)
 {
 	velocity = { 0, 50 };
 	buffer.push_back(ResourceManager::get().buffers.get("blaster1"));
 	sprite.setTexture(ResourceManager::get().textures.get("enemies"));
-	sprite.setOrigin({ 20.f,20.f });
+	sprite.setOrigin({ getMovRect(type).width / 2.f, getMovRect(type).height / 2.f });
 	sprite.setPosition(pos);
 	this->shootingDelay = shootingDelay;
 	this->shootingChance = shootingChance;
@@ -15,10 +15,13 @@ Enemy::Enemy(float healthMod, float shootingDelay, float shootingChance, unsigne
 	switch (type)
 	{
 	case 0:
-		currHealth = 15.f * healthMod;
+		currHealth = 10.f * healthMod;
 		break;
 	case 1:
-		currHealth = 20.f * healthMod;
+		currHealth = 15.f * healthMod;
+		break;
+	case 2:
+		currHealth = 25.f * healthMod;
 		break;
 	}
 }
@@ -52,5 +55,37 @@ void Enemy::tryFire(float deltaTime)
 
 		if (chance < shootingChance)
 			try_shoot = true;
+	}
+}
+
+sf::IntRect Enemy::getMovRect(unsigned type)
+{
+	switch (type)
+	{
+	case 0:
+		return sf::IntRect(0, 0, 40, 40);
+		break;
+	case 1:
+		return sf::IntRect(0, 40, 40, 40);
+		break;
+	case 2:
+		return sf::IntRect(0, 80, 50, 50);
+		break;
+	}
+}
+
+sf::IntRect Enemy::getHitRect(unsigned type)
+{
+	switch (type)
+	{
+	case 0:
+		return sf::IntRect(80, 0, 40, 40);
+		break;
+	case 1:
+		return sf::IntRect(80, 40, 40, 40);
+		break;
+	case 2:
+		return sf::IntRect(100, 80, 50, 50);
+		break;
 	}
 }

@@ -12,6 +12,8 @@ public:
 
 private:
 	void tryFire(float deltaTime);
+	sf::IntRect getMovRect(unsigned type);
+	sf::IntRect getHitRect(unsigned type);
 
 	Animation movement;
 	Animation gettingHit;
