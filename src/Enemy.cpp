@@ -49,9 +49,7 @@ void Enemy::tryFire(float deltaTime)
 	{
 		shootingTotalTime -= shootingDelay;
 
-		unsigned seed = static_cast<unsigned>(std::chrono::steady_clock::now().time_since_epoch().count());
-		std::default_random_engine eng(seed);
-		float chance = float(eng() % 100);
+		float chance = float(rand.getIntInRange(0, 100));
 
 		if (chance < shootingChance)
 			try_shoot = true;
@@ -71,6 +69,9 @@ sf::IntRect Enemy::getMovRect(unsigned type)
 	case 2:
 		return sf::IntRect(0, 80, 50, 50);
 		break;
+	default:
+		return sf::IntRect(0, 0, 40, 40);
+		break;
 	}
 }
 
@@ -86,6 +87,9 @@ sf::IntRect Enemy::getHitRect(unsigned type)
 		break;
 	case 2:
 		return sf::IntRect(100, 80, 50, 50);
+		break;
+	default:
+		return sf::IntRect(80, 0, 40, 40);
 		break;
 	}
 }

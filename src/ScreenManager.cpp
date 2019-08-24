@@ -1,4 +1,5 @@
 #include "..\inc\ScreenManager.h"
+#include <iostream>
 
 ScreenManager::ScreenManager()
 {
@@ -69,11 +70,21 @@ void ScreenManager::trySpawn(float deltaTime)
 	{
 		enemyTotalTime -= enemySpawnTime;
 
-		unsigned seed = static_cast<unsigned>(std::chrono::steady_clock::now().time_since_epoch().count());
-		std::default_random_engine eng(seed);
-		float rand_x_pos = float(eng() % 955 + 205);
+		float rand_x_pos = float(rand.getIntInRange(205, 1160));
+		float typeChance = float(rand.getIntInRange(0, 100));
+		
+		unsigned type;
+		if (typeChance < 40.f)
+		{
+			if (typeChance < 15.f)
+				type = 2;
+			else
+				type = 1;
+		}
+		else
+			type = 0;
 
-		enemies.push_back(new Enemy(1.f, 1.f, 10.f, 2, { rand_x_pos, -50 }));
+		enemies.push_back(new Enemy(1.f, 1.f, 10.f, type, { rand_x_pos, -50 }));
 	}
 }
 
@@ -145,7 +156,7 @@ void ScreenManager::checkFiredShots()
 				break;
 			case 2:
 				v.y = 250;
-				v.x = v.y * (player.getPosition().x - enemies[i]->getPosition().x) / (player.getPosition().y - enemies[i]->getPosition().y);
+				v.x = v.y * (player.getPosition().x + float(rand.getIntInRange(-100, 100)) - enemies[i]->getPosition().x) / (player.getPosition().y - enemies[i]->getPosition().y);
 				enemy_projectiles.push_back(Projectile(sf::IntRect(12, 17, 12, 12), v, 1000.f));
 				enemy_projectiles.back().setInitialPosition({ enemies[i]->getPosition().x, enemies[i]->getPosition().y + 20.f });
 				break;

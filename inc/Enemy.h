@@ -1,7 +1,6 @@
 #pragma once
 #include "Phantom.h"
-#include <random>
-#include <chrono>
+#include "Random.h"
 
 class Enemy : public Phantom
 {
@@ -17,6 +16,7 @@ private:
 
 	Animation movement;
 	Animation gettingHit;
+	Random rand;
 	//stats
 	float shootingDelay; // time between every consecutive shooting try
 	float shootingChance;

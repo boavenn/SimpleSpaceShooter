@@ -5,8 +5,7 @@
 #include "Projectile.h"
 #include "Explosion.h"
 #include "Background.h"
-#include <random>
-#include <chrono>
+#include "Random.h"
 
 class ScreenManager
 {
@@ -24,6 +23,7 @@ private:
 	void trySpawn(float deltaTime);
 
 	Player player;
+	Random rand;
 	std::vector<Projectile> player_projectiles;
 	std::vector<Projectile> enemy_projectiles;
 	std::vector<Enemy*> enemies;
