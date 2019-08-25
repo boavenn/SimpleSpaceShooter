@@ -7,6 +7,7 @@
 #include "Background.h"
 #include "Random.h"
 #include "Pickup.h"
+#include "InfoDisplay.h"
 #include <unordered_map>
 
 class ScreenManager
@@ -29,6 +30,7 @@ private:
 
 	Player player;
 	Random rand;
+	InfoDisplay HUD;
 	std::vector<Projectile> player_projectiles;
 	std::vector<Projectile> enemy_projectiles;
 	std::vector<Enemy*> enemies;

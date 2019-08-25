@@ -10,6 +10,7 @@ Player::Player() : Phantom(20), stationary(sf::IntRect(0, 0, 70, 70), 3, 0.25f),
 	sprite.setOrigin({ 35.f,35.f });
 	sprite.setPosition({ 683,731 });
 	currHealth = 1.f;
+	lives = 1;
 }
 
 void Player::input()
@@ -51,21 +52,12 @@ void Player::update(float deltaTime)
 	facing_right = false;
 	try_shoot = false;
 
-	if (died)
-	{
-		lives--;
-		if (lives == 0)
-			game_over = true;
-	}
-
 	tryReload(deltaTime);
 	tryFire(deltaTime);
 	input();
 	checkMovement(deltaTime);
 
 	sprite.move(velocity * deltaTime);
-
-	died = false;
 }
 
 bool Player::gotPickup(std::vector<Pickup>& pickups)
@@ -99,7 +91,7 @@ void Player::upgrade(Pickup::PickupType type)
 		break;
 	case Pickup::PickupType::reloadSpeedInc:
 		if(reloadTime > minReloadTime)
-			reloadTime -= 0.05f;
+			reloadTime -= 0.02f;
 		break;
 	case Pickup::PickupType::bulletSpeedInc:
 		if(bulletSpeedMod < maxBulletSpeedMod)

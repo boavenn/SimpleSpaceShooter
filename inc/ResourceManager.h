@@ -22,11 +22,13 @@ public:
 		buffers.add("blaster3");
 		buffers.add("blaster4");
 		buffers.add("explosion");
+		fonts.add("VCR_OSD_MONO_1.001");
 	}
 
 	ResourceHolder<sf::Texture> textures;
 	ResourceHolder<sf::SoundBuffer> buffers;
+	ResourceHolder<sf::Font> fonts;
 private:
-	ResourceManager() : textures("tex", "png"), buffers("audio", "wav") { init(); }
+	ResourceManager() : textures("tex", "png"), buffers("audio", "wav"), fonts("fonts", "ttf") { init(); }
 };
 

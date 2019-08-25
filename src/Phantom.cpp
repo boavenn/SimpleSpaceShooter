@@ -28,7 +28,11 @@ bool Phantom::isHit(std::vector<Projectile>& projectiles)
 			currHealth -= projectiles[i].getDmg();
 			projectiles.erase(projectiles.begin() + i);
 			if (currHealth <= 0)
+			{
 				died = true;
+				if (lives > 0)
+					lives--;
+			}
 			return true;
 		}
 	}

@@ -24,5 +24,6 @@ protected:
 	bool try_shoot = false;
 	bool gotHit = false;
 	float currHealth = 0.f;
+	unsigned lives = 1;
 };
 

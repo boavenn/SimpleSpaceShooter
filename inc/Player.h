@@ -14,6 +14,8 @@ public:
 		plasma
 	};
 
+	friend class InfoDisplay;
+
 public:
 	Player();
 	void input();
@@ -22,7 +24,7 @@ public:
 	void upgrade(Pickup::PickupType type);
 	const WeaponType& shoot() { return curr_weapon; }
 	float getBulletSpeedMod() { return bulletSpeedMod; };
-	bool isGameOver() { return game_over; };
+	unsigned getLives() { return lives; };
 
 private:
 	void tryReload(float deltaTime);
@@ -43,7 +45,6 @@ private:
 	float shootTotalTime = 0.f;
 	WeaponType curr_weapon = oneshot;
 	unsigned curr_weapon_no = 4;
-	unsigned lives = 1;
 	const unsigned maxLives = 4;
 	float speedMod = 1.f;
 	const float maxSpeedMod = 2.f;

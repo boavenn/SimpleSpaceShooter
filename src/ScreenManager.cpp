@@ -23,6 +23,7 @@ void ScreenManager::update(float deltaTime)
 	updateProjectiles(deltaTime);
 	updateExplosions(deltaTime);
 	updateBackground(deltaTime);
+	HUD.updateInfo(player);
 }
 
 void ScreenManager::updateProjectiles(float deltaTime)
@@ -203,7 +204,7 @@ void ScreenManager::checkCollisions()
 {
 	if (player.isHit(enemy_projectiles))
 	{
-		if (player.isGameOver())
+		if (player.getLives() == 0)
 			game_over = true;
 	}
 
@@ -261,5 +262,6 @@ void ScreenManager::draw(sf::RenderWindow& w)
 	for (unsigned i = 2; i < 4; i++)  // we draw sidebars as last so enemies can go behind it
 		background_layers[i].draw(w);
 
+	HUD.draw(w);
 	player.draw(w);
 }
