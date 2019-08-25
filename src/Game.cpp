@@ -8,7 +8,7 @@ Game::Game() : window({ 1366,768,32 }, "SimpleSpaceShooter")
 void Game::run()
 {
 	sf::Clock clock;
-	while (window.isOpen())
+	while (window.isOpen() && !screen_manager.game_over)
 	{
 		checkEvents();
 		update(clock.restart().asSeconds());

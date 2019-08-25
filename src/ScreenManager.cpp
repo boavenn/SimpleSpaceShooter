@@ -129,14 +129,16 @@ void ScreenManager::checkFiredShots()
 		switch (type)
 		{
 		case Player::WeaponType::oneshot:
-			player_projectiles.push_back(Projectile(sf::IntRect(0, 0, 8, 16), { 0,-300.f }, 5.f));
+			v = { {0,-300.f} };
+			player_projectiles.push_back(Projectile(sf::IntRect(0, 0, 8, 16), v[0] * player.getBulletSpeedMod(), 5.f));
 			player_projectiles.back().setInitialPosition({ player.getPosition().x, player.getPosition().y - 35.f });
 			break;
 		case Player::WeaponType::doubleshot:
 			posx = -10.f;
+			v = { {0,-300.f} };
 			for (unsigned i = 0; i < 2; i++)
 			{
-				player_projectiles.push_back(Projectile(sf::IntRect(8, 0, 8, 16), { 0,-300.f }, 5.f));
+				player_projectiles.push_back(Projectile(sf::IntRect(8, 0, 8, 16), v[0] * player.getBulletSpeedMod(), 5.f));
 				player_projectiles.back().setInitialPosition({ player.getPosition().x + posx, player.getPosition().y - 35.f });
 				posx += 20.f;
 			}
@@ -146,7 +148,7 @@ void ScreenManager::checkFiredShots()
 			v = { {-110.f, -300.f}, {0.0f, -300.f}, {110.f, -300.f} };
 			for (unsigned i = 0; i < 3; i++)
 			{
-				player_projectiles.push_back(Projectile(sf::IntRect(16, 0, 8, 16), v[i], 10.f));
+				player_projectiles.push_back(Projectile(sf::IntRect(16, 0, 8, 16), v[i] * player.getBulletSpeedMod(), 10.f));
 				player_projectiles.back().setInitialPosition({ player.getPosition().x + posx, player.getPosition().y - 35.f });
 				posx += 16.f;
 			}
@@ -156,13 +158,14 @@ void ScreenManager::checkFiredShots()
 			v = { {-30.f, -300.f}, {-10.0f, -300.f}, {10.f, -300.f}, {30.f, -300.f} };
 			for (unsigned i = 0; i < 4; i++)
 			{
-				player_projectiles.push_back(Projectile(sf::IntRect(24, 0, 8, 16), v[i], 10.f));
+				player_projectiles.push_back(Projectile(sf::IntRect(24, 0, 8, 16), v[i] * player.getBulletSpeedMod(), 10.f));
 				player_projectiles.back().setInitialPosition({ player.getPosition().x + posx, player.getPosition().y - 35.f });
 				posx += 16.f;
 			}
 			break;
 		case Player::WeaponType::plasma:
-			player_projectiles.push_back(Projectile(sf::IntRect(0, 16, 12, 18), { 0,-450.f }, 15.f));
+			v = { { 0, -450.f } };
+			player_projectiles.push_back(Projectile(sf::IntRect(0, 16, 12, 18), v[0] * player.getBulletSpeedMod(), 15.f));
 			player_projectiles.back().setInitialPosition({ player.getPosition().x, player.getPosition().y - 35.f });
 			break;
 		}
@@ -200,7 +203,8 @@ void ScreenManager::checkCollisions()
 {
 	if (player.isHit(enemy_projectiles))
 	{
-
+		if (player.isGameOver())
+			game_over = true;
 	}
 
 	if (player.gotPickup(pickups))
@@ -218,7 +222,7 @@ void ScreenManager::checkCollisions()
 				explosions.push_back(new Explosion(enemies[i]->getPosition()));
 
 				float pickupSpawningChance = float(rand.getIntInRange(0, 100));
-				if (pickupSpawningChance < 25.f)
+				if (pickupSpawningChance < 20.f)
 					pickups.push_back(Pickup(enemies[i]->getPosition()));
 
 				delete enemies[i]; // firstly we delete an object a pointer is pointing to

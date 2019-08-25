@@ -51,12 +51,21 @@ void Player::update(float deltaTime)
 	facing_right = false;
 	try_shoot = false;
 
+	if (died)
+	{
+		lives--;
+		if (lives == 0)
+			game_over = true;
+	}
+
 	tryReload(deltaTime);
 	tryFire(deltaTime);
 	input();
 	checkMovement(deltaTime);
 
 	sprite.move(velocity * deltaTime);
+
+	died = false;
 }
 
 bool Player::gotPickup(std::vector<Pickup>& pickups)
@@ -81,7 +90,24 @@ void Player::upgrade(Pickup::PickupType type)
 	switch (type)
 	{
 	case Pickup::PickupType::speedInc:
-		speedMod += 0.05f;
+		if(speedMod < maxSpeedMod)
+			speedMod += 0.05f;
+		break;
+	case Pickup::PickupType::magazineSizeInc:
+		if(magazineSize < maxMagazineSize)
+			magazineSize += 1;
+		break;
+	case Pickup::PickupType::reloadSpeedInc:
+		if(reloadTime > minReloadTime)
+			reloadTime -= 0.05f;
+		break;
+	case Pickup::PickupType::bulletSpeedInc:
+		if(bulletSpeedMod < maxBulletSpeedMod)
+			bulletSpeedMod += 0.05f;
+		break;
+	case Pickup::PickupType::liveAdd:
+		if(lives < maxLives)
+			lives += 1;
 		break;
 	}
 }
@@ -92,7 +118,7 @@ void Player::tryReload(float deltaTime)
 	if (reloadTotalTime >= reloadTime)
 	{
 		reloadTotalTime -= reloadTime;
-		if (magazine_curr < magazine_size)
+		if (magazine_curr < magazineSize)
 			magazine_curr++;
 	}
 }

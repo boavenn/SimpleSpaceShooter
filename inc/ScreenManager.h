@@ -16,6 +16,8 @@ public:
 	void update(float deltaTime);
 	void draw(sf::RenderWindow& w);
 
+	bool game_over = false; // TODO: add Game Over screen
+
 private:
 	void checkFiredShots();
 	void checkCollisions();

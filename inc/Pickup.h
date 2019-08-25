@@ -8,7 +8,11 @@ class Pickup
 public:
 	enum PickupType
 	{
-		speedInc = 1
+		speedInc = 1,
+		magazineSizeInc,
+		reloadSpeedInc,
+		bulletSpeedInc,
+		liveAdd
 	};
 
 public:
@@ -23,7 +27,7 @@ private:
 	sf::IntRect setRect(PickupType type);
 
 	sf::Sprite sprite;
-	sf::Vector2f velocity = { 0, 150.f };
+	sf::Vector2f velocity = { 0, 0 };
 	Random rand;
 	PickupType type;
 
