@@ -12,7 +12,6 @@ Player::Player() : Phantom(20), stationary(sf::IntRect(0, 0, 70, 70), 3, 0.25f),
 	sprite.setOrigin({ 35.f,35.f });
 	sprite.setPosition({ 683,731 });
 	currHealth = 1.f;
-	lives = 2;
 }
 
 void Player::input()
@@ -76,16 +75,18 @@ bool Player::isHit(std::vector<Projectile>& projectiles)
 
 			if (!invincible)
 			{
-				play("shield", 0.9f);
 				if (lives > 0)
 				{
 					lives--;
 					invincible = true;
+
+					if(lives > 0)
+						play("shield", 0.9f);
+
 					if (curr_weapon_no > 1)
 						curr_weapon_no--;
 				}
 			}
-
 			return true;
 		}
 	}

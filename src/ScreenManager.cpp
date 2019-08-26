@@ -144,7 +144,7 @@ void ScreenManager::checkFiredShots()
 	if (player.isShooting())
 	{
 		Player::WeaponType type = player.shoot();
-		float posx; // most left bullet pos
+		float posx; // most left bullet position
 		std::vector<sf::Vector2f> v; // consecutive bullets velocity
 		switch (type)
 		{
@@ -254,12 +254,14 @@ void ScreenManager::checkCollisions()
 
 				player.addScore(unsigned(enemies[i]->getScoreForKill() * scoreMod));
 				player.addKill();
+
 				if (player.getKills() % 30 == 0)
 				{
 					if (enemySpawnTime > 0.5f)
 					{
 						enemySpawnTime -= 0.2f;
 						background_layers[0].changeSwitchTime(0.005f);
+
 						for (unsigned i = 1; i < background_layers.size(); i++)
 							background_layers[i].changeSwitchTime(0.0025f);
 					}

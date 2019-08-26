@@ -57,7 +57,7 @@ private:
 	float shootTotalTime = 0.f;
 	const unsigned maxLives = 4;
 	//stats
-	unsigned lives = 1;
+	unsigned lives = 2;
 	WeaponType curr_weapon = oneshot;
 	unsigned curr_weapon_no = 1;
 	float speedMod = 1.f;
