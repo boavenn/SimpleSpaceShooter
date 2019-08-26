@@ -25,5 +25,6 @@ protected:
 	bool gotHit = false;
 	float currHealth = 0.f;
 	unsigned lives = 1;
+	float hitDmg = 0;
 };
 

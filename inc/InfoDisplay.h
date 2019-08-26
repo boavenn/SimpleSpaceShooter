@@ -13,6 +13,8 @@ public:
 private:
 	void addInfo();
 
+	sf::Sprite heart;
+	unsigned lives_left;
 	std::vector<sf::Font> fonts;
 	std::vector<sf::Text> infos;
 };

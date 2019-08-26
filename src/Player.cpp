@@ -10,7 +10,7 @@ Player::Player() : Phantom(20), stationary(sf::IntRect(0, 0, 70, 70), 3, 0.25f),
 	sprite.setOrigin({ 35.f,35.f });
 	sprite.setPosition({ 683,731 });
 	currHealth = 1.f;
-	lives = 1;
+	lives = 2;
 }
 
 void Player::input()

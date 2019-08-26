@@ -8,6 +8,8 @@ public:
 	Enemy(float maxHealth, float shototingDelay, float shootingChance, unsigned type, sf::Vector2f pos);
 	void update(float deltaTime);
 	const unsigned& getType() { return type; }
+	unsigned getScoreForKill() { return scoreForKill; };
+	float getLastHitDmg() { return hitDmg; };
 
 private:
 	void tryFire(float deltaTime);
@@ -30,6 +32,7 @@ private:
 	float shootingChance;
 	float shootingTotalTime = 0.f;
 	float maxDepth;
+	unsigned scoreForKill;
 	unsigned type;
 };
 

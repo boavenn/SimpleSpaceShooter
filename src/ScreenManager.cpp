@@ -14,6 +14,7 @@ void ScreenManager::update(float deltaTime)
 	// order of these functions is important!
 	// first we add, then update, otherwise some texture loading bugs may appear
 	// (because of not updating sprites for the first time before drawing them)
+	HUD.updateInfo(player);
 	trySpawn(deltaTime);
 	player.update(deltaTime);
 	for (unsigned i = 0; i < enemies.size(); i++)
@@ -23,7 +24,7 @@ void ScreenManager::update(float deltaTime)
 	updateProjectiles(deltaTime);
 	updateExplosions(deltaTime);
 	updateBackground(deltaTime);
-	HUD.updateInfo(player);
+	updateFloatingText(deltaTime);
 }
 
 void ScreenManager::updateProjectiles(float deltaTime)
@@ -78,6 +79,20 @@ void ScreenManager::updateBackground(float deltaTime)
 	unsigned len = background_layers.size();
 	for (unsigned i = 0; i < len; i++)
 		background_layers[i].update(deltaTime);
+}
+
+void ScreenManager::updateFloatingText(float deltaTime)
+{
+	for (unsigned i = 0; i < floating_text.size(); i++)
+	{
+		floating_text[i]->update(deltaTime);
+		if (floating_text[i]->dead())
+		{
+			delete floating_text[i];
+			floating_text.erase(floating_text.begin() + i);
+			i--;
+		}
+	}
 }
 
 void ScreenManager::trySpawn(float deltaTime)
@@ -217,6 +232,8 @@ void ScreenManager::checkCollisions()
 	{
 		if (enemies[i]->isHit(player_projectiles))
 		{
+			floating_text.push_back(new FloatingText("- " + std::to_string(int(enemies[i]->getLastHitDmg())), enemies[i]->getPosition(), sf::Color::Red));
+
 			if (enemies[i]->died)
 			{
 				play("blaster3", 0.3f); // actually blaster3 sound with modified pitch makes better explosion sound than actual explosion lol
@@ -225,6 +242,11 @@ void ScreenManager::checkCollisions()
 				float pickupSpawningChance = float(rand.getIntInRange(0, 100));
 				if (pickupSpawningChance < 20.f)
 					pickups.push_back(Pickup(enemies[i]->getPosition()));
+
+				player.addScore(enemies[i]->getScoreForKill());
+				player.addKill();
+
+				floating_text.push_back(new FloatingText("+ " + std::to_string(int(enemies[i]->getScoreForKill())), { enemies[i]->getPosition().x, enemies[i]->getPosition().y - 30.f }, sf::Color::White));
 
 				delete enemies[i]; // firstly we delete an object a pointer is pointing to
 				enemies.erase(enemies.begin() + i); // and then that pointer
@@ -261,6 +283,10 @@ void ScreenManager::draw(sf::RenderWindow& w)
 
 	for (unsigned i = 2; i < 4; i++)  // we draw sidebars as last so enemies can go behind it
 		background_layers[i].draw(w);
+
+	len = floating_text.size();
+	for (unsigned i = 0; i < len; i++)
+		floating_text[i]->draw(w);
 
 	HUD.draw(w);
 	player.draw(w);

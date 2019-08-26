@@ -8,6 +8,7 @@
 #include "Random.h"
 #include "Pickup.h"
 #include "InfoDisplay.h"
+#include "FloatingText.h"
 #include <unordered_map>
 
 class ScreenManager
@@ -25,6 +26,7 @@ private:
 	void updateProjectiles(float deltaTime);
 	void updateExplosions(float deltaTime);
 	void updateBackground(float deltaTime);
+	void updateFloatingText(float deltaTime);
 	void trySpawn(float deltaTime);
 	void play(std::string name, float pitch, float vol = 100.f);
 
@@ -33,6 +35,7 @@ private:
 	InfoDisplay HUD;
 	std::vector<Projectile> player_projectiles;
 	std::vector<Projectile> enemy_projectiles;
+	std::vector<FloatingText*> floating_text;
 	std::vector<Enemy*> enemies;
 	std::vector<Pickup> pickups;
 	std::vector<Explosion*> explosions;

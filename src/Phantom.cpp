@@ -25,7 +25,8 @@ bool Phantom::isHit(std::vector<Projectile>& projectiles)
 			projectiles[i].getPosition().y >= sprite.getPosition().y - half_height && projectiles[i].getPosition().y <= sprite.getPosition().y + half_height)
 		{
 			gotHit = true;
-			currHealth -= projectiles[i].getDmg();
+			hitDmg = projectiles[i].getDmg();
+			currHealth -= hitDmg;
 			projectiles.erase(projectiles.begin() + i);
 			if (currHealth <= 0)
 			{
