@@ -12,9 +12,11 @@ public:
 
 private:
 	void addInfo();
+	void addPickupInfo();
 
 	sf::Sprite heart;
 	unsigned lives_left;
+	std::vector<sf::Sprite> pickup_sprites;
 	std::vector<sf::Font> fonts;
 	std::vector<sf::Text> infos;
 };

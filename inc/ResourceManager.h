@@ -22,6 +22,8 @@ public:
 		buffers.add("blaster3");
 		buffers.add("blaster4");
 		buffers.add("explosion");
+		buffers.add("shield");
+		buffers.add("pickup");
 		fonts.add("VCR_OSD_MONO_1.001");
 	}
 

@@ -1,11 +1,13 @@
 #include "..\inc\Player.h"
 
 Player::Player() : Phantom(20), stationary(sf::IntRect(0, 0, 70, 70), 3, 0.25f), movingleft(sf::IntRect(0, 70, 70, 70), 3, 0.25f),
-				   movingright(sf::IntRect(70, 70, -70, 70), 3, 0.25f)
+					movingright(sf::IntRect(70, 70, -70, 70), 3, 0.25f), stationaryInvinc(sf::IntRect(210, 0, 70, 70), 3, 0.25f),
+					movingleftInvinc(sf::IntRect(210, 70, 70, 70), 3, 0.25f), movingrightInvinc(sf::IntRect(280, 70, -70, 70), 3, 0.25f)
 {
 	velocity = { 0,0 };
 	buffer.insert(std::make_pair("blaster2", ResourceManager::get().buffers.get("blaster2")));
 	buffer.insert(std::make_pair("blaster3", ResourceManager::get().buffers.get("blaster3")));
+	buffer.insert(std::make_pair("shield", ResourceManager::get().buffers.get("shield")));
 	sprite.setTexture(ResourceManager::get().textures.get("player"));
 	sprite.setOrigin({ 35.f,35.f });
 	sprite.setPosition({ 683,731 });
@@ -55,9 +57,37 @@ void Player::update(float deltaTime)
 	tryReload(deltaTime);
 	tryFire(deltaTime);
 	input();
+	checkInvincibilty(deltaTime);
 	checkMovement(deltaTime);
 
 	sprite.move(velocity * deltaTime);
+}
+
+bool Player::isHit(std::vector<Projectile>& projectiles)
+{
+	float half_width = sprite.getLocalBounds().width / 2.f;
+	float half_height = sprite.getLocalBounds().height / 2.f;
+	for (unsigned i = 0; i < projectiles.size(); i++)
+	{
+		if (projectiles[i].getPosition().x >= sprite.getPosition().x - half_width && projectiles[i].getPosition().x <= sprite.getPosition().x + half_width &&
+			projectiles[i].getPosition().y >= sprite.getPosition().y - half_height && projectiles[i].getPosition().y <= sprite.getPosition().y + half_height)
+		{
+			projectiles.erase(projectiles.begin() + i);
+
+			if (!invincible)
+			{
+				play("shield", 0.9f);
+				if (lives > 0)
+				{
+					lives--;
+					invincible = true;
+				}
+			}
+
+			return true;
+		}
+	}
+	return false;
 }
 
 bool Player::gotPickup(std::vector<Pickup>& pickups)
@@ -89,17 +119,28 @@ void Player::upgrade(Pickup::PickupType type)
 		if(magazineSize < maxMagazineSize)
 			magazineSize += 1;
 		break;
-	case Pickup::PickupType::reloadSpeedInc:
-		if(reloadTime > minReloadTime)
-			reloadTime -= 0.02f;
-		break;
 	case Pickup::PickupType::bulletSpeedInc:
 		if(bulletSpeedMod < maxBulletSpeedMod)
 			bulletSpeedMod += 0.05f;
 		break;
+	case Pickup::PickupType::reloadSpeedInc:
+		if (reloadTime > minReloadTime)
+			reloadTime -= 0.03f;
+		break;
 	case Pickup::PickupType::liveAdd:
 		if(lives < maxLives)
 			lives += 1;
+		break;
+	case Pickup::PickupType::dmgInc:
+		dmgMod += 0.1f;
+		break;
+	case Pickup::PickupType::weaponUpgrade:
+		if (curr_weapon_no < 5)
+			curr_weapon_no++;
+		break;
+	case Pickup::PickupType::weaponDowngrade:
+		if (curr_weapon_no > 1)
+			curr_weapon_no--;
 		break;
 	}
 }
@@ -127,17 +168,45 @@ void Player::checkMovement(float deltaTime)
 	if (moving)
 	{
 		if (facing_right)
-			sprite.setTextureRect(movingright.update(deltaTime));
+		{
+			if (invincible)
+				sprite.setTextureRect(movingrightInvinc.update(deltaTime));
+			else 
+				sprite.setTextureRect(movingright.update(deltaTime));
+		}
 		else
-			sprite.setTextureRect(movingleft.update(deltaTime));
+		{
+			if (invincible)
+				sprite.setTextureRect(movingleftInvinc.update(deltaTime));
+			else 
+				sprite.setTextureRect(movingleft.update(deltaTime));
+		}
 	}
 	else
-		sprite.setTextureRect(stationary.update(deltaTime));
+	{
+		if (invincible)
+			sprite.setTextureRect(stationaryInvinc.update(deltaTime));
+		else
+			sprite.setTextureRect(stationary.update(deltaTime));
+	}
 
 	if (sprite.getPosition().x <= 216)
 		sprite.setPosition({ 216.0f, sprite.getPosition().y });
 	if (sprite.getPosition().x >= 1150.f)
 		sprite.setPosition({ 1150.f, sprite.getPosition().y });
+}
+
+void Player::checkInvincibilty(float deltaTime)
+{
+	if (invincible)
+	{
+		invincibilityTotalTime += deltaTime;
+		if (invincibilityTotalTime >= invincibiltyTime)
+		{
+			invincibilityTotalTime = 0.f;
+			invincible = false;
+		}
+	}
 }
 
 void Player::playShotSound()

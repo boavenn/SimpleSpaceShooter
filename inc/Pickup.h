@@ -8,11 +8,14 @@ class Pickup
 public:
 	enum PickupType
 	{
-		speedInc = 1,
+		speedInc = 0,
 		magazineSizeInc,
-		reloadSpeedInc,
 		bulletSpeedInc,
-		liveAdd
+		reloadSpeedInc,
+		liveAdd,
+		dmgInc,
+		weaponUpgrade,
+		weaponDowngrade
 	};
 
 public:

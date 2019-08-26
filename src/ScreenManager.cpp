@@ -7,6 +7,7 @@ ScreenManager::ScreenManager() : sound(30)
 	background_layers.push_back(Background(0.03f, { 0,0 }, "sidebar"));
 	background_layers.push_back(Background(0.03f, { 1195,0 }, "sidebar", 1));
 	buffer.insert(std::make_pair("blaster3", ResourceManager::get().buffers.get("blaster3")));
+	buffer.insert(std::make_pair("pickup", ResourceManager::get().buffers.get("pickup")));
 }
 
 void ScreenManager::update(float deltaTime)
@@ -102,21 +103,24 @@ void ScreenManager::trySpawn(float deltaTime)
 	{
 		enemyTotalTime -= enemySpawnTime;
 
-		float rand_x_pos = float(rand.getIntInRange(205, 1160));
-		float typeChance = float(rand.getIntInRange(0, 100));
-		
-		unsigned type;
-		if (typeChance < 40.f)
+		if (enemies.size() < 30)
 		{
-			if (typeChance < 15.f)
-				type = 2;
-			else
-				type = 1;
-		}
-		else
-			type = 0;
+			float rand_x_pos = float(rand.getIntInRange(205, 1160));
+			float typeChance = float(rand.getIntInRange(0, 100));
 
-		enemies.push_back(new Enemy(1.f, 1.f, 10.f, type, { rand_x_pos, -50 }));
+			unsigned type;
+			if (typeChance < 40.f)
+			{
+				if (typeChance < 15.f)
+					type = 2;
+				else
+					type = 1;
+			}
+			else
+				type = 0;
+
+			enemies.push_back(new Enemy(1.f, 1.f, 10.f, type, { rand_x_pos, -50 }));
+		}
 	}
 }
 
@@ -146,7 +150,7 @@ void ScreenManager::checkFiredShots()
 		{
 		case Player::WeaponType::oneshot:
 			v = { {0,-300.f} };
-			player_projectiles.push_back(Projectile(sf::IntRect(0, 0, 8, 16), v[0] * player.getBulletSpeedMod(), 5.f));
+			player_projectiles.push_back(Projectile(sf::IntRect(0, 0, 8, 16), v[0] * player.getBulletSpeedMod(), 5.f * player.getDmgMod()));
 			player_projectiles.back().setInitialPosition({ player.getPosition().x, player.getPosition().y - 35.f });
 			break;
 		case Player::WeaponType::doubleshot:
@@ -154,7 +158,7 @@ void ScreenManager::checkFiredShots()
 			v = { {0,-300.f} };
 			for (unsigned i = 0; i < 2; i++)
 			{
-				player_projectiles.push_back(Projectile(sf::IntRect(8, 0, 8, 16), v[0] * player.getBulletSpeedMod(), 5.f));
+				player_projectiles.push_back(Projectile(sf::IntRect(8, 0, 8, 16), v[0] * player.getBulletSpeedMod(), 5.f * player.getDmgMod()));
 				player_projectiles.back().setInitialPosition({ player.getPosition().x + posx, player.getPosition().y - 35.f });
 				posx += 20.f;
 			}
@@ -164,7 +168,7 @@ void ScreenManager::checkFiredShots()
 			v = { {-110.f, -300.f}, {0.0f, -300.f}, {110.f, -300.f} };
 			for (unsigned i = 0; i < 3; i++)
 			{
-				player_projectiles.push_back(Projectile(sf::IntRect(16, 0, 8, 16), v[i] * player.getBulletSpeedMod(), 10.f));
+				player_projectiles.push_back(Projectile(sf::IntRect(16, 0, 8, 16), v[i] * player.getBulletSpeedMod(), 10.f * player.getDmgMod()));
 				player_projectiles.back().setInitialPosition({ player.getPosition().x + posx, player.getPosition().y - 35.f });
 				posx += 16.f;
 			}
@@ -174,14 +178,14 @@ void ScreenManager::checkFiredShots()
 			v = { {-30.f, -300.f}, {-10.0f, -300.f}, {10.f, -300.f}, {30.f, -300.f} };
 			for (unsigned i = 0; i < 4; i++)
 			{
-				player_projectiles.push_back(Projectile(sf::IntRect(24, 0, 8, 16), v[i] * player.getBulletSpeedMod(), 10.f));
+				player_projectiles.push_back(Projectile(sf::IntRect(24, 0, 8, 16), v[i] * player.getBulletSpeedMod(), 10.f * player.getDmgMod()));
 				player_projectiles.back().setInitialPosition({ player.getPosition().x + posx, player.getPosition().y - 35.f });
 				posx += 16.f;
 			}
 			break;
 		case Player::WeaponType::plasma:
 			v = { { 0, -450.f } };
-			player_projectiles.push_back(Projectile(sf::IntRect(0, 16, 12, 18), v[0] * player.getBulletSpeedMod(), 15.f));
+			player_projectiles.push_back(Projectile(sf::IntRect(0, 16, 12, 18), v[0] * player.getBulletSpeedMod(), 15.f * player.getDmgMod()));
 			player_projectiles.back().setInitialPosition({ player.getPosition().x, player.getPosition().y - 35.f });
 			break;
 		}
@@ -225,7 +229,7 @@ void ScreenManager::checkCollisions()
 
 	if (player.gotPickup(pickups))
 	{
-		
+		play("pickup", 1.5f);
 	}
 
 	for (unsigned i = 0; i < enemies.size(); i++)

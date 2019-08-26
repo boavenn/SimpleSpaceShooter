@@ -13,7 +13,7 @@ public:
 	virtual void play(std::string name, float pitch, float vol = 100.f);
 	virtual const sf::Vector2f& getPosition() const { return sprite.getPosition(); }
 	virtual bool isShooting() const { return try_shoot; }
-	virtual bool isHit(std::vector<Projectile>& projectiles);
+	virtual bool isHit(std::vector<Projectile>& projectiles) = 0;
 
 	bool died = false;
 protected:
@@ -22,9 +22,6 @@ protected:
 	std::unordered_map<std::string, sf::SoundBuffer> buffer;
 	std::vector<sf::Sound> sound;
 	bool try_shoot = false;
-	bool gotHit = false;
 	float currHealth = 0.f;
-	unsigned lives = 1;
-	float hitDmg = 0;
 };
 
