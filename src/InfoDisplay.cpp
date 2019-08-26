@@ -11,12 +11,12 @@ void InfoDisplay::updateInfo(const Player& player)
 {
 	lives_left = player.lives - 1;
 	infos[0].setString("LIVES LEFT: ");
-	infos[1].setString("SHIP SPEED: " + std::to_string(int(player.speedMod * 100.f)) + "%");
+	infos[1].setString("SHIP SPEED: " + std::to_string(int(player.speedMod * 100.f + 1)) + "%");
 	infos[2].setString("MAG SIZE: " + std::to_string(player.magazineSize));
 	std::string reloadTime = std::to_string(player.reloadTime);
 	reloadTime = reloadTime.substr(0, 4);
 	infos[3].setString("RELOAD TIME: " + reloadTime + "s");
-	infos[4].setString("BULLET SPEED: " + std::to_string(int(player.bulletSpeedMod * 100.f)) + "%");
+	infos[4].setString("BULLET SPEED: " + std::to_string(int(player.bulletSpeedMod * 100.f + 1)) + "%");
 	infos[5].setString("BULLET DAMAGE: " + std::to_string(int(player.dmgMod * 100.f)) + "%");
 	infos[6].setString("KILLS: " + std::to_string(player.getKills()));
 	infos[7].setString("SCORE: " + std::to_string(player.getScore()));
@@ -24,9 +24,9 @@ void InfoDisplay::updateInfo(const Player& player)
 	infos[8].setString(" +5% SHIP SPEED");
 	infos[9].setString(" +1 MAG SIZE");
 	infos[10].setString(" +5% BULLET SPEED");
-	infos[11].setString(" -0.03s RELOAD TIME");
-	infos[12].setString(" +1 LIFE");
-	infos[13].setString(" +10% BULLET DAMAGE");
+	infos[11].setString(" -0.02s RELOAD TIME");
+	infos[12].setString(" +10% BULLET DAMAGE");
+	infos[13].setString(" +1 LIFE");
 	infos[14].setString(" WEAPON UPGRADE");
 	infos[15].setString(" WEAPON DOWNGRADE");
 }

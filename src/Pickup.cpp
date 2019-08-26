@@ -2,7 +2,7 @@
 
 Pickup::Pickup(sf::Vector2f pos)
 {
-	velocity.y = float(rand.getIntInRange(150, 250));
+	velocity.y = float(rand.getIntInRange(150, 400));
 	type = static_cast<PickupType>(rand.getIntInRange(0, 8));
 	sprite.setTexture(ResourceManager::get().textures.get("pickups"));
 	sprite.setTextureRect(setRect(type));

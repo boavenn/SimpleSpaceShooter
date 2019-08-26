@@ -9,7 +9,7 @@ public:
 	void update(float deltaTime);
 	bool isHit(std::vector<Projectile>& projectiles);
 	const unsigned& getType() { return type; }
-	unsigned getScoreForKill() { return scoreForKill; };
+	float getScoreForKill() { return scoreForKill; };
 	float getLastHitDmg() { return hitDmg; };
 
 private:
@@ -35,7 +35,7 @@ private:
 	float shootingChance;
 	float shootingTotalTime = 0.f;
 	float maxDepth;
-	unsigned scoreForKill;
+	float scoreForKill;
 	unsigned type;
 };
 

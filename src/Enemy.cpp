@@ -17,15 +17,15 @@ Enemy::Enemy(float healthMod, float shootingDelay, float shootingChance, unsigne
 	switch (type)
 	{
 	case 0:
-		scoreForKill = 50;
+		scoreForKill = 50.f;
 		currHealth = 10.f * healthMod;
 		break;
 	case 1:
-		scoreForKill = 75;
+		scoreForKill = 75.f;
 		currHealth = 15.f * healthMod;
 		break;
 	case 2:
-		scoreForKill = 100;
+		scoreForKill = 100.f;
 		currHealth = 25.f * healthMod;
 		break;
 	}

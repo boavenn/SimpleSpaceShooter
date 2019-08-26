@@ -64,7 +64,7 @@ private:
 	const float maxSpeedMod = 2.f;
 	float bulletSpeedMod = 1.f;
 	const float maxBulletSpeedMod = 2.5f;
-	float reloadTime = 0.75f;
+	float reloadTime = 0.6f;
 	const float minReloadTime = 0.3f;
 	unsigned magazineSize = 5;
 	const unsigned maxMagazineSize = 15;

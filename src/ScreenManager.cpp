@@ -119,7 +119,7 @@ void ScreenManager::trySpawn(float deltaTime)
 			else
 				type = 0;
 
-			enemies.push_back(new Enemy(1.f, 1.f, 10.f, type, { rand_x_pos, -50 }));
+			enemies.push_back(new Enemy(enemyHealthMod, 1.f, 10.f, type, { rand_x_pos, -50 }));
 		}
 	}
 }
@@ -165,7 +165,7 @@ void ScreenManager::checkFiredShots()
 			break;
 		case Player::WeaponType::tripleshot:
 			posx = -16.f;
-			v = { {-110.f, -300.f}, {0.0f, -300.f}, {110.f, -300.f} };
+			v = { {-80.f, -300.f}, {0.0f, -300.f}, {80.f, -300.f} };
 			for (unsigned i = 0; i < 3; i++)
 			{
 				player_projectiles.push_back(Projectile(sf::IntRect(16, 0, 8, 16), v[i] * player.getBulletSpeedMod(), 10.f * player.getDmgMod()));
@@ -184,9 +184,12 @@ void ScreenManager::checkFiredShots()
 			}
 			break;
 		case Player::WeaponType::plasma:
-			v = { { 0, -450.f } };
-			player_projectiles.push_back(Projectile(sf::IntRect(0, 16, 12, 18), v[0] * player.getBulletSpeedMod(), 15.f * player.getDmgMod()));
-			player_projectiles.back().setInitialPosition({ player.getPosition().x, player.getPosition().y - 35.f });
+			v = { { -40, -450.f }, {40, -450} };
+			for (unsigned i = 0; i < 2; i++)
+			{
+				player_projectiles.push_back(Projectile(sf::IntRect(0, 16, 12, 18), v[i] * player.getBulletSpeedMod(), 15.f * player.getDmgMod()));
+				player_projectiles.back().setInitialPosition({ player.getPosition().x, player.getPosition().y - 35.f });
+			}
 			break;
 		}
 	}
@@ -196,22 +199,23 @@ void ScreenManager::checkFiredShots()
 		if (enemies[i]->isShooting())
 		{
 			sf::Vector2f v;
+			float vMod = float(rand.getIntInRange(100, 200)) / 100.f;
 			switch (enemies[i]->getType())
 			{
 			case 0:
 				v = { 0, 250 };
-				enemy_projectiles.push_back(Projectile(sf::IntRect(33, 0, 6, 16), v, 1000.f ));
+				enemy_projectiles.push_back(Projectile(sf::IntRect(33, 0, 6, 16), v * vMod, 1000.f ));
 				enemy_projectiles.back().setInitialPosition({ enemies[i]->getPosition().x, enemies[i]->getPosition().y + 20.f });
 				break;
 			case 1:
 				v = { 0, 250 };
-				enemy_projectiles.push_back(Projectile(sf::IntRect(39, 0, 6, 16), v, 1000.f));
+				enemy_projectiles.push_back(Projectile(sf::IntRect(39, 0, 6, 16), v * vMod, 1000.f));
 				enemy_projectiles.back().setInitialPosition({ enemies[i]->getPosition().x, enemies[i]->getPosition().y + 20.f });
 				break;
 			case 2:
 				v.y = 250;
 				v.x = v.y * (player.getPosition().x + float(rand.getIntInRange(-100, 100)) - enemies[i]->getPosition().x) / (player.getPosition().y - enemies[i]->getPosition().y);
-				enemy_projectiles.push_back(Projectile(sf::IntRect(12, 17, 12, 12), v, 1000.f));
+				enemy_projectiles.push_back(Projectile(sf::IntRect(12, 17, 12, 12), v * vMod, 1000.f));
 				enemy_projectiles.back().setInitialPosition({ enemies[i]->getPosition().x, enemies[i]->getPosition().y + 20.f });
 				break;
 			}
@@ -236,7 +240,8 @@ void ScreenManager::checkCollisions()
 	{
 		if (enemies[i]->isHit(player_projectiles))
 		{
-			floating_text.push_back(new FloatingText("- " + std::to_string(int(enemies[i]->getLastHitDmg())), enemies[i]->getPosition(), sf::Color::Red));
+			floating_text.push_back(new FloatingText("- " + std::to_string(int(enemies[i]->getLastHitDmg())),
+			{ enemies[i]->getPosition().x + float(rand.getIntInRange(-20,20)), enemies[i]->getPosition().y + float(rand.getIntInRange(-20,20)) }, sf::Color::Red));
 
 			if (enemies[i]->died)
 			{
@@ -247,10 +252,24 @@ void ScreenManager::checkCollisions()
 				if (pickupSpawningChance < 20.f)
 					pickups.push_back(Pickup(enemies[i]->getPosition()));
 
-				player.addScore(enemies[i]->getScoreForKill());
+				player.addScore(unsigned(enemies[i]->getScoreForKill() * scoreMod));
 				player.addKill();
+				if (player.getKills() % 30 == 0)
+				{
+					if (enemySpawnTime > 0.5f)
+					{
+						enemySpawnTime -= 0.2f;
+						background_layers[0].changeSwitchTime(0.005f);
+						for (unsigned i = 1; i < background_layers.size(); i++)
+							background_layers[i].changeSwitchTime(0.0025f);
+					}
 
-				floating_text.push_back(new FloatingText("+ " + std::to_string(int(enemies[i]->getScoreForKill())), { enemies[i]->getPosition().x, enemies[i]->getPosition().y - 30.f }, sf::Color::White));
+					enemyHealthMod += 0.2f;
+					scoreMod += 0.2f;
+				}
+
+				floating_text.push_back(new FloatingText("+ " + std::to_string(int(enemies[i]->getScoreForKill() * scoreMod)),
+				{ enemies[i]->getPosition().x + float(rand.getIntInRange(-20,20)), enemies[i]->getPosition().y - 30.f }, sf::Color::White));
 
 				delete enemies[i]; // firstly we delete an object a pointer is pointing to
 				enemies.erase(enemies.begin() + i); // and then that pointer

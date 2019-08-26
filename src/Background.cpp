@@ -16,7 +16,7 @@ void Background::update(float deltaTime)
 
 	if (totalTime >= switchTime)
 	{
-		totalTime -= switchTime;
+		totalTime = 0.f;
 		if (shift++ == 768)
 			shift = 0;
 	}

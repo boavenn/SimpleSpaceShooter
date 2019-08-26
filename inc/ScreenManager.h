@@ -17,8 +17,9 @@ public:
 	ScreenManager();
 	void update(float deltaTime);
 	void draw(sf::RenderWindow& w);
+	Player& getPlayer() { return player; };
 
-	bool game_over = false; // TODO: add Game Over screen
+	bool game_over = false;
 
 private:
 	void checkFiredShots();
@@ -44,6 +45,8 @@ private:
 	std::vector<sf::Sound> sound;
 	float enemySpawnTime = 2.f;
 	float enemyTotalTime = 0.f;
+	float scoreMod = 1.f;
+	float enemyHealthMod = 1.f;
 };
 
 

@@ -81,6 +81,8 @@ bool Player::isHit(std::vector<Projectile>& projectiles)
 				{
 					lives--;
 					invincible = true;
+					if (curr_weapon_no > 1)
+						curr_weapon_no--;
 				}
 			}
 
@@ -125,14 +127,14 @@ void Player::upgrade(Pickup::PickupType type)
 		break;
 	case Pickup::PickupType::reloadSpeedInc:
 		if (reloadTime > minReloadTime)
-			reloadTime -= 0.03f;
+			reloadTime -= 0.02f;
+		break;
+	case Pickup::PickupType::dmgInc:
+		dmgMod += 0.1f;
 		break;
 	case Pickup::PickupType::liveAdd:
 		if(lives < maxLives)
 			lives += 1;
-		break;
-	case Pickup::PickupType::dmgInc:
-		dmgMod += 0.1f;
 		break;
 	case Pickup::PickupType::weaponUpgrade:
 		if (curr_weapon_no < 5)

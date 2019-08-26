@@ -12,8 +12,8 @@ public:
 		magazineSizeInc,
 		bulletSpeedInc,
 		reloadSpeedInc,
-		liveAdd,
 		dmgInc,
+		liveAdd,
 		weaponUpgrade,
 		weaponDowngrade
 	};
