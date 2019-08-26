@@ -77,12 +77,15 @@ void Enemy::tryFire(float deltaTime)
 	{
 		shootingTotalTime -= shootingDelay;
 
-		float chance = float(rand.getIntInRange(0, 100));
-
-		if (chance < shootingChance)
+		if (getPosition().x > 171.f && getPosition().x < 1195.f)
 		{
-			playShotSound();
-			try_shoot = true;
+			float chance = float(rand.getIntInRange(0, 100));
+
+			if (chance < shootingChance)
+			{
+				playShotSound();
+				try_shoot = true;
+			}
 		}
 	}
 }

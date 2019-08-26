@@ -204,12 +204,12 @@ void ScreenManager::checkFiredShots()
 			{
 			case 0:
 				v = { 0, 250 };
-				enemy_projectiles.push_back(Projectile(sf::IntRect(33, 0, 6, 16), v * vMod, 1000.f ));
+				enemy_projectiles.push_back(Projectile(sf::IntRect(32, 0, 6, 16), v * vMod, 1000.f ));
 				enemy_projectiles.back().setInitialPosition({ enemies[i]->getPosition().x, enemies[i]->getPosition().y + 20.f });
 				break;
 			case 1:
 				v = { 0, 250 };
-				enemy_projectiles.push_back(Projectile(sf::IntRect(39, 0, 6, 16), v * vMod, 1000.f));
+				enemy_projectiles.push_back(Projectile(sf::IntRect(38, 0, 6, 16), v * vMod, 1000.f));
 				enemy_projectiles.back().setInitialPosition({ enemies[i]->getPosition().x, enemies[i]->getPosition().y + 20.f });
 				break;
 			case 2:

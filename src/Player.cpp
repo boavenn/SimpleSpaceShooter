@@ -31,7 +31,7 @@ void Player::input()
 		facing_right = true;
 	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 	{
 			if (magazine_curr > 0)
 			{
@@ -117,18 +117,26 @@ void Player::upgrade(Pickup::PickupType type)
 	case Pickup::PickupType::speedInc:
 		if(speedMod < maxSpeedMod)
 			speedMod += 0.05f;
+		else
+			score += 1000;
 		break;
 	case Pickup::PickupType::magazineSizeInc:
-		if(magazineSize < maxMagazineSize)
+		if (magazineSize < maxMagazineSize)
 			magazineSize += 1;
+		else
+			score += 1000;
 		break;
 	case Pickup::PickupType::bulletSpeedInc:
 		if(bulletSpeedMod < maxBulletSpeedMod)
 			bulletSpeedMod += 0.05f;
+		else
+			score += 1000;
 		break;
 	case Pickup::PickupType::reloadSpeedInc:
 		if (reloadTime > minReloadTime)
 			reloadTime -= 0.02f;
+		else
+			score += 1000;
 		break;
 	case Pickup::PickupType::dmgInc:
 		dmgMod += 0.1f;
@@ -136,10 +144,14 @@ void Player::upgrade(Pickup::PickupType type)
 	case Pickup::PickupType::liveAdd:
 		if(lives < maxLives)
 			lives += 1;
+		else
+			score += 1000;
 		break;
 	case Pickup::PickupType::weaponUpgrade:
 		if (curr_weapon_no < 5)
 			curr_weapon_no++;
+		else
+			score += 1000;
 		break;
 	case Pickup::PickupType::weaponDowngrade:
 		if (curr_weapon_no > 1)

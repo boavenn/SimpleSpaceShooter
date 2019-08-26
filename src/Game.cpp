@@ -32,7 +32,10 @@ void Game::run()
 		{
 			gameoverScreen();
 			if (!window.isOpen())
+			{
 				shouldexit = true;
+				delete screen_manager;
+			}
 
 			if (shouldexit || shouldrestart)
 				break;
@@ -45,13 +48,6 @@ void Game::run()
 void Game::gameoverInput()
 {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
-	{
-		shouldexit = true;
-		delete screen_manager;
-		screen_manager = nullptr;
-	}
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl))
 	{
 		shouldrestart = true;
 		delete screen_manager;
@@ -128,6 +124,6 @@ void Game::loadText()
 	text.push_back(t);
 
 	t.setPosition(450.f, 470.f);
-	t.setString("PRESS LCTRL TO RESTART");
+	t.setString("PRESS ENTER TO RESTART");
 	text.push_back(t);
 }
