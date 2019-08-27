@@ -28,6 +28,9 @@ Enemy::Enemy(float healthMod, float shootingDelay, float shootingChance, unsigne
 		scoreForKill = 100.f;
 		currHealth = 25.f * healthMod;
 		break;
+	case 3:
+		scoreForKill = 150.f;
+		currHealth = 35.f * healthMod;
 	}
 }
 
@@ -102,6 +105,9 @@ void Enemy::playShotSound()
 		break;
 	case 2:
 		play("blaster4", 1.f);
+		break;
+	case 3:
+		play("blaster4", 1.2f);
 		break;
 	}
 }
@@ -178,6 +184,9 @@ sf::IntRect Enemy::setMovRect(unsigned type)
 	case 2:
 		return sf::IntRect(0, 80, 50, 50);
 		break;
+	case 3:
+		return sf::IntRect(0, 130, 50, 50);
+		break;
 	default:
 		return sf::IntRect(0, 0, 40, 40);
 		break;
@@ -196,6 +205,9 @@ sf::IntRect Enemy::setHitRect(unsigned type)
 		break;
 	case 2:
 		return sf::IntRect(100, 80, 50, 50);
+		break;
+	case 3:
+		return sf::IntRect(100, 130, 50, 50);
 		break;
 	default:
 		return sf::IntRect(80, 0, 40, 40);

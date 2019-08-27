@@ -15,7 +15,8 @@ public:
 		dmgInc,
 		liveAdd,
 		weaponUpgrade,
-		weaponDowngrade
+		weaponDowngrade,
+		shield
 	};
 
 public:

@@ -157,6 +157,12 @@ void Player::upgrade(Pickup::PickupType type)
 		if (curr_weapon_no > 1)
 			curr_weapon_no--;
 		break;
+	case Pickup::PickupType::shield:
+		if (!invincible)
+			invincible = true;
+		else
+			invincibilityTotalTime = 0.f;
+		break;
 	}
 }
 

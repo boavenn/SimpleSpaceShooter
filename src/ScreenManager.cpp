@@ -111,7 +111,9 @@ void ScreenManager::trySpawn(float deltaTime)
 			unsigned type;
 			if (typeChance < 40.f)
 			{
-				if (typeChance < 15.f)
+				if (typeChance < 5.f)
+					type = 3;
+				else if (typeChance < 15.f)
 					type = 2;
 				else
 					type = 1;
@@ -198,25 +200,33 @@ void ScreenManager::checkFiredShots()
 	{
 		if (enemies[i]->isShooting())
 		{
-			sf::Vector2f v;
+			std::vector<sf::Vector2f> v;
 			float vMod = float(rand.getIntInRange(100, 200)) / 100.f;
 			switch (enemies[i]->getType())
 			{
 			case 0:
-				v = { 0, 250 };
-				enemy_projectiles.push_back(Projectile(sf::IntRect(32, 0, 6, 16), v * vMod, 1000.f ));
+				v = { { 0, 250 } };
+				enemy_projectiles.push_back(Projectile(sf::IntRect(32, 0, 6, 16), v[0] * vMod, 1000.f ));
 				enemy_projectiles.back().setInitialPosition({ enemies[i]->getPosition().x, enemies[i]->getPosition().y + 20.f });
 				break;
 			case 1:
-				v = { 0, 250 };
-				enemy_projectiles.push_back(Projectile(sf::IntRect(38, 0, 6, 16), v * vMod, 1000.f));
+				v = { { 0, 250 } };
+				enemy_projectiles.push_back(Projectile(sf::IntRect(38, 0, 6, 16), v[0] * vMod, 1000.f));
 				enemy_projectiles.back().setInitialPosition({ enemies[i]->getPosition().x, enemies[i]->getPosition().y + 20.f });
 				break;
 			case 2:
-				v.y = 250;
-				v.x = v.y * (player.getPosition().x + float(rand.getIntInRange(-100, 100)) - enemies[i]->getPosition().x) / (player.getPosition().y - enemies[i]->getPosition().y);
-				enemy_projectiles.push_back(Projectile(sf::IntRect(12, 17, 12, 12), v * vMod, 1000.f));
+				v = { {0, 250} };
+				v[0].x = v[0].y * (player.getPosition().x + float(rand.getIntInRange(-100, 100)) - enemies[i]->getPosition().x) / (player.getPosition().y - enemies[i]->getPosition().y);
+				enemy_projectiles.push_back(Projectile(sf::IntRect(12, 17, 12, 12), v[0] * vMod, 1000.f));
 				enemy_projectiles.back().setInitialPosition({ enemies[i]->getPosition().x, enemies[i]->getPosition().y + 20.f });
+				break;
+			case 3:
+				v = { {-30, 250}, {0,250}, {30,250} };
+				for (unsigned j = 0; j < 3; j++)
+				{
+					enemy_projectiles.push_back(Projectile(sf::IntRect(44, 0, 6, 16), v[j] * vMod, 1000.f));
+					enemy_projectiles.back().setInitialPosition({ enemies[i]->getPosition().x, enemies[i]->getPosition().y + 20.f });
+				}
 				break;
 			}
 		}
