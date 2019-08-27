@@ -57,6 +57,7 @@ void Player::update(float deltaTime)
 	tryFire(deltaTime);
 	input();
 	checkInvincibilty(deltaTime);
+	checkChaining(deltaTime);
 	checkMovement(deltaTime);
 
 	sprite.move(velocity * deltaTime);
@@ -163,6 +164,12 @@ void Player::upgrade(Pickup::PickupType type)
 		else
 			invincibilityTotalTime = 0.f;
 		break;
+	case Pickup::PickupType::chaining:
+		if (!chainingOn)
+			chainingOn = true;
+		else
+			chainingTotalTime = 0.f;
+		break;
 	}
 }
 
@@ -230,6 +237,19 @@ void Player::checkInvincibilty(float deltaTime)
 	}
 }
 
+void Player::checkChaining(float deltaTime)
+{
+	if (chainingOn)
+	{
+		chainingTotalTime += deltaTime;
+		if (chainingTotalTime >= chainingTime)
+		{
+			chainingTotalTime = 0.f;
+			chainingOn = false;
+		}
+	}
+}
+
 void Player::playShotSound()
 {
 	switch (curr_weapon)
@@ -249,7 +269,7 @@ void Player::playShotSound()
 	case plasma:
 		play("blaster3", 0.5f);
 		break;
-	case cactus:
+	case permachain:
 		play("blaster3", 0.5f);
 		break;
 	}

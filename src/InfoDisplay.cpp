@@ -30,7 +30,8 @@ void InfoDisplay::updateInfo(const Player& player)
 		" +1 LIFE", 
 		" WEAPON UPGRADE", 
 		" WEAPON DOWNGRADE",
-		" SHIELD",
+		" SHIELD (3s)",
+		" CHAINING (3s)",
 		"LCTRL - SHOOT",
 		"<- -> - MOVE"};
 
@@ -134,7 +135,7 @@ void InfoDisplay::addPickupInfo()
 	sf::Sprite s(ResourceManager::get().textures.get("pickups"));
 	float pos_x = 1205.f;
 	float pos_y = 10.f;
-	for (unsigned i = 0; i < 9; i++)
+	for (unsigned i = 0; i < total_sprites; i++)
 	{
 		s.setTextureRect(sf::IntRect((i % 5) * 20, (i / 5) * 20, 20, 20));
 		s.setPosition({ pos_x, pos_y });

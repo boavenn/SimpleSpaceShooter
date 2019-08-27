@@ -12,7 +12,7 @@ public:
 		tripleshot,
 		quadshot,
 		plasma,
-		cactus
+		permachain
 	};
 
 	friend class InfoDisplay;
@@ -32,12 +32,14 @@ public:
 	void addKill() { kills++; };
 	void addScore(unsigned points) { score += points; };
 	unsigned getLives() { return lives; };
+	bool isChainingOn() { return chainingOn; };
 
 private:
 	void tryReload(float deltaTime);
 	void tryFire(float deltaTime);
 	void checkMovement(float deltaTime);
 	void checkInvincibilty(float deltaTime);
+	void checkChaining(float deltaTime);
 	void playShotSound();
 
 	Animation stationary;
@@ -50,13 +52,16 @@ private:
 	bool facing_right = false;
 	bool game_over = false;
 	bool invincible = false;
-	float invincibiltyTime = 3.f;
+	const float invincibiltyTime = 3.f;
 	float invincibilityTotalTime = 0.f;
 	unsigned magazine_curr = 5;
 	float reloadTotalTime = 0.f;
 	float shotGap = 0.2f;
 	float shootTotalTime = 0.f;
 	const unsigned maxLives = 4;
+	bool chainingOn = false;
+	float chainingTotalTime = 0.f;
+	const float chainingTime = 3.f;
 	//stats
 	unsigned lives = 2;
 	WeaponType curr_weapon = oneshot;

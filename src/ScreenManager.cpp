@@ -148,11 +148,16 @@ void ScreenManager::checkFiredShots()
 		Player::WeaponType type = player.shoot();
 		float posx; // most left bullet position
 		std::vector<sf::Vector2f> v; // consecutive bullets velocity
+		Projectile::ProjType projType;
+		if (player.isChainingOn())
+			projType = Projectile::ProjType::chaining;
+		else
+			projType = Projectile::ProjType::normal;
 		switch (type)
 		{
 		case Player::WeaponType::oneshot:
 			v = { {0,-300.f} };
-			player_projectiles.push_back(Projectile(sf::IntRect(0, 0, 8, 16), v[0] * player.getBulletSpeedMod(), 7.f * player.getDmgMod()));
+			player_projectiles.push_back(Projectile(sf::IntRect(0, 0, 8, 16), v[0] * player.getBulletSpeedMod(), 7.f * player.getDmgMod(), projType));
 			player_projectiles.back().setInitialPosition({ player.getPosition().x, player.getPosition().y - 35.f });
 			break;
 		case Player::WeaponType::doubleshot:
@@ -160,7 +165,7 @@ void ScreenManager::checkFiredShots()
 			v = { {0,-300.f} };
 			for (unsigned i = 0; i < 2; i++)
 			{
-				player_projectiles.push_back(Projectile(sf::IntRect(8, 0, 8, 16), v[0] * player.getBulletSpeedMod(), 8.f * player.getDmgMod()));
+				player_projectiles.push_back(Projectile(sf::IntRect(8, 0, 8, 16), v[0] * player.getBulletSpeedMod(), 8.f * player.getDmgMod(), projType));
 				player_projectiles.back().setInitialPosition({ player.getPosition().x + posx, player.getPosition().y - 35.f });
 				posx += 20.f;
 			}
@@ -170,7 +175,7 @@ void ScreenManager::checkFiredShots()
 			v = { {-80.f, -300.f}, {0.0f, -300.f}, {80.f, -300.f} };
 			for (unsigned i = 0; i < 3; i++)
 			{
-				player_projectiles.push_back(Projectile(sf::IntRect(16, 0, 8, 16), v[i] * player.getBulletSpeedMod(), 9.f * player.getDmgMod()));
+				player_projectiles.push_back(Projectile(sf::IntRect(16, 0, 8, 16), v[i] * player.getBulletSpeedMod(), 9.f * player.getDmgMod(), projType));
 				player_projectiles.back().setInitialPosition({ player.getPosition().x + posx, player.getPosition().y - 35.f });
 				posx += 16.f;
 			}
@@ -180,7 +185,7 @@ void ScreenManager::checkFiredShots()
 			v = { {-30.f, -300.f}, {-10.0f, -300.f}, {10.f, -300.f}, {30.f, -300.f} };
 			for (unsigned i = 0; i < 4; i++)
 			{
-				player_projectiles.push_back(Projectile(sf::IntRect(24, 0, 8, 16), v[i] * player.getBulletSpeedMod(), 10.f * player.getDmgMod()));
+				player_projectiles.push_back(Projectile(sf::IntRect(24, 0, 8, 16), v[i] * player.getBulletSpeedMod(), 10.f * player.getDmgMod(), projType));
 				player_projectiles.back().setInitialPosition({ player.getPosition().x + posx, player.getPosition().y - 35.f });
 				posx += 16.f;
 			}
@@ -189,11 +194,11 @@ void ScreenManager::checkFiredShots()
 			v = { { -40, -450.f }, {0, -450}, {40, -450} };
 			for (unsigned i = 0; i < 3; i++)
 			{
-				player_projectiles.push_back(Projectile(sf::IntRect(0, 16, 12, 18), v[i] * player.getBulletSpeedMod(), 15.f * player.getDmgMod()));
+				player_projectiles.push_back(Projectile(sf::IntRect(0, 16, 12, 18), v[i] * player.getBulletSpeedMod(), 15.f * player.getDmgMod(), projType));
 				player_projectiles.back().setInitialPosition({ player.getPosition().x, player.getPosition().y - 35.f });
 			}
 			break;
-		case Player::WeaponType::cactus:
+		case Player::WeaponType::permachain:
 			v = { {0, -350} };
 			player_projectiles.push_back(Projectile(sf::IntRect(24, 16, 10, 12), v[0] * player.getBulletSpeedMod(), 20.f * player.getDmgMod(), Projectile::ProjType::chaining));
 			player_projectiles.back().setInitialPosition({ player.getPosition().x, player.getPosition().y - 35.f });

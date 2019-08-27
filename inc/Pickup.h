@@ -16,7 +16,8 @@ public:
 		liveAdd,
 		weaponUpgrade,
 		weaponDowngrade,
-		shield
+		shield,
+		chaining
 	};
 
 public:

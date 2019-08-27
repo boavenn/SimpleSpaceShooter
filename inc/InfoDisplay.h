@@ -16,6 +16,7 @@ private:
 
 	sf::Sprite heart;
 	unsigned lives_left;
+	const unsigned total_sprites = 10;
 	std::vector<sf::Sprite> pickup_sprites;
 	std::vector<sf::Font> fonts;
 	std::vector<sf::Text> controls;
