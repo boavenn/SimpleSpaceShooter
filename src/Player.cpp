@@ -148,7 +148,7 @@ void Player::upgrade(Pickup::PickupType type)
 			score += 1000;
 		break;
 	case Pickup::PickupType::weaponUpgrade:
-		if (curr_weapon_no < 5)
+		if (curr_weapon_no < 6)
 			curr_weapon_no++;
 		else
 			score += 1000;
@@ -247,6 +247,9 @@ void Player::playShotSound()
 		play("blaster3", 0.8f);
 		break;
 	case plasma:
+		play("blaster3", 0.5f);
+		break;
+	case cactus:
 		play("blaster3", 0.5f);
 		break;
 	}

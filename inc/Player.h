@@ -11,7 +11,8 @@ public:
 		doubleshot,
 		tripleshot,
 		quadshot,
-		plasma
+		plasma,
+		cactus
 	};
 
 	friend class InfoDisplay;

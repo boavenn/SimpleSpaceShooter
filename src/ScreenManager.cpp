@@ -109,11 +109,11 @@ void ScreenManager::trySpawn(float deltaTime)
 			float typeChance = float(rand.getIntInRange(0, 100));
 
 			unsigned type;
-			if (typeChance < 40.f)
+			if (typeChance < 60.f)
 			{
-				if (typeChance < 5.f)
+				if (typeChance < 10.f)
 					type = 3;
-				else if (typeChance < 15.f)
+				else if (typeChance < 25.f)
 					type = 2;
 				else
 					type = 1;
@@ -152,7 +152,7 @@ void ScreenManager::checkFiredShots()
 		{
 		case Player::WeaponType::oneshot:
 			v = { {0,-300.f} };
-			player_projectiles.push_back(Projectile(sf::IntRect(0, 0, 8, 16), v[0] * player.getBulletSpeedMod(), 5.f * player.getDmgMod()));
+			player_projectiles.push_back(Projectile(sf::IntRect(0, 0, 8, 16), v[0] * player.getBulletSpeedMod(), 7.f * player.getDmgMod()));
 			player_projectiles.back().setInitialPosition({ player.getPosition().x, player.getPosition().y - 35.f });
 			break;
 		case Player::WeaponType::doubleshot:
@@ -160,7 +160,7 @@ void ScreenManager::checkFiredShots()
 			v = { {0,-300.f} };
 			for (unsigned i = 0; i < 2; i++)
 			{
-				player_projectiles.push_back(Projectile(sf::IntRect(8, 0, 8, 16), v[0] * player.getBulletSpeedMod(), 5.f * player.getDmgMod()));
+				player_projectiles.push_back(Projectile(sf::IntRect(8, 0, 8, 16), v[0] * player.getBulletSpeedMod(), 8.f * player.getDmgMod()));
 				player_projectiles.back().setInitialPosition({ player.getPosition().x + posx, player.getPosition().y - 35.f });
 				posx += 20.f;
 			}
@@ -170,7 +170,7 @@ void ScreenManager::checkFiredShots()
 			v = { {-80.f, -300.f}, {0.0f, -300.f}, {80.f, -300.f} };
 			for (unsigned i = 0; i < 3; i++)
 			{
-				player_projectiles.push_back(Projectile(sf::IntRect(16, 0, 8, 16), v[i] * player.getBulletSpeedMod(), 10.f * player.getDmgMod()));
+				player_projectiles.push_back(Projectile(sf::IntRect(16, 0, 8, 16), v[i] * player.getBulletSpeedMod(), 9.f * player.getDmgMod()));
 				player_projectiles.back().setInitialPosition({ player.getPosition().x + posx, player.getPosition().y - 35.f });
 				posx += 16.f;
 			}
@@ -186,12 +186,17 @@ void ScreenManager::checkFiredShots()
 			}
 			break;
 		case Player::WeaponType::plasma:
-			v = { { -40, -450.f }, {40, -450} };
-			for (unsigned i = 0; i < 2; i++)
+			v = { { -40, -450.f }, {0, -450}, {40, -450} };
+			for (unsigned i = 0; i < 3; i++)
 			{
 				player_projectiles.push_back(Projectile(sf::IntRect(0, 16, 12, 18), v[i] * player.getBulletSpeedMod(), 15.f * player.getDmgMod()));
 				player_projectiles.back().setInitialPosition({ player.getPosition().x, player.getPosition().y - 35.f });
 			}
+			break;
+		case Player::WeaponType::cactus:
+			v = { {0, -350} };
+			player_projectiles.push_back(Projectile(sf::IntRect(24, 16, 10, 12), v[0] * player.getBulletSpeedMod(), 20.f * player.getDmgMod(), Projectile::ProjType::chaining));
+			player_projectiles.back().setInitialPosition({ player.getPosition().x, player.getPosition().y - 35.f });
 			break;
 		}
 	}
@@ -259,7 +264,7 @@ void ScreenManager::checkCollisions()
 				explosions.push_back(new Explosion(enemies[i]->getPosition()));
 
 				float pickupSpawningChance = float(rand.getIntInRange(0, 100));
-				if (pickupSpawningChance < 25.f)
+				if (pickupSpawningChance < 30.f)
 					pickups.push_back(Pickup(enemies[i]->getPosition()));
 
 				player.addScore(unsigned(enemies[i]->getScoreForKill() * scoreMod));

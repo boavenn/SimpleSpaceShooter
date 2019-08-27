@@ -1,7 +1,9 @@
 #include "..\inc\Projectile.h"
 
-Projectile::Projectile(sf::IntRect rect, sf::Vector2f velocity, float dmg)
+Projectile::Projectile(sf::IntRect rect, sf::Vector2f velocity, float dmg, ProjType type)
 {
+	this->rect = rect;
+	this->type = type;
 	angle = (velocity.x / velocity.y) * (180.f / 3.14f);
 	this->velocity = velocity;
 	damage = dmg;

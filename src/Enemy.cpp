@@ -63,6 +63,13 @@ bool Enemy::isHit(std::vector<Projectile>& projectiles)
 			gotHit = true;
 			hitDmg = projectiles[i].getDmg();
 			currHealth -= hitDmg;
+			if (projectiles[i].getType() == Projectile::ProjType::chaining)
+			{
+				projectiles.push_back(Projectile(projectiles[i].getRect(), { -80, projectiles[i].getVelocity().y }, hitDmg * 0.75f, Projectile::ProjType::chaining));
+				projectiles.back().setInitialPosition({ getPosition().x, getPosition().y - sprite.getOrigin().y });
+				projectiles.push_back(Projectile(projectiles[i].getRect(), { 80, projectiles[i].getVelocity().y }, hitDmg * 0.75f, Projectile::ProjType::chaining));
+				projectiles.back().setInitialPosition({ getPosition().x, getPosition().y - sprite.getOrigin().y });
+			}
 			projectiles.erase(projectiles.begin() + i);
 			if (currHealth <= 0)		
 				died = true;
