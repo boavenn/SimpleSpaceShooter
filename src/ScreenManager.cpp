@@ -103,7 +103,7 @@ void ScreenManager::trySpawn(float deltaTime)
 	{
 		enemyTotalTime -= enemySpawnTime;
 
-		if (enemies.size() < 30)
+		if (enemies.size() < maxEnemiesOnScreen)
 		{
 			float rand_x_pos = float(rand.getIntInRange(205, 1160));
 			float typeChance = float(rand.getIntInRange(0, 100));
@@ -249,7 +249,7 @@ void ScreenManager::checkCollisions()
 				explosions.push_back(new Explosion(enemies[i]->getPosition()));
 
 				float pickupSpawningChance = float(rand.getIntInRange(0, 100));
-				if (pickupSpawningChance < 20.f)
+				if (pickupSpawningChance < 25.f)
 					pickups.push_back(Pickup(enemies[i]->getPosition()));
 
 				player.addScore(unsigned(enemies[i]->getScoreForKill() * scoreMod));
@@ -269,6 +269,9 @@ void ScreenManager::checkCollisions()
 					enemyHealthMod += 0.2f;
 					scoreMod += 0.2f;
 				}
+
+				if (player.getKills() % 100 == 0)
+					maxEnemiesOnScreen += 1;
 
 				floating_text.push_back(new FloatingText("+ " + std::to_string(int(enemies[i]->getScoreForKill() * scoreMod)),
 				{ enemies[i]->getPosition().x + float(rand.getIntInRange(-20,20)), enemies[i]->getPosition().y - 30.f }, sf::Color::White));

@@ -47,6 +47,7 @@ private:
 	float enemyTotalTime = 0.f;
 	float scoreMod = 1.f;
 	float enemyHealthMod = 1.f;
+	unsigned maxEnemiesOnScreen = 30;
 };
 
 

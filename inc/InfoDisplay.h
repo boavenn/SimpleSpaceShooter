@@ -18,6 +18,8 @@ private:
 	unsigned lives_left;
 	std::vector<sf::Sprite> pickup_sprites;
 	std::vector<sf::Font> fonts;
-	std::vector<sf::Text> infos;
+	std::vector<sf::Text> controls;
+	std::vector<sf::Text> stats;
+	std::vector<sf::Text> pickup_info;
 };
 

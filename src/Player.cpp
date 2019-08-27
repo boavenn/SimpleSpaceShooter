@@ -31,7 +31,7 @@ void Player::input()
 		facing_right = true;
 	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl))
 	{
 			if (magazine_curr > 0)
 			{
