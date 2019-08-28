@@ -89,6 +89,7 @@ void InfoDisplay::addInfo()
 	t.setFont(fonts[0]);
 	t.setFillColor(sf::Color::White);
 	t.setCharacterSize(14);
+	// Stats
 	float pos_x = 10.f;
 	float pos_y = 300.f;
 	for (unsigned i = 0; i < 6; i++)
@@ -105,7 +106,6 @@ void InfoDisplay::addInfo()
 	t.setPosition(600.f, 2.f);  
 	t.setCharacterSize(18);
 	stats.push_back(t);
-
 	// Pickups info
 	t.setCharacterSize(12);
 	unsigned len = pickup_sprites.size();
@@ -117,7 +117,6 @@ void InfoDisplay::addInfo()
 		pickup_info.push_back(t);
 		pos_y += 30.f;
 	}
-
 	// Controls
 	t.setCharacterSize(14);
 	pos_x = 10.f;

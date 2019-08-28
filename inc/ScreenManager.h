@@ -17,7 +17,7 @@ public:
 	ScreenManager();
 	void update(float deltaTime);
 	void draw(sf::RenderWindow& w);
-	Player& getPlayer() { return player; };
+	const Player& getPlayer() { return player; };
 
 	bool game_over = false;
 

@@ -31,6 +31,7 @@ void Game::run()
 		while (screen_manager->game_over)
 		{
 			gameoverScreen();
+
 			if (!window.isOpen())
 			{
 				shouldexit = true;

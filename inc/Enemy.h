@@ -8,7 +8,7 @@ public:
 	Enemy(float maxHealth, float shototingDelay, float shootingChance, unsigned type, sf::Vector2f pos);
 	void update(float deltaTime);
 	bool isHit(std::vector<Projectile>& projectiles);
-	const unsigned& getType() { return type; }
+	unsigned getType() { return type; }
 	float getScoreForKill() { return scoreForKill; };
 	float getLastHitDmg() { return hitDmg; };
 

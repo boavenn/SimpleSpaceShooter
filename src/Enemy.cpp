@@ -3,7 +3,6 @@
 Enemy::Enemy(float healthMod, float shootingDelay, float shootingChance, unsigned type, sf::Vector2f pos)
 	: Phantom(1), movement(setMovRect(type), 2, 0.5f), gettingHit(setHitRect(type), 1, 0.1f, 0)
 {
-	velocity = { 0, 50 };
 	buffer.insert(std::make_pair("blaster1", ResourceManager::get().buffers.get("blaster1")));
 	buffer.insert(std::make_pair("blaster4", ResourceManager::get().buffers.get("blaster4")));
 	sprite.setTexture(ResourceManager::get().textures.get("enemies"));

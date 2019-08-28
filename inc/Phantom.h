@@ -18,7 +18,7 @@ public:
 	bool died = false;
 protected:
 	sf::Sprite sprite;
-	sf::Vector2f velocity;
+	sf::Vector2f velocity = { 0, 0 };
 	std::unordered_map<std::string, sf::SoundBuffer> buffer;
 	std::vector<sf::Sound> sound;
 	bool try_shoot = false;

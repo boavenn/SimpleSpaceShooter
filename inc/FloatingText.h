@@ -14,7 +14,6 @@ private:
 	sf::Text text;
 	sf::Color color;
 	bool died = false;
-	bool is_white;
 	float livingTime = 1.f;
 	float totalTime = 0.f;
 	float totalMovementTime = 0.f;

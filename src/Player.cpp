@@ -4,14 +4,12 @@ Player::Player() : Phantom(20), stationary(sf::IntRect(0, 0, 70, 70), 3, 0.25f),
 					movingright(sf::IntRect(70, 70, -70, 70), 3, 0.25f), stationaryInvinc(sf::IntRect(210, 0, 70, 70), 3, 0.25f),
 					movingleftInvinc(sf::IntRect(210, 70, 70, 70), 3, 0.25f), movingrightInvinc(sf::IntRect(280, 70, -70, 70), 3, 0.25f)
 {
-	velocity = { 0,0 };
 	buffer.insert(std::make_pair("blaster2", ResourceManager::get().buffers.get("blaster2")));
 	buffer.insert(std::make_pair("blaster3", ResourceManager::get().buffers.get("blaster3")));
 	buffer.insert(std::make_pair("shield", ResourceManager::get().buffers.get("shield")));
 	sprite.setTexture(ResourceManager::get().textures.get("player"));
 	sprite.setOrigin({ 35.f,35.f });
 	sprite.setPosition({ 683,731 });
-	currHealth = 1.f;
 }
 
 void Player::input()
@@ -53,8 +51,8 @@ void Player::update(float deltaTime)
 	facing_right = false;
 	try_shoot = false;
 
-	tryReload(deltaTime);
-	tryFire(deltaTime);
+	checkReload(deltaTime);
+	checkFiring(deltaTime);
 	input();
 	checkInvincibilty(deltaTime);
 	checkChaining(deltaTime);
@@ -81,8 +79,7 @@ bool Player::isHit(std::vector<Projectile>& projectiles)
 					lives--;
 					invincible = true;
 
-					if(lives > 0)
-						play("shield", 0.9f);
+					play("shield", 0.9f);
 
 					if (curr_weapon_no > 1)
 						curr_weapon_no--;
@@ -173,7 +170,7 @@ void Player::upgrade(Pickup::PickupType type)
 	}
 }
 
-void Player::tryReload(float deltaTime)
+void Player::checkReload(float deltaTime)
 {
 	reloadTotalTime += deltaTime;
 	if (reloadTotalTime >= reloadTime)
@@ -184,7 +181,7 @@ void Player::tryReload(float deltaTime)
 	}
 }
 
-void Player::tryFire(float deltaTime)
+void Player::checkFiring(float deltaTime)
 {
 	shootTotalTime += deltaTime;
 	if (shootTotalTime >= shotGap)

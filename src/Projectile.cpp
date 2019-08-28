@@ -4,8 +4,8 @@ Projectile::Projectile(sf::IntRect rect, sf::Vector2f velocity, float dmg, ProjT
 {
 	this->rect = rect;
 	this->type = type;
-	angle = (velocity.x / velocity.y) * (180.f / 3.14f);
 	this->velocity = velocity;
+	angle = (velocity.x / velocity.y) * (180.f / 3.14f); // we assume there wont be any horizontally moving projectiles
 	damage = dmg;
 	sprite.setTexture(ResourceManager::get().textures.get("bullets"));
 	sprite.setTextureRect(rect);

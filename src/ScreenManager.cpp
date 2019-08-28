@@ -145,14 +145,16 @@ void ScreenManager::checkFiredShots()
 {
 	if (player.isShooting())
 	{
-		Player::WeaponType type = player.shoot();
+		Projectile::ProjType projType;
+		Player::WeaponType type = player.getWeaponType();
 		float posx; // most left bullet position
 		std::vector<sf::Vector2f> v; // consecutive bullets velocity
-		Projectile::ProjType projType;
+
 		if (player.isChainingOn())
 			projType = Projectile::ProjType::chaining;
 		else
 			projType = Projectile::ProjType::normal;
+
 		switch (type)
 		{
 		case Player::WeaponType::oneshot:
