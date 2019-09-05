@@ -1,4 +1,4 @@
-# SSS-SimpleSpaceShooter
+# SimpleSpaceShooter
 My first attempt to make a simple, enjoyable minigame using C++ and SFML library. I got inspired by another 2D space
 shooter called Warblade, be sure to check it out :space_invader:
 
