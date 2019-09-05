@@ -13,7 +13,7 @@ You can watch a 10 min long (sorry!) gameplay [here](https://www.youtube.com/wat
 ![pic2](res/github/pic2.png)
 
 Everything except font, background, explosion and audio was made by me. Here are the sources:        
-[Font](https://www.dafont.com/vcr-osd-mono.font)
+[Font](https://www.dafont.com/vcr-osd-mono.font)          
 [Background](https://wallpaperstock.net/stars%2C-universe%2C-space_wallpapers_54623_1366x768_1.html)     
 [Explosion sprite sheet](https://pl.pinterest.com/pin/39054721747694567/)    
 [blaster1 audio](https://freesound.org/people/Theogobbo/sounds/397473/)         
