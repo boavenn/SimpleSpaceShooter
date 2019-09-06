@@ -269,5 +269,7 @@ void Player::playShotSound()
 	case permachain:
 		play("blaster3", 0.5f);
 		break;
+	default:
+		play("balster2", 1.f);
 	}
 }

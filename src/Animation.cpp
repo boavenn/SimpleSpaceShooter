@@ -19,16 +19,12 @@ const sf::IntRect& Animation::update(float deltaTime)
 		currentImg++;
 		if (currentImg >= int(imgCount))
 		{
-			if (is_looped)
-			{
-				currentFrame = startingFrame;
-				currentImg = 0;
-			}
-			else
-			{
-				currentFrame = startingFrame;
+			if (is_looped)			
+				currentImg = 0;			
+			else			
 				currentImg = -1;
-			}
+			
+			currentFrame = startingFrame;
 		}
 	}
 	return currentFrame;
