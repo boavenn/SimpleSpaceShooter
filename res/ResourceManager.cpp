@@ -10,5 +10,7 @@ ResourceManager::ResourceManager() : textures("tex", "png"), audio("audio", "wav
 {
 	// Here the loading of resources is done
 	textures.add("background");
+	textures.get("background").setRepeated(true);
 	textures.add("player");
+	textures.add("bullets");
 }
