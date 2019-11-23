@@ -13,4 +13,5 @@ ResourceManager::ResourceManager() : textures("tex", "png"), audio("audio", "wav
 	textures.get("background").setRepeated(true);
 	textures.add("player");
 	textures.add("bullets");
+	textures.add("aliens");
 }

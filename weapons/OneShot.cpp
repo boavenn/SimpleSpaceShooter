@@ -1,4 +1,5 @@
 #include "OneShot.hpp"
+#include "../entities/Player.hpp"
 
 OneShot::OneShot(Player* player) : Weapon(player)
 {

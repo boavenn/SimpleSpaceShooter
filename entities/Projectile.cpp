@@ -42,5 +42,5 @@ void Projectile::draw(sf::RenderWindow& w)
 
 bool Projectile::isOutOfMap()
 {
-	return (sprite.getPosition().y < -50.f || sprite.getPosition().x > 768.f);
+	return (sprite.getPosition().y < -50.f || sprite.getPosition().y > 768.f);
 }

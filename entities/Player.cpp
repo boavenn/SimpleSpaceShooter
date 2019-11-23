@@ -2,16 +2,18 @@
 
 Player::Player()
 {
-	sprite.setTexture(ResourceManager::get().textures.get("player"));
-	sprite.setOrigin({ 35.f, 35.f });
-	sprite.setPosition({ (float)WindowProperties::getWidth() / 2,(float)WindowProperties::getHeight() - 40 });
-
-	Animation* animation = new Animation(0.5f);
-	for(int i = 0; i < 4; i++)
+	Animation* animation = new Animation(0.2f);
+	for(int i = 0; i < 8; i++)
 		animation->addFrame({ 70 * i, 0, 70, 70 });
 	animations.insert(std::make_pair("Stationary", animation));
 
-	weapon = new OneShot(this);
+	sprite.setTexture(ResourceManager::get().textures.get("player"));
+	sprite.setTextureRect(animations.at("Stationary")->getFirstFrame());
+	sprite.setOrigin({ 35.f, 35.f });
+	sprite.setPosition({ (float)WindowProperties::getWidth() / 2,(float)WindowProperties::getHeight() - 40 });
+
+	weapons.push_back(new OneShot(this));
+	weapons.push_back(new DoubleShot(this));
 }
 
 Player::~Player()

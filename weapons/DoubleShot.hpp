@@ -1,10 +1,10 @@
 #pragma once
 #include "Weapon.hpp"
 
-class OneShot : public Weapon
+class DoubleShot : public Weapon
 {
 public:
-	OneShot(Player* player);
+	DoubleShot(Player* player);
 	std::vector<Projectile*> getNewProjectiles() override;
 
 private:
