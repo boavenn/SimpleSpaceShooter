@@ -1,6 +1,7 @@
 #pragma once
 #include "states/StateManager.hpp"
 #include "states/Playing.hpp"
+#include "util/WindowProperties.hpp"
 
 class Game
 {

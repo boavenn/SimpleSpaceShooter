@@ -3,6 +3,7 @@
 #include "../entities/Player.hpp"
 #include "../entities/Projectile.hpp"
 #include "../util/Background.hpp"
+#include "../weapons/OneShot.hpp"
 
 class Playing : public State
 {

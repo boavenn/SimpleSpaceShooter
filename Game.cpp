@@ -1,6 +1,6 @@
 #include "Game.hpp"
 
-Game::Game() : window(sf::VideoMode(1366, 768, 32), "Simple Space Shooter", sf::Style::None | sf::Style::Close)
+Game::Game() : window(sf::VideoMode(WindowProperties::getWidth(), WindowProperties::getHeight(), 32), "Simple Space Shooter", sf::Style::None | sf::Style::Close)
 {
 	// Here the first state like MainMenu should be pushed to StateManager
 	// state_manager.pushState(std::make_unique<FirstState>(window, state_manager), 0, 1)

@@ -17,7 +17,8 @@ void Playing::update(float dt, sf::Event e)
 	player->update(dt);
 	if (player->isFiring())
 	{
-		player_projectiles.push_back(new Projectile(player->getTop(), { 0, -300.f }, 10.f, { 0, 0, 6, 16 }));
+		std::vector<Projectile*> temp = player->getNewWeaponProjectiles();
+		player_projectiles.insert(player_projectiles.end(), temp.begin(), temp.end());
 	}
 
 	for (Projectile* p : player_projectiles)

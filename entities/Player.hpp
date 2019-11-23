@@ -2,14 +2,18 @@
 #include <unordered_map>
 #include "../util/Animation.hpp"
 #include "../res/ResourceManager.hpp"
+#include "../util/WindowProperties.hpp"
+#include "../weapons/OneShot.hpp"
+#include "Entity.hpp"
 
-class Player
+
+class Player : public Entity
 {
 public:
 	Player();
 	~Player();
-	void update(float dt);
-	void draw(sf::RenderWindow& w);
+	void update(float dt) override;
+	void draw(sf::RenderWindow& w) override;
 	bool isFiring() { return is_firing; }
 
 private:
@@ -18,8 +22,7 @@ private:
 	void checkReload(float dt);
 
 	std::unordered_map<std::string, Animation*> animations;
-	sf::Sprite sprite;
-	sf::Vector2f velocity = { 0, 0 };
+	Weapon* weapon;
 	bool try_fire = false;
 	bool is_firing = false;
 	float shot_gap = 0.3f;
@@ -31,7 +34,8 @@ private:
 
 // Getter and Setters
 public:
-	const sf::Vector2f& getPosition() { return sprite.getPosition(); }
-	const sf::Vector2f& getTop() { return sf::Vector2f({ sprite.getPosition().x, sprite.getPosition().y - 35.f }); }
+	sf::Vector2f getTop() { return sf::Vector2f({ sprite.getPosition().x, sprite.getPosition().y - 35.f }); }
+	std::vector<Projectile*> getNewWeaponProjectiles() { return weapon->getNewProjectiles(); }
+	void setWeapon(Weapon* weapon) { this->weapon = weapon; }
 };
 
