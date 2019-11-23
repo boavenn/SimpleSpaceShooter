@@ -7,7 +7,6 @@ public:
 	Alien01(float max_health, sf::Vector2f pos);
 	void update(float dt) override;
 	void draw(sf::RenderWindow& w) override;
-	bool isHitBy(Projectile* proj) override;
 
 private:
 

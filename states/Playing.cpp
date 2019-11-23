@@ -5,11 +5,11 @@ Playing::Playing(sf::RenderWindow& w, StateManager& sm) : State(w, sm)
 	main_bg = new Background(0.06f, { 171.f, 0 }, "background");
 
 	aliens.push_back(new Alien01(20.f, { 500.f, 200.f }));
-	aliens.push_back(new Alien01(20.f, { 550.f, 200.f }));
-	aliens.push_back(new Alien01(20.f, { 600.f, 200.f }));
-	aliens.push_back(new Alien01(20.f, { 650.f, 200.f }));
-	aliens.push_back(new Alien01(20.f, { 700.f, 200.f }));
-	aliens.push_back(new Alien01(20.f, { 750.f, 200.f }));
+	aliens.push_back(new Alien01(20.f, { 570.f, 200.f }));
+	aliens.push_back(new Alien01(20.f, { 640.f, 200.f }));
+	aliens.push_back(new Alien01(20.f, { 710.f, 200.f }));
+	aliens.push_back(new Alien01(20.f, { 780.f, 200.f }));
+	aliens.push_back(new Alien01(20.f, { 850.f, 200.f }));
 }
 
 Playing::~Playing()
@@ -60,6 +60,20 @@ void Playing::playerUpdates(float dt)
 
 void Playing::alienUpdates(float dt)
 {
-	for (Alien* a : aliens)
-		a->update(dt);
+	for (size_t i = 0; i < aliens.size(); i++)
+	{
+		Alien* alien = aliens[i];
+
+		for (size_t j = 0; j < player_projectiles.size(); j++)
+		{
+			if(alien->gotHitBy(player_projectiles[j]))
+				player_projectiles.erase(player_projectiles.begin() + j);
+		}
+		alien->update(dt);
+		if (alien->shouldDie())
+		{
+			aliens.erase(aliens.begin() + i);
+			i--;
+		}
+	}
 }
