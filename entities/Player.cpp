@@ -55,6 +55,7 @@ void Player::checkInput()
 	{
 		try_fire = true;
 	}
+	
 }
 
 void Player::checkAbilityToFire(float dt)

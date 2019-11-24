@@ -1,5 +1,4 @@
 #include "Alien.hpp"
-#include <iostream>
 
 Alien::Alien(float max_health)
 {
@@ -20,7 +19,6 @@ bool Alien::gotHitBy(Projectile* proj)
 	{
 		current_health -= proj->getDamage();
 		got_hit = true;
-		std::cout << "Got hit" << std::endl;
 		if (current_health <= 0)
 		{
 			should_die = true;

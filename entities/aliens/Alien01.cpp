@@ -26,6 +26,7 @@ void Alien01::update(float dt)
 		{
 			got_hit = false;
 			gettingHitAnimation->resetAnimation();
+			animations.at("Stationary")->resetAnimation();
 		}
 	}
 	else

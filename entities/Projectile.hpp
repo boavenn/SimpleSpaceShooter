@@ -19,6 +19,7 @@ private:
 	sf::IntRect rect;
 	float angle;
 	float damage;
+	sf::Vertex v;
 
 // Getters
 public:

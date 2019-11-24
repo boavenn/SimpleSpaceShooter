@@ -3,8 +3,12 @@
 #include "../entities/Player.hpp"
 #include "../entities/Projectile.hpp"
 #include "../util/Background.hpp"
+#include "../util/Random.hpp"
 #include "../weapons/OneShot.hpp"
 #include "../entities/aliens/Alien01.hpp"
+#include "../effects/ParticleExplosion.hpp"
+
+typedef Random R;
 
 class Playing : public State
 {
@@ -23,9 +27,11 @@ private:
 	std::vector<Projectile*> alien_projectiles;
 
 	Background* main_bg;
+	std::vector<ParticleExplosion*> particle_explosions;
 
 private:
 	void playerUpdates(float dt);
 	void alienUpdates(float dt);
+	void effectUpdates(float dt);
 };
 
