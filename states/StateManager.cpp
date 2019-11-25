@@ -23,7 +23,7 @@ void StateManager::popState(unsigned quantity)
 {
 	for (size_t i = 0; i < quantity; i++)
 		if (!stack.empty())
-			popState();
+			stack.pop_back();
 }
 
 bool StateManager::isEmpty()

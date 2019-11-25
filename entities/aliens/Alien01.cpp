@@ -4,11 +4,11 @@ Alien01::Alien01(float max_health, sf::Vector2f pos) : Alien(max_health)
 {
 	Animation* animation = new Animation(0.2f);
 	for (int i = 0; i < 8; i++)
-		animation->addFrame({ 50 * i, 0, 50, 50 });
+		animation->addFrame({ 50 * i, 50, 50, 50 });
 	animations.insert(std::make_pair("Stationary", animation));
 
 	animation = new Animation(0.2f);
-	animation->addFrame({ 400, 0, 50, 50 });
+	animation->addFrame({ 400, 50, 50, 50 });
 	animations.insert(std::make_pair("GettingHit", animation));
 
 	sprite.setTextureRect(animations.at("Stationary")->getFirstFrame());

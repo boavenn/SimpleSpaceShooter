@@ -1,6 +1,6 @@
 #include "Weapon.hpp"
 
-Weapon::Weapon(Player* player)
+Weapon::Weapon(Entity* entity)
 {
-	this->player = player;
+	this->entity = entity;
 }

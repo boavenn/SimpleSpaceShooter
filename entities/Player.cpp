@@ -1,4 +1,5 @@
 #include "Player.hpp"
+#include "../states/Playing.hpp"
 
 Player::Player()
 {
@@ -14,10 +15,12 @@ Player::Player()
 
 	weapons.push_back(new OneShot(this));
 	weapons.push_back(new DoubleShot(this));
+	weapons.push_back(new TripleShot(this));
 }
 
 Player::~Player()
 {
+	stopAllSounds();
 	if (!animations.empty())
 		animations.clear();
 }
@@ -30,6 +33,9 @@ void Player::update(float dt)
 	checkAbilityToFire(dt);
 	checkReload(dt);
 	sprite.move(velocity * dt);
+
+	if (Playing::should_pause_sounds)
+		pauseAllSounds();
 }
 
 void Player::draw(sf::RenderWindow& w)

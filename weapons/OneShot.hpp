@@ -4,7 +4,7 @@
 class OneShot : public Weapon
 {
 public:
-	OneShot(Player* player);
+	OneShot(Entity* entity);
 	std::vector<Projectile*> getNewProjectiles() override;
 
 private:

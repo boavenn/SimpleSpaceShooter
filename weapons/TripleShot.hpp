@@ -1,12 +1,11 @@
 #pragma once
 #include "Weapon.hpp"
 
-class DoubleShot : public Weapon
+class TripleShot : public Weapon
 {
 public:
-	DoubleShot(Entity* entity);
+	TripleShot(Entity* entity);
 	std::vector<Projectile*> getNewProjectiles() override;
 
 private:
 };
-

@@ -6,10 +6,10 @@ class Player;
 class Weapon
 {
 public:
-	Weapon(Player* player);
+	Weapon(Entity* entity);
 	virtual std::vector<Projectile*> getNewProjectiles() = 0;
 
 protected:
-	Player* player;
+	Entity* entity;
 };
 

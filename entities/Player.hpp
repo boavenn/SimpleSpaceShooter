@@ -5,10 +5,12 @@
 #include "../util/WindowProperties.hpp"
 #include "../weapons/OneShot.hpp"
 #include "../weapons/DoubleShot.hpp"
+#include "../weapons/TripleShot.hpp"
+#include "../util/SoundMaking.hpp"
 #include "Entity.hpp"
 
 
-class Player : public Entity
+class Player : public Entity, public SoundMaking
 {
 public:
 	Player();
@@ -24,10 +26,10 @@ private:
 
 	std::unordered_map<std::string, Animation*> animations;
 	std::vector<Weapon*> weapons;
-	int active_weapon = 1;
+	int active_weapon = 2;
 	bool try_fire = false;
 	bool is_firing = false;
-	float shot_gap = 0.3f;
+	float shot_gap = 0.1f;
 	float shot_timer = 0.f;
 	float reload_time = 0.5f;
 	float reload_timer = 0.f;
@@ -36,7 +38,6 @@ private:
 
 // Getter and Setters
 public:
-	sf::Vector2f getTop() { return sf::Vector2f({ sprite.getPosition().x, sprite.getPosition().y - 35.f }); }
 	std::vector<Projectile*> getNewWeaponProjectiles() { return weapons[active_weapon]->getNewProjectiles(); }
 	void setWeapon(Weapon* weapon) { this->weapons[active_weapon] = weapon; }
 };
