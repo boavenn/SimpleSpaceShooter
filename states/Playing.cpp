@@ -32,11 +32,11 @@ void Playing::update(float dt, sf::Event e)
 {
 	checkInput(dt, e);
 
-	main_bg->update(dt);
-	layer1->update(dt);
+	backgroundUpdates(dt);
 	playerUpdates(dt);
 	alienUpdates(dt);
 	effectUpdates(dt);
+	pickupUpdates(dt);
 
 	if (should_pop)
 		state_manager.popState();
@@ -50,6 +50,8 @@ void Playing::draw()
 		pe->draw(window);
 	for (Explosion* e : sprite_explosions)
 		e->draw(window);
+	for (Pickup* p : pickups)
+		p->draw(window);
 	player->draw(window);
 	for (Projectile* p : player_projectiles)
 		p->draw(window);
@@ -92,7 +94,7 @@ void Playing::alienUpdates(float dt)
 			if (alien->gotHitBy(player_projectiles[j]))
 			{
 				player_projectiles.erase(player_projectiles.begin() + j);
-				particle_explosions.push_back(new ParticleExplosion(alien->getPosition(), 10, R::nextFloat(2, 4)));
+				particle_explosions.push_back(new ParticleExplosion(alien->getPosition(), R::nextFloat(2, 4), 10));
 			}
 		}
 		alien->update(dt);
@@ -101,6 +103,7 @@ void Playing::alienUpdates(float dt)
 			playSound("blaster3", R::nextFloat(25, 40) / 100.f);
 			particle_explosions.push_back(new ParticleExplosion(alien->getPosition(), R::nextFloat(2, 7), 100));
 			sprite_explosions.push_back(new Explosion(alien->getPosition(), 1.f, R::nextInt(1, 5)));
+			pickups.push_back(new Health(alien->getPosition(), { 0, 150.f }));
 			aliens.erase(aliens.begin() + i);
 			i--;		
 		}
@@ -127,6 +130,30 @@ void Playing::effectUpdates(float dt)
 		{
 			delete sprite_explosions[i];
 			sprite_explosions.erase(sprite_explosions.begin() + i);
+			i--;
+		}
+	}
+}
+
+void Playing::backgroundUpdates(float dt)
+{
+	main_bg->update(dt);
+	layer1->update(dt);
+}
+
+void Playing::pickupUpdates(float dt)
+{
+	for (size_t i = 0; i < pickups.size(); i++)
+	{
+		pickups[i]->update(dt);
+
+		if (player->contains(pickups[i]))
+			pickups[i]->giveBonus(player);
+
+		if (pickups[i]->shouldDie() || pickups[i]->isOutOfMap())
+		{
+			delete pickups[i];
+			pickups.erase(pickups.begin() + i);
 			i--;
 		}
 	}

@@ -5,7 +5,7 @@ class DoubleShot : public Weapon
 {
 public:
 	DoubleShot(Entity* entity);
-	std::vector<Projectile*> getNewProjectiles() override;
+	std::vector<Projectile*> getNewProjectiles(float dmg_mod) override;
 
 private:
 };

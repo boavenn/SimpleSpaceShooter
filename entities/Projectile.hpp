@@ -1,6 +1,7 @@
 #pragma once
 #include "../res/ResourceManager.hpp"
 #include "../util/Animation.hpp"
+#include "../util/WindowProperties.hpp"
 #include "Entity.hpp"
 
 class Projectile : public Entity
@@ -8,7 +9,7 @@ class Projectile : public Entity
 public:
 	Projectile(sf::Vector2f init_pos, sf::Vector2f velocity, float dmg, sf::IntRect rect);
 	Projectile(sf::Vector2f init_pos, sf::Vector2f velocity, float dmg, Animation* animation);
-	void update(float deltaTime) override;
+	void update(float dt) override;
 	void draw(sf::RenderWindow& w) override;
 	bool isOutOfMap();
 	
@@ -19,7 +20,6 @@ private:
 	sf::IntRect rect;
 	float angle;
 	float damage;
-	sf::Vertex v;
 
 // Getters
 public:

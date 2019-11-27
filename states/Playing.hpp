@@ -9,6 +9,7 @@
 #include "../effects/ParticleExplosion.hpp"
 #include "../effects/Explosion.hpp"
 #include "../util/SoundMaking.hpp"
+#include "../entities/pickups/Health.hpp"
 
 typedef Random R;
 
@@ -30,6 +31,7 @@ private:
 
 	std::vector<Alien*> aliens;
 	std::vector<Projectile*> alien_projectiles;
+	std::vector<Pickup*> pickups;
 
 	Background* main_bg;
 	Background* layer1;
@@ -41,5 +43,7 @@ private:
 	void playerUpdates(float dt);
 	void alienUpdates(float dt);
 	void effectUpdates(float dt);
+	void backgroundUpdates(float dt);
+	void pickupUpdates(float dt);
 };
 

@@ -14,8 +14,7 @@ Alien::~Alien()
 
 bool Alien::gotHitBy(Projectile* proj)
 {
-	sf::Vector2f pos = proj->getPosition();
-	if (pos.x > this->left().x && pos.x < this->right().x && pos.y > this->top().y && pos.y < this->bottom().y)
+	if (this->contains(proj))
 	{
 		current_health -= proj->getDamage();
 		got_hit = true;

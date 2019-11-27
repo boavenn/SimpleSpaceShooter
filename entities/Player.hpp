@@ -6,6 +6,7 @@
 #include "../weapons/OneShot.hpp"
 #include "../weapons/DoubleShot.hpp"
 #include "../weapons/TripleShot.hpp"
+#include "../weapons/QuadShot.hpp"
 #include "../util/SoundMaking.hpp"
 #include "Entity.hpp"
 
@@ -26,15 +27,28 @@ private:
 
 	std::unordered_map<std::string, Animation*> animations;
 	std::vector<Weapon*> weapons;
-	int active_weapon = 2;
+
+	// util
 	bool try_fire = false;
 	bool is_firing = false;
-	float shot_gap = 0.1f;
+	bool should_explode = false;
+	bool should_die = false;
 	float shot_timer = 0.f;
-	float reload_time = 0.5f;
 	float reload_timer = 0.f;
-	int bullets_capacity = 5;
 	int bullets_ready = 5;
+
+	// stats
+	int active_weapon = 3;
+	int bullets_capacity = 5;
+	float reload_time = 0.5f;
+	float shot_gap = 0.1f;
+	int lives_max = 3;
+	int lives_left = 1;
+
+// Stats manipulation
+public:
+	void addLive();
+	void subLive();
 
 // Getter and Setters
 public:

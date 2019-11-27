@@ -16,6 +16,7 @@ Player::Player()
 	weapons.push_back(new OneShot(this));
 	weapons.push_back(new DoubleShot(this));
 	weapons.push_back(new TripleShot(this));
+	weapons.push_back(new QuadShot(this));
 }
 
 Player::~Player()
@@ -92,4 +93,18 @@ void Player::checkReload(float dt)
 			bullets_ready++;
 		}
 	}
+}
+
+void Player::addLive()
+{
+	if (lives_left < lives_max)
+		lives_left++;
+}
+
+void Player::subLive()
+{
+	lives_left--;
+	should_explode = true;
+	if (lives_left < 0)
+		should_die = true;
 }

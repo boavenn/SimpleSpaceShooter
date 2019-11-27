@@ -26,12 +26,12 @@ Projectile::Projectile(sf::Vector2f init_pos, sf::Vector2f velocity, float dmg)
 	sprite.setRotation(angle + 90);
 }
 
-void Projectile::update(float deltaTime)
+void Projectile::update(float dt)
 {
-	sprite.move(velocity * deltaTime);
+	sprite.move(velocity * dt);
 	if (animation != nullptr)
 	{
-		sprite.setTextureRect(animation->update(deltaTime));
+		sprite.setTextureRect(animation->update(dt));
 	}
 }
 
@@ -42,5 +42,5 @@ void Projectile::draw(sf::RenderWindow& w)
 
 bool Projectile::isOutOfMap()
 {
-	return (sprite.getPosition().y < -50.f || sprite.getPosition().y > 768.f);
+	return (sprite.getPosition().y < -50.f || sprite.getPosition().y > WindowProperties::getHeight());
 }
