@@ -1,5 +1,5 @@
 #pragma once
-#include "../Entity.hpp";
+#include "../Entity.hpp"
 #include "../util/Animation.hpp"
 #include "../util/WindowProperties.hpp"
 #include "../res/ResourceManager.hpp"

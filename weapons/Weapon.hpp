@@ -11,6 +11,6 @@ public:
 
 protected:
 	Entity* entity;
-	float base_dmg;
+	float base_dmg = 0;
 };
 

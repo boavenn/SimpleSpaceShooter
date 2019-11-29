@@ -10,6 +10,8 @@
 #include "../effects/Explosion.hpp"
 #include "../util/SoundMaking.hpp"
 #include "../entities/pickups/Health.hpp"
+#include "../entities/pickups/Speed.hpp"
+#include "../entities/pickups/Money.hpp"
 
 typedef Random R;
 
@@ -39,7 +41,9 @@ private:
 	std::vector<ParticleExplosion*> particle_explosions;
 	std::vector<Explosion*> sprite_explosions;
 
+	bool is_game_over = false;
 private:
+	void mapUpdates(float dt);
 	void playerUpdates(float dt);
 	void alienUpdates(float dt);
 	void effectUpdates(float dt);

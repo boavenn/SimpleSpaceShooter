@@ -6,7 +6,7 @@
 class Explosion : public Effect
 {
 public:
-	Explosion(sf::Vector2f pos, float max_life_time, int type);
+	Explosion(sf::Vector2f pos, float max_life_time, int type, float scale = 3.f);
 	void update(float dt);
 	void draw(sf::RenderWindow& w);
 

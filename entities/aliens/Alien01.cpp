@@ -14,10 +14,14 @@ Alien01::Alien01(float max_health, sf::Vector2f pos) : Alien(max_health)
 	sprite.setTextureRect(animations.at("Stationary")->getFirstFrame());
 	sprite.setOrigin({ 25.f, 25.f });
 	sprite.setPosition(pos);
+
+	addSoundBuffer("blaster1");
 }
 
 void Alien01::update(float dt)
 {
+	firing = false;
+
 	if (got_hit)
 	{
 		Animation* gettingHitAnimation = animations.at("GettingHit");
@@ -32,10 +36,22 @@ void Alien01::update(float dt)
 	else
 		sprite.setTextureRect(animations.at("Stationary")->update(dt));
 
+	tryFire(dt);
+
+	if (firing)
+		playSound("blaster1", 1.f);
+
 	sprite.move(velocity * dt);
 }
 
 void Alien01::draw(sf::RenderWindow& w)
 {
 	w.draw(sprite);
+}
+
+std::vector<Projectile*> Alien01::getProjectiles()
+{
+	std::vector<Projectile*> temp;
+	temp.push_back(new Projectile(this->bottom(), { 0.f, 200.f }, 1, { 0, 0, 6, 16 }));
+	return temp;
 }

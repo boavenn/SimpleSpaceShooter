@@ -8,6 +8,9 @@ Box::Box(const sf::Vector2f& size, const sf::Vector2f& pos)
 
 	setOutlineActiveColor(sf::Color::Transparent);
 	setOutlineIdleColor(sf::Color::Transparent);
+	setMainActiveColor(sf::Color::Transparent);
+	setMainIdleColor(sf::Color::Transparent);
+	text.setCharacterSize(unsigned(box.getSize().y * 0.8f));
 }
 
 Box::~Box()

@@ -18,5 +18,7 @@ ResourceManager::ResourceManager() : textures("tex", "png"), audio("audio", "wav
 	for(int i = 1; i <=4; i++)
 		textures.add("explosion" + std::to_string(i));
 	audio.add("explosion1");
+	audio.add("blaster1");
 	audio.add("blaster3");
+	fonts.add("VCR_OSD_MONO_1.001");
 }

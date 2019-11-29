@@ -2,6 +2,7 @@
 #include "states/StateManager.hpp"
 #include "states/Playing.hpp"
 #include "util/WindowProperties.hpp"
+#include "gui/Box.hpp"
 
 class Game
 {
@@ -15,5 +16,6 @@ private:
 
 	sf::RenderWindow window;
 	StateManager state_manager;
+	Box* fps;
 };
 

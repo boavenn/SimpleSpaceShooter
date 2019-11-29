@@ -1,6 +1,6 @@
 #include "Explosion.hpp"
 
-Explosion::Explosion(sf::Vector2f pos, float max_life_time, int type) : Effect(pos, max_life_time)
+Explosion::Explosion(sf::Vector2f pos, float max_life_time, int type, float scale) : Effect(pos, max_life_time)
 {
 	animation = new Animation(max_life_time / 64.f);
 	for (int i = 0; i < 8; i++)
@@ -11,7 +11,7 @@ Explosion::Explosion(sf::Vector2f pos, float max_life_time, int type) : Effect(p
 	sprite.setTextureRect(animation->getFirstFrame());
 	sprite.setOrigin({ animation->getFirstFrame().width / 2.f, animation->getFirstFrame().height / 2.f });
 	sprite.setPosition(pos);
-	sprite.setScale({ 3, 3 });
+	sprite.setScale({ scale, scale });
 }
 
 void Explosion::update(float dt)
