@@ -7,15 +7,11 @@ Playing::Playing(sf::RenderWindow& w, StateManager& sm) : State(w, sm), SoundMak
 	main_bg = new Background(0.06f, { 171.f, 0 }, "background");
 	layer1 = new Background(0.04f, { 171.f, 0 }, "layer1");
 
-	for (int i = 0; i < 8; i++)
-	{
-		aliens.push_back(new Alien01(20.f, { 500.f, 100.f + 50 * i }));
-		aliens.push_back(new Alien01(20.f, { 570.f, 100.f + 50 * i }));
-		aliens.push_back(new Alien01(20.f, { 640.f, 100.f + 50 * i }));
-		aliens.push_back(new Alien01(20.f, { 710.f, 100.f + 50 * i }));
-		aliens.push_back(new Alien01(20.f, { 780.f, 100.f + 50 * i }));
-		aliens.push_back(new Alien01(20.f, { 850.f, 100.f + 50 * i }));
-	}
+	for (int i = 1; i <= 2; i++)
+		levels.push_back(new Level(i));
+
+	std::vector<Alien*> temp = levels.front()->loadFromFile();
+	aliens.insert(aliens.end(), temp.begin(), temp.end());
 
 	addSoundBuffer("blaster3");
 }
@@ -38,6 +34,8 @@ void Playing::update(float dt, sf::Event e)
 	alienUpdates(dt);
 	effectUpdates(dt);
 	pickupUpdates(dt);
+
+	tryStartingNewLevel();
 
 	if (is_game_over)
 		should_pop = true;
@@ -114,7 +112,8 @@ void Playing::playerUpdates(float dt)
 			if (player->shouldExplode())
 			{
 				playSound("blaster3", R::nextFloat(25, 40) / 100.f);
-				sprite_explosions.push_back(new Explosion(player->getPosition(), 1.f, 1, 5.f));
+				particle_explosions.push_back(new ParticleExplosion(player->getPosition(), 3.f, 100));
+				sprite_explosions.push_back(new Explosion(player->getPosition(), 1.5f, 7, 4.f));
 			}
 
 			delete alien_projectiles[i];
@@ -150,8 +149,8 @@ void Playing::alienUpdates(float dt)
 		{
 			playSound("blaster3", R::nextFloat(25, 40) / 100.f);
 			particle_explosions.push_back(new ParticleExplosion(alien->getPosition(), R::nextFloat(2, 7), 100));
-			sprite_explosions.push_back(new Explosion(alien->getPosition(), 1.f, R::nextInt(1, 5)));
-			pickups.push_back(new Money(alien->getPosition(), { 0, 150.f }, R::nextInt(0, 4)));
+			sprite_explosions.push_back(new Explosion(alien->getPosition(), 1.f, R::nextInt(1, 7), 2.f));
+			//pickups.push_back(new Money(alien->getPosition(), { 0, 150.f }, R::nextInt(0, 4)));
 
 			delete aliens[i];
 			aliens.erase(aliens.begin() + i);
@@ -212,6 +211,23 @@ void Playing::pickupUpdates(float dt)
 			delete pickups[i];
 			pickups.erase(pickups.begin() + i);
 			i--;
+		}
+	}
+}
+
+void Playing::tryStartingNewLevel()
+{
+	if (aliens.size() == 0)
+	{
+		active_level++;
+		if (active_level > levels.size())
+		{
+			//should_pop = true;
+		}
+		else
+		{
+			std::vector<Alien*> temp = levels[active_level - 1]->loadFromFile();
+			aliens.insert(aliens.end(), temp.begin(), temp.end());
 		}
 	}
 }

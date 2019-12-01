@@ -39,7 +39,7 @@ private:
 	bool is_firing = false;
 	bool block_input = false;
 	bool should_explode = false;
-	float on_death_input_block_time = 1.f;
+	float on_death_input_block_time = 1.5f;
 	float input_block_timer = 0.f;
 	bool lost_all_lives = false;
 	float shot_timer = 0.f;
@@ -48,13 +48,13 @@ private:
 	bool is_immune = false;
 	bool is_immune_on_death = false;
 	float immunity_timer = 0.f;
-	float on_death_immunity_time = 3.f;
+	float on_death_immunity_time = 4.f;
 
 	// stats
-	int active_weapon = 2;
+	int active_weapon = 3;
 	int bullets_capacity = 5;
 	float reload_time = 0.5f;
-	float shot_gap = 0.1f;
+	float shot_gap = 0.25f;
 	int lives_max = 3;
 	int lives_left = 2;
 	float speed = 300.f;

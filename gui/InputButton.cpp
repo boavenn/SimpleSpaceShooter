@@ -49,6 +49,12 @@ void InputButton::checkUserInput(float dt, sf::Event e)
 	}
 }
 
+void InputButton::resetInput()
+{
+	input = "";
+	text.setString("");
+}
+
 const std::string& InputButton::getInput()
 {
 	return input;

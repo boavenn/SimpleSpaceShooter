@@ -15,7 +15,7 @@ ResourceManager::ResourceManager() : textures("tex", "png"), audio("audio", "wav
 	textures.add("bullets");
 	textures.add("aliens");
 	textures.add("pickups");
-	for(int i = 1; i <=4; i++)
+	for(int i = 1; i <=7; i++)
 		textures.add("explosion" + std::to_string(i));
 	audio.add("explosion1");
 	audio.add("blaster1");

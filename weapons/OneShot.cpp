@@ -3,7 +3,7 @@
 
 OneShot::OneShot(Entity* entity) : Weapon(entity)
 {
-	base_dmg = 5.f;
+	base_dmg = 6.f;
 }
 
 std::vector<Projectile*> OneShot::getNewProjectiles(float dmg_mod)

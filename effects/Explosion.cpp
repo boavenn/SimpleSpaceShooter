@@ -2,10 +2,11 @@
 
 Explosion::Explosion(sf::Vector2f pos, float max_life_time, int type, float scale) : Effect(pos, max_life_time)
 {
-	animation = new Animation(max_life_time / 64.f);
+	animation = new Animation(max_life_time / 64.f);	
 	for (int i = 0; i < 8; i++)
 		for (int j = 0; j < 8; j++)
-			animation->addFrame({ 64 * j, 64 * i, 64, 64 });
+			animation->addFrame({ 128 * j, 128 * i, 128, 128 });
+
 
 	sprite.setTexture(ResourceManager::get().textures.get("explosion" + std::to_string(type)));
 	sprite.setTextureRect(animation->getFirstFrame());

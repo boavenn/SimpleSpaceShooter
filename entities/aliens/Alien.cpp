@@ -1,10 +1,15 @@
 #include "Alien.hpp"
+#include <cmath>
 
-Alien::Alien(float max_health)
+Alien::Alien(sf::Vector2f pos, float max_health, int direction)
 {
 	sprite.setTexture(ResourceManager::get().textures.get("aliens"));
+
 	this->max_health = max_health;
 	current_health = max_health;
+	target_pos = pos;
+	ascend_direction = static_cast<Alien::AscendDir>(direction);
+	setInitPos(ascend_direction);
 
 	fire_tick = R::nextFloat(100, 200) / 100.f;
 	fire_delay = R::nextFloat(0, (int)((fire_tick / 2.f) * 100)) / 100.f;
@@ -53,4 +58,51 @@ void Alien::tryFire(float dt)
 		fire_timer -= fire_tick;
 		fire_delay = R::nextFloat(0, (int)((fire_tick / 2.f) * 100)) / 100.f;
 	}
+}
+
+void Alien::tryAscend(float dt)
+{
+	ascend_timer += dt;
+	sprite.move(ascending_velocity * dt);
+	
+	if (ascend_timer >= ascend_time)
+	{
+		sprite.setPosition(target_pos);
+		is_ascending = false;
+	}
+}
+
+void Alien::setInitPos(AscendDir dir)
+{
+	float dis = 1000.f;
+
+	switch (dir)
+	{
+	case Alien::AscendDir::SOUTH:
+		init_pos = { target_pos.x, target_pos.y + dis };
+		break;
+	case Alien::AscendDir::SOUTHEAST:
+		init_pos = { target_pos.x - dis, target_pos.y + dis };
+		break;
+	case Alien::AscendDir::EAST:
+		init_pos = { target_pos.x - dis, target_pos.y };
+		break;
+	case Alien::AscendDir::NORTHEAST:
+		init_pos = { target_pos.x - dis, target_pos.y - dis };
+		break;
+	case Alien::AscendDir::NORTH:
+		init_pos = { target_pos.x, target_pos.y - dis };
+		break;
+	case Alien::AscendDir::NORTHWEST:
+		init_pos = { target_pos.x + dis, target_pos.y - dis };
+		break;
+	case Alien::AscendDir::WEST:
+		init_pos = { target_pos.x + dis, target_pos.y };
+		break;
+	case Alien::AscendDir::SOUTHWEST:
+		init_pos = { target_pos.x + dis, target_pos.y + dis };
+		break;
+	}
+
+	ascending_velocity = (target_pos - init_pos) / ascend_time;
 }

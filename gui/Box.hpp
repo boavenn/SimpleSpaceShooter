@@ -21,6 +21,7 @@ public:
 	void setText(const std::string& str, float spacing = 1.5f);
 	void setTexture(const std::string& tex_name);
 	void setTextureRect(const sf::IntRect& rect);
+	void setPosition(sf::Vector2f pos) { box.setPosition(pos); centerText(); }
 	void addAnimation(const std::string& name, float delay);
 	void centerText();
 	void adjustTextToLeft(float offset);

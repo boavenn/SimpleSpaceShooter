@@ -8,6 +8,11 @@ Player::Player()
 		animation->addFrame({ 70 * i, 0, 70, 70 });
 	animations.insert(std::make_pair("Stationary", animation));
 
+	animation = new Animation(0.2f);
+	for (int i = 0; i < 8; i++)
+		animation->addFrame({ 70 * i, 70, 70, 70 });
+	animations.insert(std::make_pair("Immune", animation));
+
 	sprite.setTexture(ResourceManager::get().textures.get("player"));
 	sprite.setTextureRect(animations.at("Stationary")->getFirstFrame());
 	sprite.setOrigin({ 35.f, 35.f });
@@ -31,7 +36,11 @@ void Player::update(float dt)
 	is_firing = false;
 	should_explode = false;
 
-	sprite.setTextureRect(animations.at("Stationary")->update(dt));
+	if (is_immune || is_immune_on_death)
+		sprite.setTextureRect(animations.at("Immune")->update(dt));
+	else
+		sprite.setTextureRect(animations.at("Stationary")->update(dt));
+
 	checkInput();
 	checkAbilityToFire(dt);
 	checkReload(dt);

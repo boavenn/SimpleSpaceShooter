@@ -5,13 +5,14 @@
 #include "../util/Background.hpp"
 #include "../util/Random.hpp"
 #include "../weapons/OneShot.hpp"
-#include "../entities/aliens/Alien01.hpp"
+#include "../entities/aliens/Alien1.hpp"
 #include "../effects/ParticleExplosion.hpp"
 #include "../effects/Explosion.hpp"
 #include "../util/SoundMaking.hpp"
 #include "../entities/pickups/Health.hpp"
 #include "../entities/pickups/Speed.hpp"
 #include "../entities/pickups/Money.hpp"
+#include "../util/levels/Level.hpp"
 
 typedef Random R;
 
@@ -31,6 +32,8 @@ private:
 	Player* player = new Player();
 	std::vector<Projectile*> player_projectiles;
 
+	std::vector<Level*> levels;
+
 	std::vector<Alien*> aliens;
 	std::vector<Projectile*> alien_projectiles;
 	std::vector<Pickup*> pickups;
@@ -42,6 +45,7 @@ private:
 	std::vector<Explosion*> sprite_explosions;
 
 	bool is_game_over = false;
+	int active_level = 1;
 private:
 	void mapUpdates(float dt);
 	void playerUpdates(float dt);
@@ -49,5 +53,7 @@ private:
 	void effectUpdates(float dt);
 	void backgroundUpdates(float dt);
 	void pickupUpdates(float dt);
+
+	void tryStartingNewLevel();
 };
 
