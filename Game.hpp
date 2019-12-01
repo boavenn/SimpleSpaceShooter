@@ -1,6 +1,5 @@
 #pragma once
-#include "states/Playing.hpp"
-#include "states/LevelEditor.hpp"
+#include "states/MainMenu.hpp"
 #include "util/WindowProperties.hpp"
 #include "gui/Box.hpp"
 
