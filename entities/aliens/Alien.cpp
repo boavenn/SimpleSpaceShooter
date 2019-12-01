@@ -1,10 +1,11 @@
 #include "Alien.hpp"
 #include <cmath>
 
-Alien::Alien(sf::Vector2f pos, float max_health, int direction)
+Alien::Alien(sf::Vector2f pos, float max_health, int direction, float delay)
 {
 	sprite.setTexture(ResourceManager::get().textures.get("aliens"));
 
+	this->ascend_delay = delay;
 	this->max_health = max_health;
 	current_health = max_health;
 	target_pos = pos;
@@ -62,14 +63,19 @@ void Alien::tryFire(float dt)
 
 void Alien::tryAscend(float dt)
 {
-	ascend_timer += dt;
-	sprite.move(ascending_velocity * dt);
-	
-	if (ascend_timer >= ascend_time)
+	if (ascend_delay_timer >= ascend_delay)
 	{
-		sprite.setPosition(target_pos);
-		is_ascending = false;
+		ascend_timer += dt;
+		sprite.move(ascending_velocity * dt);
+
+		if (ascend_timer >= ascend_time)
+		{
+			sprite.setPosition(target_pos);
+			is_ascending = false;
+		}
 	}
+	else
+		ascend_delay_timer += dt;
 }
 
 void Alien::setInitPos(AscendDir dir)

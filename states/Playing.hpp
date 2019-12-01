@@ -40,12 +40,14 @@ private:
 
 	Background* main_bg;
 	Background* layer1;
+	sf::Sprite sidebar_l;
+	sf::Sprite sidebar_r;
 
 	std::vector<ParticleExplosion*> particle_explosions;
 	std::vector<Explosion*> sprite_explosions;
 
 	bool is_game_over = false;
-	int active_level = 1;
+	size_t active_level = 1;
 private:
 	void mapUpdates(float dt);
 	void playerUpdates(float dt);

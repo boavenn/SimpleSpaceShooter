@@ -16,7 +16,7 @@ public:
 	};
 
 public:
-	Alien(sf::Vector2f pos, float max_health, int direction);
+	Alien(sf::Vector2f pos, float max_health, int direction, float delay);
 	~Alien();
 	bool gotHitBy(Projectile* proj);
 	bool shouldDie() { return should_die; }
@@ -46,6 +46,8 @@ protected:
 	int fire_chance = 15;
 	sf::Vector2f ascending_velocity;
 	bool is_ascending = true;
+	float ascend_delay = 0.f;
+	float ascend_delay_timer = 0.f;
 
 private:
 	void setInitPos(AscendDir dir);

@@ -19,6 +19,7 @@ public:
 	void setTextActiveColor(const sf::Color& c);
 	void setFont(const std::string& font_name);
 	void setText(const std::string& str, float spacing = 1.5f);
+	void setTextOutlineColor(sf::Color c, float thickness = 1.f) { text.setOutlineColor(c); text.setOutlineThickness(thickness); }
 	void setTexture(const std::string& tex_name);
 	void setTextureRect(const sf::IntRect& rect);
 	void setPosition(sf::Vector2f pos) { box.setPosition(pos); centerText(); }

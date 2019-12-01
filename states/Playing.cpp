@@ -6,6 +6,11 @@ Playing::Playing(sf::RenderWindow& w, StateManager& sm) : State(w, sm), SoundMak
 {
 	main_bg = new Background(0.06f, { 171.f, 0 }, "background");
 	layer1 = new Background(0.04f, { 171.f, 0 }, "layer1");
+	sidebar_l.setTexture(ResourceManager::get().textures.get("sidebar"));
+	sidebar_l.setPosition({ 0, 0 });
+	sidebar_r.setTexture(ResourceManager::get().textures.get("sidebar"));
+	sidebar_r.setTextureRect({ 171, 0, -171, 768 });
+	sidebar_r.setPosition({ float(WindowProperties::getWidth() - 171), 0 });
 
 	for (int i = 1; i <= 2; i++)
 		levels.push_back(new Level(i));
@@ -61,6 +66,8 @@ void Playing::draw()
 		p->draw(window);
 	for (Alien* a : aliens)
 		a->draw(window);
+	window.draw(sidebar_l);
+	window.draw(sidebar_r);
 }
 
 void Playing::checkInput(float dt, sf::Event e)

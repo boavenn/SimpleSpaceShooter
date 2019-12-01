@@ -2,7 +2,7 @@
 
 constexpr float hp = 5.f;
 
-Alien1::Alien1(sf::Vector2f pos, int direction) : Alien(pos, hp, direction)
+Alien1::Alien1(sf::Vector2f pos, int direction, float delay) : Alien(pos, hp, direction, delay)
 {
 	Animation* animation = new Animation(0.2f);
 	for (int i = 0; i < 8; i++)

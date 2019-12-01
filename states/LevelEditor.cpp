@@ -1,60 +1,39 @@
 #include "LevelEditor.hpp"
+#include <sstream>
 
 LevelEditor::LevelEditor(sf::RenderWindow& w, StateManager& sm) : State(w, sm)
 {
 	main_bg = new Background(0.06f, { 171.f, 0 }, "background");
 	layer1 = new Background(0.04f, { 171.f, 0 }, "layer1");
+	sidebar_l.setTexture(ResourceManager::get().textures.get("sidebar"));
+	sidebar_l.setPosition({ 0, 0 });
+	sidebar_r.setTexture(ResourceManager::get().textures.get("sidebar"));
+	sidebar_r.setTextureRect({ 171, 0, -171, 768 });
+	sidebar_r.setPosition({ float(WindowProperties::getWidth() - 171), 0 });
 
-	dummies.push_back(new Dummy("aliens", { 0, 0, 50, 50 }, 1, { 50.f, 50.f }));
-	dummies.push_back(new Dummy("aliens", { 0, 50, 50, 50 }, 2, { 100.f, 50.f }));
-	dummies.push_back(new Dummy("aliens", { 0, 100, 50, 50 }, 3, { 50.f, 100.f }));
-	dummies.push_back(new Dummy("aliens", { 0, 150, 50, 50 }, 4, { 100.f, 100.f }));
-	dummies.push_back(new Dummy("aliens", { 0, 200, 50, 50 }, 5, { 50.f, 150.f }));
-
-	for (int i = 2; i <= 14; i++)
-	{
-		lines.push_back(new sf::RectangleShape({ 1.f, (float)WindowProperties::getHeight() }));
-		lines.back()->setPosition({ WindowProperties::getWidth() * (float)i / 16.f, 0 });
-		lines.back()->setFillColor(sf::Color(255, 255, 255, 120));
-		lines.push_back(new sf::RectangleShape({ (float)WindowProperties::getWidth(), 1.f }));
-		lines.back()->setPosition({ 0, WindowProperties::getHeight() * (float)i / 16.f });
-		lines.back()->setFillColor(sf::Color(255, 255, 255, 120));
-	}
-
-	lines.push_back(new sf::RectangleShape({ 1.f, (float)WindowProperties::getHeight() }));
-	lines.back()->setPosition({ WindowProperties::getWidth() / 2.f, 0 });
-	lines.back()->setFillColor(sf::Color(255, 0, 0));
-	lines.push_back(new sf::RectangleShape({ (float)WindowProperties::getWidth(), 1.f }));
-	lines.back()->setPosition({ 0, WindowProperties::getHeight() / 2.f });
-	lines.back()->setFillColor(sf::Color(255, 0, 0));
-
-	dir_setter = new InputButton({ 40.f, 20.f }, { 0.f, 0.f });
-	dir_setter->setFont("VCR_OSD_MONO_1.001");
-	dir_setter->setMainIdleColor(sf::Color::Black);
-	dir_setter->setOutlineIdleColor(sf::Color::White);
-	dir_setter->setTextIdleColor(sf::Color::White);
-	dir_setter->setTextActiveColor(sf::Color::White);
-
-	saver = new InputButton({ 300.f, 30.f }, { WindowProperties::getWidth() / 2.f, WindowProperties::getHeight() / 2.f });
-	saver->setFont("VCR_OSD_MONO_1.001");
-	saver->setMainIdleColor(sf::Color::Black);
-	saver->setOutlineIdleColor(sf::Color::White);
-	saver->setTextIdleColor(sf::Color::White);
-	saver->setTextActiveColor(sf::Color::White);
+	init_dummies();
+	init_lines();
+	init_setters();
+	init_instructions();
 }
 
 LevelEditor::~LevelEditor()
 {
 	delete main_bg;
 	delete layer1;
-	delete dir_setter;
+	delete setter;
 	delete saver;
+	for (size_t i = 0; i < dummies.size(); i++)
+	{
+		delete dummies.front();
+		dummies.erase(dummies.begin());
+	}
 }
 
 void LevelEditor::update(float dt, sf::Event e)
 {
-	if (dir_setter_visible)
-		dir_setter->checkUserInput(dt, e);
+	if (setter_visible)
+		setter->checkUserInput(dt, e);
 	if (saver_visible)
 		saver->checkUserInput(dt, e);
 	checkInput(dt, e);
@@ -69,13 +48,17 @@ void LevelEditor::draw()
 {
 	main_bg->draw(window);
 	layer1->draw(window);
-	for (Dummy* d : dummies)
-		d->draw(window);
 	for (sf::RectangleShape* l : lines)
 		window.draw(*l);
+	window.draw(sidebar_l);
+	window.draw(sidebar_r);
+	for (Dummy* d : dummies)
+		d->draw(window);
+	for (Box* b : instructions)
+		b->draw(window);
 
-	if (dir_setter_visible)
-		dir_setter->draw(window);
+	if (setter_visible)
+		setter->draw(window);
 	if (saver_visible)
 		saver->draw(window);
 }
@@ -84,6 +67,9 @@ void LevelEditor::checkInput(float dt, sf::Event e)
 {
 	if (!saving)
 	{
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+			should_pop = true;
+
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 		{
 			saving = true;
@@ -91,19 +77,29 @@ void LevelEditor::checkInput(float dt, sf::Event e)
 			saver->isInputActive() = true;
 		}
 
-		if (!sf::Mouse::isButtonPressed(sf::Mouse::Right))
+		if (!setter->isInputActive())
 		{
-			if (active_dummy && dir_setter->isInputActive())
+			if (active_dummy)
 			{
-				active_dummy->setDirection(std::atoi(dir_setter->getInput().c_str()));
+				std::string input = setter->getInput();
+				if (!input.empty())
+				{
+					std::stringstream ss(input);
+					int dir;
+					char sep;
+					float delay;
+					ss >> dir;
+					active_dummy->setDirection(dir);
+					ss >> sep >> delay;
+					active_dummy->setDelay(delay / 1000.f);
+				}				
 			}
 
-			dir_setter_visible = false;
-			dir_setter->isInputActive() = false;
-			dir_setter->resetInput();
+			setter_visible = false;
+			setter->resetInput();
 		}
 
-		if (!sf::Mouse::isButtonPressed(sf::Mouse::Left) && !dir_setter->isInputActive())
+		if (!sf::Mouse::isButtonPressed(sf::Mouse::Left) && !setter->isInputActive())
 		{
 			active_dummy = nullptr;
 			copy_active = false;
@@ -125,12 +121,12 @@ void LevelEditor::checkInput(float dt, sf::Event e)
 		if (active_dummy)
 		{
 			active_dummy->setPosition((sf::Vector2f)sf::Mouse::getPosition(window));
+			setter->setPosition(active_dummy->getPosition());
 
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
 			{
-				dir_setter->setPosition(active_dummy->getPosition());
-				dir_setter->isInputActive() = true;
-				dir_setter_visible = true;
+				setter->isInputActive() = true;
+				setter_visible = true;
 			}
 
 			if (!copy_active && sf::Keyboard::isKeyPressed(sf::Keyboard::C))
@@ -172,8 +168,94 @@ void LevelEditor::saveToFile(std::string filename)
 	{
 		for (Dummy* d : dummies)
 		{
-			file << d->type << "|" << d->direction << "|" << d->getPosition().x << "|" << d->getPosition().y << "\n";
+			file << d->type << "|" << d->direction << "|" << d->delay << "|" << d->getPosition().x << "|" << d->getPosition().y << "\n";
 		}
 		file.close();
+	}
+}
+
+void LevelEditor::init_lines()
+{
+	for (int i = WindowProperties::getWidth() / 2; i >= 0; i -= 50)
+	{
+		lines.push_back(new sf::RectangleShape({ 1.f, (float)WindowProperties::getHeight() }));
+		lines.back()->setPosition({ WindowProperties::getWidth() * (float)i / 1366.f, 0 });
+		lines.back()->setFillColor(sf::Color(255, 255, 255, 120));
+	}
+
+	for (int i = WindowProperties::getHeight() / 2; i >= 0; i -= 50)
+	{
+		lines.push_back(new sf::RectangleShape({ (float)WindowProperties::getWidth(), 1.f }));
+		lines.back()->setPosition({ 0, WindowProperties::getHeight() * (float)i / 768.f });
+		lines.back()->setFillColor(sf::Color(255, 255, 255, 120));
+	}
+
+	for (int i = WindowProperties::getWidth() / 2; i <= 1366; i += 50)
+	{
+		lines.push_back(new sf::RectangleShape({ 1.f, (float)WindowProperties::getHeight() }));
+		lines.back()->setPosition({ WindowProperties::getWidth() * (float)i / 1366.f, 0 });
+		lines.back()->setFillColor(sf::Color(255, 255, 255, 120));
+	}
+
+	for (int i = WindowProperties::getHeight() / 2; i <= 768; i += 50)
+	{
+		lines.push_back(new sf::RectangleShape({ (float)WindowProperties::getWidth(), 1.f }));
+		lines.back()->setPosition({ 0, WindowProperties::getHeight() * (float)i / 768.f });
+		lines.back()->setFillColor(sf::Color(255, 255, 255, 120));
+	}
+
+	lines.push_back(new sf::RectangleShape({ 1.f, (float)WindowProperties::getHeight() }));
+	lines.back()->setPosition({ WindowProperties::getWidth() / 2.f, 0 });
+	lines.back()->setFillColor(sf::Color(255, 0, 0));
+	lines.push_back(new sf::RectangleShape({ (float)WindowProperties::getWidth(), 1.f }));
+	lines.back()->setPosition({ 0, WindowProperties::getHeight() / 2.f });
+	lines.back()->setFillColor(sf::Color(255, 0, 0));
+}
+
+void LevelEditor::init_dummies()
+{
+	dummies.push_back(new Dummy("aliens", { 0, 0, 50, 50 }, 1, { 50.f, 50.f }));
+	dummies.push_back(new Dummy("aliens", { 0, 50, 50, 50 }, 2, { 100.f, 50.f }));
+	dummies.push_back(new Dummy("aliens", { 0, 100, 50, 50 }, 3, { 50.f, 100.f }));
+	dummies.push_back(new Dummy("aliens", { 0, 150, 50, 50 }, 4, { 100.f, 100.f }));
+	dummies.push_back(new Dummy("aliens", { 0, 200, 50, 50 }, 5, { 50.f, 150.f }));
+}
+
+void LevelEditor::init_setters()
+{
+	setter = new InputButton({ 80.f, 15.f }, { 0.f, 0.f });
+	setter->setFont("MonospaceTypewriter");
+	setter->setMainIdleColor(sf::Color(240, 237, 238));
+	setter->setOutlineIdleColor(sf::Color(39, 39, 39));
+	setter->setTextIdleColor(sf::Color(39, 39, 39));
+	setter->setTextActiveColor(sf::Color(39, 39, 39));
+
+	saver = new InputButton({ 400.f, 45.f }, { WindowProperties::getWidth() / 2.f, WindowProperties::getHeight() / 2.f });
+	saver->setFont("MonospaceTypewriter");
+	saver->setMainIdleColor(sf::Color(240, 237, 238));
+	saver->setOutlineIdleColor(sf::Color(39, 39, 39));
+	saver->setTextIdleColor(sf::Color(39, 39, 39));
+	saver->setTextActiveColor(sf::Color(39, 39, 39));
+}
+
+void LevelEditor::init_instructions()
+{
+	std::string instr[] =
+	{
+		"Pressing LMB on a dummy makes it active",
+		"Press RMB to set parameters as: [direction(0-7),delay(millis)]",
+		"Press C to shallow clone",
+		"Press D to delete",
+		"Press S to save in a file"
+	};
+
+	for (size_t i = 0; i < 5; i++)
+	{
+		instructions.push_back(new Box({ 150.f, 20.f }, { float(WindowProperties::getWidth()) / 2.f, 530.f + i * 50.f }));
+		instructions.back()->setFont("MonospaceTypewriter");
+		instructions.back()->setTextIdleColor(sf::Color::White);
+		instructions.back()->setTextOutlineColor(sf::Color::Black);
+		instructions.back()->setText(instr[i]);
+		instructions.back()->centerText();
 	}
 }

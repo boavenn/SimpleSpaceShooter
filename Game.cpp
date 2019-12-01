@@ -6,9 +6,10 @@
 Game::Game() : window(sf::VideoMode(WindowProperties::getWidth(), WindowProperties::getHeight(), 32), "Simple Space Shooter", sf::Style::None | sf::Style::Close)
 {
 	window.setFramerateLimit(60);
-	fps = new Box({ 10, 20 }, { 6, 10 });
-	fps->setFont("VCR_OSD_MONO_1.001");
+	fps = new Box({ 30, 20 }, { 6, 10 });
+	fps->setFont("MonospaceTypewriter");
 	fps->setText("0");
+	fps->setMainIdleColor(sf::Color::Black);
 	fps->setTextIdleColor(sf::Color::Green);
 	// Here the first state like MainMenu should be pushed to StateManager
 	// state_manager.pushState(std::make_unique<FirstState>(window, state_manager), 0, 1)

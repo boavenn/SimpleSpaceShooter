@@ -29,26 +29,27 @@ std::vector<Alien*> Level::loadFromFile()
 			int dir;
 			float pos_x;
 			float pos_y;
+			float delay;
 			char sep;
-			ss >> type >> sep >> dir >> sep >> pos_x >> sep >> pos_y;
+			ss >> type >> sep >> dir >> sep >> delay >> sep >> pos_x >> sep >> pos_y;
 			ss.clear();
-			aliens.push_back(createNewAlien(type, { pos_x, pos_y }, dir));
+			aliens.push_back(createNewAlien(type, { pos_x, pos_y }, dir, delay));
 		}
 		file.close();
 	}
 	return aliens;
 }
 
-Alien* Level::createNewAlien(int type, sf::Vector2f pos, int direction)
+Alien* Level::createNewAlien(int type, sf::Vector2f pos, int direction, float delay)
 {
 	Alien* temp;
 	switch (type)
 	{
 	case 1:
-		temp = new Alien1(pos, direction);
+		temp = new Alien1(pos, direction, delay);
 		break;
 	default:
-		temp = new Alien1(pos, direction);
+		temp = new Alien1(pos, direction, delay);
 		break;
 	}
 	return temp;

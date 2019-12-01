@@ -35,7 +35,7 @@ void InputButton::checkUserInput(float dt, sf::Event e)
 					keyboard.getKeyStatus(keyCode) = false;
 				}
 			}
-			else if (text.getGlobalBounds().width + 40 <= box.getGlobalBounds().width && ((keyCode >= 48 && keyCode <= 57) || (keyCode >= 65 && keyCode <= 90) || (keyCode >= 97 && keyCode <= 122) || keyCode == 32))
+			else if (text.getGlobalBounds().width + 40 <= box.getGlobalBounds().width && ((keyCode >= 44 && keyCode <= 57) || (keyCode >= 65 && keyCode <= 90) || (keyCode >= 97 && keyCode <= 122) || keyCode == 32))
 			{
 				if (keyboard.getKeyStatus(keyCode))
 				{

@@ -19,6 +19,10 @@ public:
 
 private:
 	void saveToFile(std::string filename);
+	void init_lines();
+	void init_dummies();
+	void init_setters();
+	void init_instructions();
 
 	std::vector<Dummy*> dummies;
 	Dummy* active_dummy = nullptr;
@@ -27,11 +31,15 @@ private:
 	bool saving = false;
 
 	std::vector<sf::RectangleShape*> lines;
-	InputButton* dir_setter;
+	InputButton* setter;
 	InputButton* saver;
-	bool dir_setter_visible = false;
+	bool setter_visible = false;
 	bool saver_visible = false;
 
 	Background* main_bg;
 	Background* layer1;
+	sf::Sprite sidebar_l;
+	sf::Sprite sidebar_r;
+
+	std::vector<Box*> instructions;
 };

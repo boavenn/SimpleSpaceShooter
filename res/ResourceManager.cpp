@@ -11,6 +11,7 @@ ResourceManager::ResourceManager() : textures("tex", "png"), audio("audio", "wav
 	// Here the loading of resources is done
 	textures.add("background"); textures.get("background").setRepeated(true);
 	textures.add("layer1"); textures.get("layer1").setRepeated(true);
+	textures.add("sidebar");
 	textures.add("player");
 	textures.add("bullets");
 	textures.add("aliens");
@@ -20,5 +21,5 @@ ResourceManager::ResourceManager() : textures("tex", "png"), audio("audio", "wav
 	audio.add("explosion1");
 	audio.add("blaster1");
 	audio.add("blaster3");
-	fonts.add("VCR_OSD_MONO_1.001");
+	fonts.add("MonospaceTypewriter");
 }
