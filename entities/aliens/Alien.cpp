@@ -1,6 +1,8 @@
 #include "Alien.hpp"
 #include <cmath>
 
+constexpr auto M_PI = 3.14159265358979323846;
+
 Alien::Alien(sf::Vector2f pos, float max_health, int direction, float delay)
 {
 	sprite.setTexture(ResourceManager::get().textures.get("aliens"));
@@ -76,6 +78,45 @@ void Alien::tryAscend(float dt)
 	}
 	else
 		ascend_delay_timer += dt;
+}
+
+void Alien::checkDive(float dt)
+{
+	diving_timer += dt;
+	if (diving_timer >= diving_tick)
+	{
+		int rand = R::nextInt(0, 101);
+		if (rand <= dive_chance / 2 || rand >= 100 - dive_chance / 2)
+		{
+			is_diving = true;
+			int r = R::nextInt(0, 51);
+			dive_sign = r < 25 ? 1 : -1;
+			fire_chance += 15.f;
+		}
+
+		diving_timer -= diving_tick;
+		
+	}
+}
+
+void Alien::tryDive(float dt)
+{
+	diving_time += dt;
+
+	if (diving_time >= diving_time_max)
+	{
+		sprite.setPosition(target_pos);
+		velocity = { 0.f, 0.f };
+		is_diving = false;
+		diving_time = 0.f;
+		fire_chance -= 15.f;
+	}
+	else
+	{
+		int y = WindowProperties::getHeight() - int(target_pos.y);
+		velocity.x = dive_sign * 144.f * float(cos(2 * M_PI * diving_time / diving_time_max));
+		velocity.y = R::nextFloat(y - 100, y + 100) * float(sin(2.f * M_PI * diving_time / diving_time_max));
+	}
 }
 
 void Alien::setInitPos(AscendDir dir)

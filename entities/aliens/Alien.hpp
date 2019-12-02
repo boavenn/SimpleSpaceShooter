@@ -26,6 +26,9 @@ public:
 protected:
 	void tryFire(float dt);
 	void tryAscend(float dt);
+	void checkDive(float dt);
+	void tryDive(float dt);
+	void setBerserkModeOn() { in_berserk_mode = true; }
 
 	AscendDir ascend_direction;
 	sf::Vector2f init_pos;
@@ -48,6 +51,14 @@ protected:
 	bool is_ascending = true;
 	float ascend_delay = 0.f;
 	float ascend_delay_timer = 0.f;
+	bool in_berserk_mode = false;
+	float diving_tick = 2.f;
+	float diving_timer = 0.f;
+	float diving_time_max = 2.f;
+	float diving_time = 0.f;
+	int dive_chance = 15;
+	int dive_sign;
+	bool is_diving = false;
 
 private:
 	void setInitPos(AscendDir dir);

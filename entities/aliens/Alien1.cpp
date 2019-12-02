@@ -41,9 +41,13 @@ void Alien1::update(float dt)
 			sprite.setTextureRect(animations.at("Stationary")->update(dt));
 
 		tryFire(dt);
+		checkDive(dt);
 
 		if (firing)
 			playSound("blaster1", 1.f);
+
+		if (is_diving)
+			tryDive(dt);
 
 		sprite.move(velocity * dt);
 	}
