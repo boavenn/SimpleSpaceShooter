@@ -59,6 +59,6 @@ void Alien1::draw(sf::RenderWindow& w)
 std::vector<Projectile*> Alien1::getProjectiles()
 {
 	std::vector<Projectile*> temp;
-	temp.push_back(new Projectile(this->bottom(), { 0.f, 200.f }, 1, { 0, 0, 6, 16 }));
+	temp.push_back(new Projectile(this->bottom(), { 0.f, 300.f }, 1, { 0, 20, 8, 12 }));
 	return temp;
 }

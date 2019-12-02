@@ -13,7 +13,7 @@ void Speed::giveBonus(Player* player)
 {
 	if (!should_die)
 	{
-		player->addSpeed(50.f);
+		player->addSpeed(5.f);
 		should_die = true;
 	}
 }

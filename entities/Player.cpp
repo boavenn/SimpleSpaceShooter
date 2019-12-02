@@ -158,7 +158,7 @@ void Player::checkInputBlock(float dt)
 
 void Player::addLive()
 {
-	if (lives_left < lives_max)
+	if (lives_left < int(lives_max))
 		lives_left++;
 }
 
@@ -172,6 +172,8 @@ void Player::subLive()
 void Player::addSpeed(float speed)
 {
 	this->speed += speed;
+	if (this->speed >= speed_max)
+		this->speed = speed_max;
 }
 
 void Player::addMoney(int amount)

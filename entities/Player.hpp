@@ -51,13 +51,17 @@ private:
 	float on_death_immunity_time = 4.f;
 
 	// stats
-	int active_weapon = 3;
-	int bullets_capacity = 5;
+	int active_weapon = 1;
+	int bullets_capacity = 3;
+	const int bullets_capacity_max = 10;
 	float reload_time = 0.5f;
-	float shot_gap = 0.25f;
-	int lives_max = 3;
+	const float reload_time_min = 0.25f;
+	float shot_gap = 0.2f;
+	const float shot_gap_min = 0.1f;
+	const unsigned lives_max = 3;
 	int lives_left = 2;
 	float speed = 300.f;
+	const float speed_max = 600.f;
 	int money = 0;
 
 // Stats manipulation
@@ -72,5 +76,14 @@ public:
 public:
 	std::vector<Projectile*> getNewWeaponProjectiles() { return weapons[active_weapon]->getNewProjectiles(); }
 	void setWeapon(Weapon* weapon) { this->weapons[active_weapon] = weapon; }
+	int getLivesLeft() { return lives_left; }
+	int getLivesMax() { return lives_max; }
+	float getReloadTime() { return reload_time; }
+	float getReloadTimeMin() { return reload_time_min; }
+	float getShotGap() { return shot_gap; }
+	float getShotGapMin() { return shot_gap_min; }
+	float getSpeed() { return speed; }
+	float getSpeedMax() { return speed_max; }
+	int getMoney() { return money; }
 };
 

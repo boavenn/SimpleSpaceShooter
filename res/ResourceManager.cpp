@@ -18,10 +18,13 @@ ResourceManager::ResourceManager() : textures("tex", "png"), audio("audio", "wav
 	textures.add("pickups");
 	textures.add("buttons");
 	textures.add("menubg");
+	textures.add("util");
 	for(int i = 1; i <=7; i++)
 		textures.add("explosion" + std::to_string(i));
+
 	audio.add("explosion1");
 	audio.add("blaster1");
 	audio.add("blaster3");
+
 	fonts.add("MonospaceTypewriter");
 }

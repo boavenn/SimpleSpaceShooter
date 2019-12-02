@@ -32,16 +32,15 @@ const sf::IntRect& Animation::update(float dt)
 		current_frame_idx++;
 
 		if (animation_ended)
-			animation_ended = false;
-
-		if (current_frame_idx == frames.size())
 		{
-			animation_ended = true;
-			//current_frame = frames.front();
-			current_frame_idx = -1;
+			animation_ended = false;
+			current_frame_idx = 0;
 		}
-		else
-			current_frame = frames[current_frame_idx];
+
+		if (current_frame_idx == frames.size() - 1)
+			animation_ended = true;			
+		
+		current_frame = frames[current_frame_idx];
 	}
 	return current_frame;
 }

@@ -11,8 +11,9 @@ Playing::Playing(sf::RenderWindow& w, StateManager& sm) : State(w, sm), SoundMak
 	sidebar_r.setTexture(ResourceManager::get().textures.get("sidebar"));
 	sidebar_r.setTextureRect({ 171, 0, -171, 768 });
 	sidebar_r.setPosition({ float(WindowProperties::getWidth() - 171), 0 });
+	hud = new HUD(player);
 
-	for (int i = 1; i <= 2; i++)
+	for (int i = 1; i <= 3; i++)
 		levels.push_back(new Level(i));
 
 	std::vector<Alien*> temp = levels.front()->loadFromFile();
@@ -41,6 +42,7 @@ void Playing::update(float dt, sf::Event e)
 	pickupUpdates(dt);
 
 	tryStartingNewLevel();
+	hud->update(dt);
 
 	if (is_game_over)
 		should_pop = true;
@@ -68,6 +70,7 @@ void Playing::draw()
 		a->draw(window);
 	window.draw(sidebar_l);
 	window.draw(sidebar_r);
+	hud->draw(window);
 }
 
 void Playing::checkInput(float dt, sf::Event e)
@@ -157,7 +160,7 @@ void Playing::alienUpdates(float dt)
 			playSound("blaster3", R::nextFloat(25, 40) / 100.f);
 			particle_explosions.push_back(new ParticleExplosion(alien->getPosition(), R::nextFloat(2, 7), 100));
 			sprite_explosions.push_back(new Explosion(alien->getPosition(), 1.f, R::nextInt(1, 7), 2.f));
-			//pickups.push_back(new Money(alien->getPosition(), { 0, 150.f }, R::nextInt(0, 4)));
+			tryAddingPickup(alien->getPosition());
 
 			delete aliens[i];
 			aliens.erase(aliens.begin() + i);
@@ -222,6 +225,42 @@ void Playing::pickupUpdates(float dt)
 	}
 }
 
+void Playing::tryAddingPickup(sf::Vector2f pos)
+{
+	int chance = 25;
+	sf::Vector2f speed = { 0, 200.f };
+
+	if (R::nextInt(0, 101) < chance)
+	{
+		int special = 5;
+		int money = 40;
+		int stats = 100;
+
+		int r1 = R::nextInt(0, 101);
+		if (r1 < special)
+			pickups.push_back(new Health(pos, speed));
+		else if (r1 < money)
+		{
+			int white = 40;
+			int yellow = 70;
+			int green = 90;
+			int blue = 100;
+
+			int r2 = R::nextInt(0, 101);
+			if (r2 < white)
+				pickups.push_back(new Money(pos, speed, 0));
+			else if (r2 < yellow)
+				pickups.push_back(new Money(pos, speed, 1));
+			else if (r2 < green)
+				pickups.push_back(new Money(pos, speed, 2));
+			else if (r2 < blue)
+				pickups.push_back(new Money(pos, speed, 3));
+		}
+		else if (r1 < stats)
+			pickups.push_back(new Speed(pos, speed));
+	}
+}
+
 void Playing::tryStartingNewLevel()
 {
 	if (aliens.size() == 0)
@@ -235,6 +274,7 @@ void Playing::tryStartingNewLevel()
 		{
 			std::vector<Alien*> temp = levels[active_level - 1]->loadFromFile();
 			aliens.insert(aliens.end(), temp.begin(), temp.end());
+			hud->setLevel(active_level);
 		}
 	}
 }

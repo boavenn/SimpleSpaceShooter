@@ -1,6 +1,5 @@
 #pragma once
 #include "StateManager.hpp"
-#include "../entities/Player.hpp"
 #include "../entities/Projectile.hpp"
 #include "../util/Background.hpp"
 #include "../util/Random.hpp"
@@ -13,6 +12,7 @@
 #include "../entities/pickups/Speed.hpp"
 #include "../entities/pickups/Money.hpp"
 #include "../util/levels/Level.hpp"
+#include "../util/HUD.hpp"
 
 typedef Random R;
 
@@ -42,6 +42,7 @@ private:
 	Background* layer1;
 	sf::Sprite sidebar_l;
 	sf::Sprite sidebar_r;
+	HUD* hud;
 
 	std::vector<ParticleExplosion*> particle_explosions;
 	std::vector<Explosion*> sprite_explosions;
@@ -55,6 +56,8 @@ private:
 	void effectUpdates(float dt);
 	void backgroundUpdates(float dt);
 	void pickupUpdates(float dt);
+
+	void tryAddingPickup(sf::Vector2f pos);
 
 	void tryStartingNewLevel();
 };
