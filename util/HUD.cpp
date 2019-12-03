@@ -72,12 +72,12 @@ void HUD::init_boxes()
 
 void HUD::init_bars()
 {
-	reload_time = new ValuesBar(player->getReloadTime(), player->getReloadTimeMin(), "util", { 0, 16, 100, 14 }, {35.f, 100.f});
+	reload_time = new ValuesBar(player->getReloadTime(), player->getReloadTimeMin(), "util", { 0, 14, 100, 14 }, {35.f, 100.f});
 	R = new sf::Text("R", ResourceManager::get().fonts.get("MonospaceTypewriter"));
 	R->setCharacterSize(14);
 	R->setPosition({ 15.f, 98.f });
 
-	fire_rate = new ValuesBar(player->getShotGap(), player->getShotGapMin(), "util", { 0, 32, 100, 14 }, { 35.f, 120.f });
+	fire_rate = new ValuesBar(player->getShotGap(), player->getShotGapMin(), "util", { 0, 30, 100, 14 }, { 35.f, 120.f });
 	F = new sf::Text("F", ResourceManager::get().fonts.get("MonospaceTypewriter"));
 	F->setCharacterSize(14);
 	F->setPosition({ 15.f, 118.f });

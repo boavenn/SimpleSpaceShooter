@@ -52,7 +52,7 @@ protected:
 	float ascend_delay = 0.f;
 	float ascend_delay_timer = 0.f;
 	bool in_berserk_mode = false;
-	float diving_tick = 2.f;
+	float diving_tick;
 	float diving_timer = 0.f;
 	float diving_time_max = 2.f;
 	float diving_time = 0.f;

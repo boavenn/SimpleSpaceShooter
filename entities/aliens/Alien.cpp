@@ -16,6 +16,7 @@ Alien::Alien(sf::Vector2f pos, float max_health, int direction, float delay)
 
 	fire_tick = R::nextFloat(100, 200) / 100.f;
 	fire_delay = R::nextFloat(0, (int)((fire_tick / 2.f) * 100)) / 100.f;
+	diving_tick = R::nextFloat(200, 300) / 100.f;
 }
 
 Alien::~Alien()
@@ -91,7 +92,7 @@ void Alien::checkDive(float dt)
 			is_diving = true;
 			int r = R::nextInt(0, 51);
 			dive_sign = r < 25 ? 1 : -1;
-			fire_chance += 15.f;
+			fire_chance += 15;
 		}
 
 		diving_timer -= diving_tick;
@@ -108,8 +109,9 @@ void Alien::tryDive(float dt)
 		sprite.setPosition(target_pos);
 		velocity = { 0.f, 0.f };
 		is_diving = false;
+		diving_tick = R::nextFloat(200, 300) / 100.f;
 		diving_time = 0.f;
-		fire_chance -= 15.f;
+		fire_chance -= 15;
 	}
 	else
 	{

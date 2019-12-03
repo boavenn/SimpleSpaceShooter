@@ -4,7 +4,7 @@ Money::Money(sf::Vector2f init_pos, sf::Vector2f velocity, int tier) : Pickup(in
 {
 	animation = new Animation(0.1f);
 	for (int i = 0; i < 12; i++)
-		animation->addFrame({ 30 * i, 60 + 30 * tier, 30, 30 });
+		animation->addFrame({ 30 * i, 120 + 30 * tier, 30, 30 });
 
 	sprite.setTextureRect(animation->getFirstFrame());
 

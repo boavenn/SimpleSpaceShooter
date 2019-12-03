@@ -181,6 +181,20 @@ void Player::addMoney(int amount)
 	money += amount;
 }
 
+void Player::increaseFireRate(float amount)
+{
+	shot_gap -= amount;
+	if (shot_gap < shot_gap_min)
+		shot_gap = shot_gap_min;
+}
+
+void Player::decreaseReloadTime(float amount)
+{
+	reload_time -= amount;
+	if (reload_time < reload_time_min)
+		reload_time = reload_time_min;
+}
+
 void Player::setImmunity()
 {
 	if (is_immune)

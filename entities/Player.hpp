@@ -70,6 +70,8 @@ public:
 	void subLive();
 	void addSpeed(float speed);
 	void addMoney(int amount);
+	void increaseFireRate(float amount);
+	void decreaseReloadTime(float amount);
 	void setImmunity();
 
 // Getter and Setters

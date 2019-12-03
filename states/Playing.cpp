@@ -253,11 +253,24 @@ void Playing::tryAddingPickup(sf::Vector2f pos)
 				pickups.push_back(new Money(pos, speed, 1));
 			else if (r2 < green)
 				pickups.push_back(new Money(pos, speed, 2));
-			else if (r2 < blue)
+			else if (r2 <= blue)
 				pickups.push_back(new Money(pos, speed, 3));
 		}
-		else if (r1 < stats)
-			pickups.push_back(new Speed(pos, speed));
+		else if (r1 <= stats)
+		{
+			int sp = 35;
+			int reload = 70;
+			int firerate = 100;
+
+			int r2 = R::nextInt(0, 101);
+			if (r2 < sp)
+				pickups.push_back(new Speed(pos, speed));
+			else if (r2 < reload)
+				pickups.push_back(new ReloadTime(pos, speed));
+			else if (r2 <= firerate)
+				pickups.push_back(new FireRate(pos, speed));
+		}
+			
 	}
 }
 

@@ -11,6 +11,8 @@
 #include "../entities/pickups/Health.hpp"
 #include "../entities/pickups/Speed.hpp"
 #include "../entities/pickups/Money.hpp"
+#include "../entities/pickups/ReloadTime.hpp"
+#include "../entities/pickups/FireRate.hpp"
 #include "../util/levels/Level.hpp"
 #include "../util/HUD.hpp"
 
