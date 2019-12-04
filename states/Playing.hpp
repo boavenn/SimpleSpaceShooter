@@ -4,7 +4,7 @@
 #include "../util/Background.hpp"
 #include "../util/Random.hpp"
 #include "../weapons/OneShot.hpp"
-#include "../entities/aliens/Alien1.hpp"
+#include "../entities/aliens/Alien01.hpp"
 #include "../effects/ParticleExplosion.hpp"
 #include "../effects/Explosion.hpp"
 #include "../util/SoundMaking.hpp"

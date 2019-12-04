@@ -20,11 +20,13 @@ Playing::Playing(sf::RenderWindow& w, StateManager& sm) : State(w, sm), SoundMak
 	aliens.insert(aliens.end(), temp.begin(), temp.end());
 
 	addSoundBuffer("blaster3");
+	addSoundBuffer("battle");
+
+	playSound("battle", 1.f, 50.f, true);
 }
 
 Playing::~Playing()
 {
-	stopAllSounds();
 	delete player;
 	delete main_bg;
 	delete layer1;
@@ -76,7 +78,10 @@ void Playing::draw()
 void Playing::checkInput(float dt, sf::Event e)
 {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+	{
+		stopAllSounds();
 		should_pop = true;
+	}
 }
 
 void Playing::mapUpdates(float dt)

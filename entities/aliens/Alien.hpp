@@ -46,7 +46,7 @@ protected:
 	float fire_delay_timer = 0.f;
 	float ascend_time = 2.5f;
 	float ascend_timer = 0.f;
-	int fire_chance = 15;
+	int fire_chance;
 	sf::Vector2f ascending_velocity;
 	bool is_ascending = true;
 	float ascend_delay = 0.f;
@@ -56,7 +56,7 @@ protected:
 	float diving_timer = 0.f;
 	float diving_time_max = 2.f;
 	float diving_time = 0.f;
-	int dive_chance = 15;
+	int dive_chance;
 	int dive_sign;
 	bool is_diving = false;
 

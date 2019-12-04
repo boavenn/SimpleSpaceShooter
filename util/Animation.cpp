@@ -1,8 +1,9 @@
 #include "Animation.hpp"
 
-Animation::Animation(float delay)
+Animation::Animation(float delay, bool loop)
 {
 	this->delay = delay;
+	this->loop = loop;
 }
 
 void Animation::addFrame(const sf::IntRect& frame)
@@ -37,10 +38,13 @@ const sf::IntRect& Animation::update(float dt)
 			current_frame_idx = 0;
 		}
 
-		if (current_frame_idx == frames.size() - 1)
+		if (current_frame_idx >= frames.size() - 1)
 			animation_ended = true;			
 		
-		current_frame = frames[current_frame_idx];
+		if(loop)
+			current_frame = frames[current_frame_idx];
+		else if(!loop && !animation_ended)
+			current_frame = frames[current_frame_idx];
 	}
 	return current_frame;
 }

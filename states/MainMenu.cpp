@@ -5,6 +5,9 @@ MainMenu::MainMenu(sf::RenderWindow& w, StateManager& sm) : State(w, sm)
 	background.setTexture(ResourceManager::get().textures.get("menubg"));
 	background.setPosition({ 0.f, 0.f });
 	init_buttons();
+
+	addSoundBuffer("menu");
+	playSound("menu", 1.f, 50.f, true);
 }
 
 MainMenu::~MainMenu()
@@ -18,6 +21,12 @@ MainMenu::~MainMenu()
 
 void MainMenu::update(float dt, sf::Event e)
 {
+	if (!gained_focus && state_manager.size() < 2)
+	{
+		gained_focus = true;
+		playSound("menu", 1.f, 50.f, true);
+	}
+
 	checkInput(dt, e);
 
 	for (auto& x : buttons)
@@ -38,7 +47,10 @@ void MainMenu::update(float dt, sf::Event e)
 	}
 
 	if (should_pop)
+	{
+		stopAllSounds();
 		state_manager.popState();
+	}
 }
 
 void MainMenu::draw()
@@ -55,6 +67,8 @@ void MainMenu::checkInput(float dt, sf::Event e)
 		if (buttons[0]->isClicked(window))
 		{
 			state_manager.pushState(std::make_unique<Playing>(window, state_manager));
+			gained_focus = false;
+			stopAllSounds();
 		}
 		else if (buttons[1]->isClicked(window))
 		{
@@ -66,6 +80,7 @@ void MainMenu::checkInput(float dt, sf::Event e)
 		}
 		else if (buttons[3]->isClicked(window))
 			should_pop = true;
+		
 
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 		{
@@ -74,6 +89,7 @@ void MainMenu::checkInput(float dt, sf::Event e)
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 			should_pop = true;
+		
 	}
 }
 

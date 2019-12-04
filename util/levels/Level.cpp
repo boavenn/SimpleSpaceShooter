@@ -46,10 +46,19 @@ Alien* Level::createNewAlien(int type, sf::Vector2f pos, int direction, float de
 	switch (type)
 	{
 	case 1:
-		temp = new Alien1(pos, direction, delay);
+		temp = new Alien01(pos, direction, delay, 5.f);
+		break;
+	case 2:
+		temp = new Alien02(pos, direction, delay, 10.f);
+		break;
+	case 3:
+		temp = new Alien03(pos, direction, delay, 15.f);
+		break;
+	case 4:
+		temp = new Alien04(pos, direction, delay, 20.f);
 		break;
 	default:
-		temp = new Alien1(pos, direction, delay);
+		temp = new Alien01(pos, direction, delay, 5.f);
 		break;
 	}
 	return temp;

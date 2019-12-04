@@ -22,9 +22,10 @@ ResourceManager::ResourceManager() : textures("tex", "png"), audio("audio", "wav
 	for(int i = 1; i <=7; i++)
 		textures.add("explosion" + std::to_string(i));
 
-	audio.add("explosion1");
 	audio.add("blaster1");
 	audio.add("blaster3");
+	audio.add("battle");
+	audio.add("menu");
 
 	fonts.add("MonospaceTypewriter");
 }

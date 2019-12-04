@@ -7,7 +7,7 @@ class SoundMaking
 {
 public:
 	SoundMaking(unsigned voices_size = 1);
-	void playSound(std::string name, float pitch, float vol = 100.f);
+	void playSound(std::string name, float pitch, float vol = 100.f, bool loop = false);
 	void addSoundBuffer(std::string name);
 	void stopAllSounds();
 	void pauseAllSounds();

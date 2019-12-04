@@ -5,7 +5,7 @@ SoundMaking::SoundMaking(unsigned voices_size) : voices(voices_size)
 
 }
 
-void SoundMaking::playSound(std::string name, float pitch, float vol)
+void SoundMaking::playSound(std::string name, float pitch, float vol, bool loop)
 {
 	for (auto& v : voices)
 	{
@@ -14,6 +14,7 @@ void SoundMaking::playSound(std::string name, float pitch, float vol)
 			v.setBuffer(buffers.at(name));
 			v.setPitch(pitch);
 			v.setVolume(vol);
+			v.setLoop(loop);
 			v.play();
 			return;
 		}
@@ -25,6 +26,7 @@ void SoundMaking::playSound(std::string name, float pitch, float vol)
 	voices.back().setBuffer(buffers.at(name));
 	voices.back().setPitch(pitch);
 	voices.back().setVolume(vol);
+	voices.back().setLoop(loop);
 	voices.back().play();
 }
 

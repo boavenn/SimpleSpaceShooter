@@ -4,7 +4,7 @@
 #include "Playing.hpp"
 #include "LevelEditor.hpp"
 
-class MainMenu : public State
+class MainMenu : public State, public SoundMaking
 {
 public:
 	MainMenu(sf::RenderWindow& w, StateManager& sm);
@@ -15,6 +15,7 @@ public:
 
 private:
 	void init_buttons();
+	bool gained_focus = false;
 
 	std::vector<Button*> buttons;
 	sf::Sprite background;
