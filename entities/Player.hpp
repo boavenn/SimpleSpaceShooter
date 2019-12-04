@@ -7,6 +7,7 @@
 #include "../weapons/DoubleShot.hpp"
 #include "../weapons/TripleShot.hpp"
 #include "../weapons/QuadShot.hpp"
+#include "../weapons/EnhancedTriple.hpp"
 #include "../util/SoundMaking.hpp"
 #include "Entity.hpp"
 
@@ -51,7 +52,7 @@ private:
 	float on_death_immunity_time = 4.f;
 
 	// stats
-	int active_weapon = 0;
+	int active_weapon = 2;
 	int bullets_capacity = 3;
 	const int bullets_capacity_max = 10;
 	float reload_time = 0.5f;

@@ -22,6 +22,7 @@ Player::Player()
 	weapons.push_back(new DoubleShot(this));
 	weapons.push_back(new TripleShot(this));
 	weapons.push_back(new QuadShot(this));
+	weapons.push_back(new EnhancedTriple(this));
 }
 
 Player::~Player()
