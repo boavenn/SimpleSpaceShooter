@@ -19,6 +19,7 @@ Alien03::Alien03(sf::Vector2f pos, int direction, float delay, float hp) : Alien
 
 	dive_chance = 20;
 	fire_chance = 20;
+	score = 20;
 }
 
 void Alien03::update(float dt)

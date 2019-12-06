@@ -43,22 +43,24 @@ std::vector<Alien*> Level::loadFromFile()
 Alien* Level::createNewAlien(int type, sf::Vector2f pos, int direction, float delay)
 {
 	Alien* temp;
+	float base_delay = 1.f;
+	float d = delay + base_delay;
 	switch (type)
 	{
 	case 1:
-		temp = new Alien01(pos, direction, delay, 5.f);
+		temp = new Alien01(pos, direction, d, 5.f);
 		break;
 	case 2:
-		temp = new Alien02(pos, direction, delay, 10.f);
+		temp = new Alien02(pos, direction, d, 10.f);
 		break;
 	case 3:
-		temp = new Alien03(pos, direction, delay, 15.f);
+		temp = new Alien03(pos, direction, d, 15.f);
 		break;
 	case 4:
-		temp = new Alien04(pos, direction, delay, 20.f);
+		temp = new Alien04(pos, direction, d, 20.f);
 		break;
 	default:
-		temp = new Alien01(pos, direction, delay, 5.f);
+		temp = new Alien01(pos, direction, d, 5.f);
 		break;
 	}
 	return temp;

@@ -22,6 +22,7 @@ public:
 	bool shouldDie() { return should_die; }
 	bool isFiring() { return firing; }
 	virtual std::vector<Projectile*> getProjectiles() = 0;
+	long getScore() { return score; }
 
 protected:
 	void tryFire(float dt);
@@ -34,6 +35,7 @@ protected:
 	sf::Vector2f init_pos;
 	sf::Vector2f target_pos;
 	std::unordered_map<std::string, Animation*> animations;
+	long score;
 	float max_health;
 	float current_health;
 	bool got_hit = false;

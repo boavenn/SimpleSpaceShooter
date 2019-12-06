@@ -12,6 +12,12 @@ Playing::Playing(sf::RenderWindow& w, StateManager& sm) : State(w, sm), SoundMak
 	sidebar_r.setTextureRect({ 171, 0, -171, 768 });
 	sidebar_r.setPosition({ float(WindowProperties::getWidth() - 171), 0 });
 	hud = new HUD(player);
+	level_teller = new Box({ 100.f, 50.f }, { float(WindowProperties::getWidth() / 2.f), -50.f });
+	level_teller->setFont("MonospaceTypewriter");
+	level_teller->setText("Level 1");
+	level_teller->setTextIdleColor(sf::Color::Green);
+	level_teller->setTextScale({ 0.5f, 0.5f });
+	level_teller->centerText();
 
 	for (int i = 1; i <= 3; i++)
 		levels.push_back(new Level(i));
@@ -34,6 +40,12 @@ Playing::~Playing()
 
 void Playing::update(float dt, sf::Event e)
 {
+	if (state_manager.isOnTop(this) && shop_active)
+	{
+		shop_active = false;
+		playSound("battle", 1.f, 50.f, true);
+	}
+
 	checkInput(dt, e);
 
 	backgroundUpdates(dt);
@@ -42,9 +54,26 @@ void Playing::update(float dt, sf::Event e)
 	alienUpdates(dt);
 	effectUpdates(dt);
 	pickupUpdates(dt);
-
-	tryStartingNewLevel();
 	hud->update(dt);
+
+	if (should_add_shop)
+	{
+		if (pickups.size() == 0 && particle_explosions.size() == 0)
+		{
+			state_manager.pushState(std::make_unique<Shop>(window, state_manager, player, active_level), 0, 0);
+			shop_active = true;
+			should_add_shop = false;
+			resetTransitionFreeze();
+			stopAllSounds();
+		}
+	}
+	else
+	{
+		tryStartingNewLevel();
+	}
+
+	if (should_tell_level)
+		levelTellerUpdate(dt);
 
 	if (is_game_over)
 		should_pop = true;
@@ -73,14 +102,18 @@ void Playing::draw()
 	window.draw(sidebar_l);
 	window.draw(sidebar_r);
 	hud->draw(window);
+	level_teller->draw(window);
 }
 
 void Playing::checkInput(float dt, sf::Event e)
 {
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+	if (isAbleToInput(dt))
 	{
-		stopAllSounds();
-		should_pop = true;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+		{
+			stopAllSounds();
+			should_pop = true;
+		}
 	}
 }
 
@@ -166,6 +199,7 @@ void Playing::alienUpdates(float dt)
 			particle_explosions.push_back(new ParticleExplosion(alien->getPosition(), R::nextFloat(2, 7), 100));
 			sprite_explosions.push_back(new Explosion(alien->getPosition(), 1.f, R::nextInt(1, 7), 2.f));
 			tryAddingPickup(alien->getPosition());
+			player->addScore(alien->getScore());
 
 			delete aliens[i];
 			aliens.erase(aliens.begin() + i);
@@ -230,10 +264,21 @@ void Playing::pickupUpdates(float dt)
 	}
 }
 
+void Playing::levelTellerUpdate(float dt)
+{
+	sf::Vector2f v = { 0, 250.f };
+	level_teller->move(v * dt);
+	if (level_teller->getPosition().y > float(WindowProperties::getHeight()))
+	{
+		should_tell_level = false;
+		level_teller->setPosition({ float(WindowProperties::getWidth() / 2.f), -50.f });
+	}
+}
+
 void Playing::tryAddingPickup(sf::Vector2f pos)
 {
 	int chance = 25;
-	sf::Vector2f speed = { 0, 200.f };
+	sf::Vector2f speed = { 0, R::nextFloat(200, 300) };
 
 	if (R::nextInt(0, 101) < chance)
 	{
@@ -258,22 +303,28 @@ void Playing::tryAddingPickup(sf::Vector2f pos)
 				pickups.push_back(new Money(pos, speed, 1));
 			else if (r2 < green)
 				pickups.push_back(new Money(pos, speed, 2));
-			else if (r2 <= blue)
+			else
 				pickups.push_back(new Money(pos, speed, 3));
 		}
 		else if (r1 <= stats)
 		{
-			int sp = 35;
+			int proj_speed = 5;
+			int bullet = 15;
+			int firerate = 35;
 			int reload = 70;
-			int firerate = 100;
+			int sp = 100;
 
 			int r2 = R::nextInt(0, 101);
-			if (r2 < sp)
-				pickups.push_back(new Speed(pos, speed));
-			else if (r2 < reload)
-				pickups.push_back(new ReloadTime(pos, speed));
+			if (r2 < proj_speed)
+				pickups.push_back(new BulletSpeed(pos, speed));
+			else if (r2 < bullet)
+				pickups.push_back(new BulletCapacity(pos, speed));
 			else if (r2 <= firerate)
 				pickups.push_back(new FireRate(pos, speed));
+			else if (r2 <= reload)
+				pickups.push_back(new ReloadTime(pos, speed));
+			else
+				pickups.push_back(new Speed(pos, speed));
 		}
 			
 	}
@@ -281,15 +332,21 @@ void Playing::tryAddingPickup(sf::Vector2f pos)
 
 void Playing::tryStartingNewLevel()
 {
-	if (aliens.size() == 0)
+	if (aliens.size() == 0 && active_level < levels.size())
 	{
-		active_level++;
-		if (active_level > levels.size())
+		if (active_level % 2 == 0 && !shop_added)
 		{
-			//should_pop = true;
+			should_add_shop = true;
+			shop_added = true;
 		}
 		else
 		{
+			active_level++;
+			should_tell_level = true;
+			shop_added = false;
+			level_teller->setText("Level " + std::to_string(active_level));
+			level_teller->centerText();
+
 			std::vector<Alien*> temp = levels[active_level - 1]->loadFromFile();
 			aliens.insert(aliens.end(), temp.begin(), temp.end());
 			hud->setLevel(active_level);

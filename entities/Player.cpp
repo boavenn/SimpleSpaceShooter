@@ -3,6 +3,12 @@
 
 Player::Player()
 {
+	reload_time = reload_time_max;
+	bullets_capacity = bullets_capacity_min;
+	shot_gap = shot_gap_max;
+	speed = speed_min;
+	proj_speed = proj_speed_min;
+
 	Animation* animation = new Animation(0.2f);
 	for(int i = 0; i < 8; i++)
 		animation->addFrame({ 70 * i, 0, 70, 70 });
@@ -47,6 +53,7 @@ void Player::update(float dt)
 	checkReload(dt);
 	checkImmunity(dt);
 	checkInputBlock(dt);
+	checkPosition();
 	sprite.move(velocity * dt);
 
 	if (Playing::should_pause_sounds)
@@ -65,14 +72,10 @@ bool Player::gotHitBy(Projectile* proj)
 	{
 		if (!is_immune && !is_immune_on_death)
 		{
-			lives_left--;
+			subLive();
 			block_input = true;
 			is_immune_on_death = true;
 			should_explode = true;
-			if (lives_left < 0)
-			{
-				lost_all_lives = true;
-			}
 		}
 		return true;
 	}
@@ -157,6 +160,14 @@ void Player::checkInputBlock(float dt)
 	}
 }
 
+void Player::checkPosition()
+{
+	if (sprite.getPosition().x < 216.f)
+		sprite.setPosition({ 216.f, sprite.getPosition().y });
+	if (sprite.getPosition().x > 1150.f)
+		sprite.setPosition({ 1150.f, sprite.getPosition().y });
+}
+
 void Player::addLive()
 {
 	if (lives_left < int(lives_max))
@@ -166,6 +177,8 @@ void Player::addLive()
 void Player::subLive()
 {
 	lives_left--;
+	if (active_weapon > 0)
+		active_weapon--;
 	if (lives_left < 0)
 		lost_all_lives = true;
 }
@@ -182,11 +195,36 @@ void Player::addMoney(int amount)
 	money += amount;
 }
 
+void Player::subMoney(int amount)
+{
+	money -= amount;
+	if (money < 0)
+		money = 0;
+}
+
+void Player::addScore(long amount)
+{
+	score += amount;
+}
+
+void Player::addBulletsCapacity()
+{
+	if (bullets_capacity < bullets_capacity_max)
+		bullets_capacity++;
+}
+
 void Player::increaseFireRate(float amount)
 {
 	shot_gap -= amount;
 	if (shot_gap < shot_gap_min)
 		shot_gap = shot_gap_min;
+}
+
+void Player::increaseProjSpeed(float amount)
+{
+	proj_speed += amount;
+	if (proj_speed > proj_speed_max)
+		proj_speed = proj_speed_max;
 }
 
 void Player::decreaseReloadTime(float amount)

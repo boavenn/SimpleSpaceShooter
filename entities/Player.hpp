@@ -31,6 +31,7 @@ private:
 	void checkReload(float dt);
 	void checkImmunity(float dt);
 	void checkInputBlock(float dt);
+	void checkPosition();
 
 	std::unordered_map<std::string, Animation*> animations;
 	std::vector<Weapon*> weapons;
@@ -52,17 +53,25 @@ private:
 	float on_death_immunity_time = 4.f;
 
 	// stats
-	int active_weapon = 2;
-	int bullets_capacity = 3;
+	long score = 0;
+	int active_weapon = 0;
+	int bullets_capacity;
+	const int bullets_capacity_min = 3;
 	const int bullets_capacity_max = 10;
-	float reload_time = 0.5f;
+	float reload_time;
+	const float reload_time_max = 0.5f;
 	const float reload_time_min = 0.25f;
-	float shot_gap = 0.2f;
+	float shot_gap;
+	const float shot_gap_max = 0.2f;
 	const float shot_gap_min = 0.1f;
 	const unsigned lives_max = 3;
 	int lives_left = 2;
-	float speed = 300.f;
+	float speed;
+	const float speed_min = 300.f;
 	const float speed_max = 600.f;
+	float proj_speed;
+	const float proj_speed_min = 1.f;
+	const float proj_speed_max = 2.f;
 	int money = 0;
 
 // Stats manipulation
@@ -71,22 +80,38 @@ public:
 	void subLive();
 	void addSpeed(float speed);
 	void addMoney(int amount);
+	void subMoney(int amount);
+	void addScore(long amount);
+	void addBulletsCapacity();
 	void increaseFireRate(float amount);
+	void increaseProjSpeed(float amount);
 	void decreaseReloadTime(float amount);
 	void setImmunity();
+	void setActiveWeapon(int w) { active_weapon = w; }
 
 // Getter and Setters
 public:
-	std::vector<Projectile*> getNewWeaponProjectiles() { return weapons[active_weapon]->getNewProjectiles(); }
+	std::vector<Projectile*> getNewWeaponProjectiles() { return weapons[active_weapon]->getNewProjectiles(proj_speed); }
 	void setWeapon(Weapon* weapon) { this->weapons[active_weapon] = weapon; }
+	int getActiveWeapon() { return active_weapon; }
 	int getLivesLeft() { return lives_left; }
 	int getLivesMax() { return lives_max; }
 	float getReloadTime() { return reload_time; }
+	float getReloadTimeMax() { return reload_time_max; }
 	float getReloadTimeMin() { return reload_time_min; }
 	float getShotGap() { return shot_gap; }
+	float getShotGapMax() { return shot_gap_max; }
 	float getShotGapMin() { return shot_gap_min; }
 	float getSpeed() { return speed; }
+	float getSpeedMin() { return speed_min; }
 	float getSpeedMax() { return speed_max; }
+	float getBulletSpeed() { return proj_speed; }
+	float getBulletSpeedMin() { return proj_speed_min; }
+	float getBulletSpeedMax() { return proj_speed_max; }
+	int getBulletsCapacity() { return bullets_capacity; }
+	int getBulletsCapacityMin() { return bullets_capacity_min; }
+	int getBulletsCapacityMax() { return bullets_capacity_max; }
 	int getMoney() { return money; }
+	long getScore() { return score; }
 };
 

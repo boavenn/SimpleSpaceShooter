@@ -5,7 +5,7 @@ class QuadShot : public Weapon
 {
 public:
 	QuadShot(Entity* entity);
-	std::vector<Projectile*> getNewProjectiles(float dmg_mod) override;
+	std::vector<Projectile*> getNewProjectiles(float v_mod) override;
 
 private:
 };

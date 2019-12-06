@@ -13,8 +13,11 @@
 #include "../entities/pickups/Money.hpp"
 #include "../entities/pickups/ReloadTime.hpp"
 #include "../entities/pickups/FireRate.hpp"
+#include "../entities/pickups/BulletSpeed.hpp"
+#include "../entities/pickups/BulletCapacity.hpp"
 #include "../util/levels/Level.hpp"
 #include "../util/HUD.hpp"
+#include "../states/Shop.hpp"
 
 typedef Random R;
 
@@ -26,7 +29,6 @@ public:
 	void update(float dt, sf::Event e);
 	void draw();
 	void checkInput(float dt, sf::Event e);
-
 
 	static bool should_pause_sounds;
 private:
@@ -45,11 +47,16 @@ private:
 	sf::Sprite sidebar_l;
 	sf::Sprite sidebar_r;
 	HUD* hud;
+	Box* level_teller;
 
 	std::vector<ParticleExplosion*> particle_explosions;
 	std::vector<Explosion*> sprite_explosions;
 
 	bool is_game_over = false;
+	bool should_tell_level = true;
+	bool shop_active = false;
+	bool should_add_shop = false;
+	bool shop_added = false;
 	size_t active_level = 1;
 private:
 	void mapUpdates(float dt);
@@ -58,6 +65,7 @@ private:
 	void effectUpdates(float dt);
 	void backgroundUpdates(float dt);
 	void pickupUpdates(float dt);
+	void levelTellerUpdate(float dt);
 
 	void tryAddingPickup(sf::Vector2f pos);
 

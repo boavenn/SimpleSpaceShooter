@@ -31,6 +31,11 @@ bool StateManager::isEmpty()
 	return stack.empty();
 }
 
+bool StateManager::isOnTop(State* state)
+{
+	return state == &getTop();
+}
+
 State& StateManager::getTop()
 {
 	return *stack.back();

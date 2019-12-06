@@ -12,12 +12,13 @@ public:
 	virtual void draw() = 0;
 	virtual void checkInput(float dt, sf::Event e) = 0;
 	void setPlace(unsigned idx);
+	void resetTransitionFreeze() { input_ability = false; }
 	bool& isConcurrent();
 
 protected:
 	bool isAbleToInput(float dt);
 
-	float transition_freeze_time = 0.2f;
+	float transition_freeze_time = 0.5f;
 	float transition_elapsed = 0.f;
 	bool input_ability = false;
 	bool is_concurrent = false;

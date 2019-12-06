@@ -13,7 +13,7 @@ void Health::giveBonus(Player* player)
 {
 	if (!should_die)
 	{
-		player->addLive();
+		player->addBulletsCapacity();
 		should_die = true;
 	}
 }

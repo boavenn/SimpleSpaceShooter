@@ -19,6 +19,7 @@ ResourceManager::ResourceManager() : textures("tex", "png"), audio("audio", "wav
 	textures.add("buttons");
 	textures.add("menubg");
 	textures.add("util");
+	textures.add("shop");
 	for(int i = 1; i <=7; i++)
 		textures.add("explosion" + std::to_string(i));
 
@@ -26,6 +27,7 @@ ResourceManager::ResourceManager() : textures("tex", "png"), audio("audio", "wav
 	audio.add("blaster3");
 	audio.add("battle");
 	audio.add("menu");
+	audio.add("shop");
 
 	fonts.add("MonospaceTypewriter");
 }
