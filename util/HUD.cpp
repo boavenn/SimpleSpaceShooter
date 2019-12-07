@@ -16,7 +16,22 @@ HUD::HUD(Player* player)
 
 HUD::~HUD()
 {
-
+	delete reload_time;
+	delete speed;
+	delete proj_speed;
+	delete fire_rate;
+	delete R;
+	delete S;
+	delete F;
+	delete BS;
+	delete level;
+	delete money;
+	delete score;
+	for (size_t i = 0; i < lives.size();)
+	{
+		delete lives.front();
+		lives.erase(lives.begin());
+	}
 }
 
 void HUD::update(float dt)

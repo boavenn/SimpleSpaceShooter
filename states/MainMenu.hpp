@@ -3,6 +3,7 @@
 #include "../gui/Button.hpp"
 #include "Playing.hpp"
 #include "LevelEditor.hpp"
+#include "HighScores.hpp"
 
 class MainMenu : public State, public SoundMaking
 {

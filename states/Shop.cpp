@@ -23,18 +23,37 @@ Shop::Shop(sf::RenderWindow& w, StateManager& sm, Player* player, int level) : S
 
 Shop::~Shop()
 {
-
+	delete hud;
+	delete quit;
 }
 
 void Shop::update(float dt, sf::Event e)
 {
 	checkInput(dt, e);
 
+	explosion_timer += dt;
+	if (explosion_timer >= explosion_add_interval)
+	{
+		explosions.push_back(new ParticleExplosion({ R::nextFloat(200, 1166), R::nextFloat(0, 768) }, R::nextFloat(2, 4), 100));
+		explosion_timer -= explosion_add_interval;
+	}
+
 	for (Button* b : options)	
 		b->update(window);	
 	quit->update(window);
-
 	hud->update(dt);
+	for (ParticleExplosion* p : explosions)
+		p->update(dt);
+
+	for (size_t i = 0; i < explosions.size(); i++)
+	{
+		if (explosions[i]->shouldDie())
+		{
+			delete explosions[i];
+			explosions.erase(explosions.begin() + i);
+			i--;
+		}
+	}
 
 	if (should_pop)
 		state_manager.popState();
@@ -42,9 +61,11 @@ void Shop::update(float dt, sf::Event e)
 
 void Shop::draw()
 {
+	window.draw(background);
+	for (ParticleExplosion* p : explosions)
+		p->draw(window);
 	window.draw(sidebar_l);
 	window.draw(sidebar_r);
-	window.draw(background);
 	hud->draw(window);
 	for (Button* b : options)
 		b->draw(window);

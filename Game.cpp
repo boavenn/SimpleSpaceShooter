@@ -16,6 +16,11 @@ Game::Game() : window(sf::VideoMode(WindowProperties::getWidth(), WindowProperti
 	state_manager.pushState(std::make_unique<MainMenu>(window, state_manager), 0, 1);
 }
 
+Game::~Game()
+{
+	delete fps;
+}
+
 void Game::run()
 {
 	sf::Clock clock;

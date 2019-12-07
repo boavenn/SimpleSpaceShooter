@@ -9,6 +9,11 @@ Pickup::Pickup(sf::Vector2f init_pos, sf::Vector2f velocity)
 	sprite.setPosition(init_pos);
 }
 
+Pickup::~Pickup()
+{
+	delete animation;
+}
+
 void Pickup::update(float dt)
 {
 	sprite.move(velocity * dt);

@@ -13,7 +13,8 @@ Dummy::Dummy(std::string tex, sf::IntRect rect, int type, sf::Vector2f pos)
 
 Dummy::Dummy(Dummy* d) : Dummy(d->tex, d->rect, d->type, { d->getPosition().x - 30.f, d->getPosition().y - 30.f })
 {
-
+	direction = d->direction;
+	delay = d->delay;
 }
 
 bool Dummy::isActive(sf::RenderWindow& w)

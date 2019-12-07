@@ -15,6 +15,11 @@ ValuesBar::ValuesBar(float min, float max, std::string tex, sf::IntRect rect, sf
 	background.setPosition(pos);
 }
 
+ValuesBar::~ValuesBar()
+{
+	delete bar;
+}
+
 void ValuesBar::update(float current)
 {
 	bar->setTextureRect({ rect.left, rect.top, int((current - min) / (max - min) * rect.width), rect.height });

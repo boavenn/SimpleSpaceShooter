@@ -2,8 +2,12 @@
 #include "StateManager.hpp"
 #include "../gui/Button.hpp"
 #include "../entities/Player.hpp"
+#include "../effects/ParticleExplosion.hpp"
 #include "../util/HUD.hpp"
+#include "../util/Random.hpp"
 #include <unordered_map>
+
+typedef Random R;
 
 class Shop : public State, public SoundMaking
 {
@@ -20,6 +24,10 @@ private:
 	Player* player;
 	std::vector<Button*> options;
 	std::vector<Box*> price_boxes;
+	std::vector<ParticleExplosion*> explosions;
+	float explosion_add_interval = 0.1f;
+	float explosion_timer = 0.f;
+
 	Button* quit;
 	int util_quantity = 6;
 	int weapon_quantity = 4;

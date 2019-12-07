@@ -5,6 +5,7 @@ class ValuesBar
 {
 public:
 	ValuesBar(float min, float max, std::string tex, sf::IntRect rect, sf::Vector2f pos);
+	~ValuesBar();
 	void update(float current);
 	void draw(sf::RenderWindow& w);
 

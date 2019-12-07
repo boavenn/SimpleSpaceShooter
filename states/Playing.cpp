@@ -1,4 +1,5 @@
 #include "Playing.hpp"
+#include <iostream>
 
 bool Playing::should_pause_sounds = false;
 
@@ -19,7 +20,14 @@ Playing::Playing(sf::RenderWindow& w, StateManager& sm) : State(w, sm), SoundMak
 	level_teller->setTextScale({ 0.5f, 0.5f });
 	level_teller->centerText();
 
-	for (int i = 1; i <= 3; i++)
+	shop_teller = new Box({ 100.f, 50.f }, { 50.f, float(WindowProperties::getHeight()) / 2.f });
+	shop_teller->setFont("MonospaceTypewriter");
+	shop_teller->setText("Shopping time");
+	shop_teller->setTextIdleColor(sf::Color::Green);
+	shop_teller->setTextScale({ 0.5f, 0.5f });
+	shop_teller->centerText();
+
+	for (int i = 1; i <= 5; i++)
 		levels.push_back(new Level(i));
 
 	std::vector<Alien*> temp = levels.front()->loadFromFile();
@@ -36,6 +44,49 @@ Playing::~Playing()
 	delete player;
 	delete main_bg;
 	delete layer1;
+	delete hud;
+	delete level_teller;
+	delete shop_teller;
+	for (size_t i = 0; i < player_projectiles.size();)
+	{
+		delete player_projectiles[0];
+		player_projectiles.erase(player_projectiles.begin());
+	}
+	for (size_t i = 0; i < levels.size();)
+	{
+		delete levels[0];
+		levels.erase(levels.begin());
+	}
+	for (size_t i = 0; i < aliens.size();)
+	{
+		delete aliens[0];
+		aliens.erase(aliens.begin());
+	}
+	for (size_t i = 0; i < alien_projectiles.size();)
+	{
+		delete alien_projectiles[0];
+		alien_projectiles.erase(alien_projectiles.begin());
+	}
+	for (size_t i = 0; i < pickups.size();)
+	{
+		delete pickups[0];
+		pickups.erase(pickups.begin());
+	}
+	for (size_t i = 0; i < floating_texts.size();)
+	{
+		delete floating_texts[0];
+		floating_texts.erase(floating_texts.begin());
+	}
+	for (size_t i = 0; i < particle_explosions.size();)
+	{
+		delete particle_explosions[0];
+		particle_explosions.erase(particle_explosions.begin());
+	}
+	for (size_t i = 0; i < sprite_explosions.size();)
+	{
+		delete sprite_explosions[0];
+		sprite_explosions.erase(sprite_explosions.begin());
+	}
 }
 
 void Playing::update(float dt, sf::Event e)
@@ -50,15 +101,17 @@ void Playing::update(float dt, sf::Event e)
 
 	backgroundUpdates(dt);
 	mapUpdates(dt);
-	playerUpdates(dt);
+	if(!gameover_loop)
+		playerUpdates(dt);
 	alienUpdates(dt);
+	floatingTextUpdates(dt);
 	effectUpdates(dt);
 	pickupUpdates(dt);
 	hud->update(dt);
 
 	if (should_add_shop)
 	{
-		if (pickups.size() == 0 && particle_explosions.size() == 0)
+		if (pickups.size() == 0 && !should_tell_shop)
 		{
 			state_manager.pushState(std::make_unique<Shop>(window, state_manager, player, active_level), 0, 0);
 			shop_active = true;
@@ -75,8 +128,16 @@ void Playing::update(float dt, sf::Event e)
 	if (should_tell_level)
 		levelTellerUpdate(dt);
 
+	if (should_tell_shop)
+		shopTellerUpdate(dt);
+
 	if (is_game_over)
-		should_pop = true;
+	{
+		stopAllSounds();
+		state_manager.pushState(std::make_unique<GameOver>(window, state_manager, player->getScore()));
+		is_game_over = false;
+		gameover_loop = true;
+	}
 
 	if (should_pop)
 		state_manager.popState();
@@ -90,7 +151,8 @@ void Playing::draw()
 		pe->draw(window);
 	for (Pickup* p : pickups)
 		p->draw(window);
-	player->draw(window);
+	if(!gameover_loop)
+		player->draw(window);
 	for (Explosion* e : sprite_explosions)
 		e->draw(window);
 	for (Projectile* p : player_projectiles)
@@ -99,6 +161,9 @@ void Playing::draw()
 		p->draw(window);
 	for (Alien* a : aliens)
 		a->draw(window);
+	for (FloatingText* f : floating_texts)
+		f->draw(window);
+	shop_teller->draw(window);
 	window.draw(sidebar_l);
 	window.draw(sidebar_r);
 	hud->draw(window);
@@ -109,7 +174,7 @@ void Playing::checkInput(float dt, sf::Event e)
 {
 	if (isAbleToInput(dt))
 	{
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) && !gameover_loop)
 		{
 			stopAllSounds();
 			should_pop = true;
@@ -200,6 +265,7 @@ void Playing::alienUpdates(float dt)
 			sprite_explosions.push_back(new Explosion(alien->getPosition(), 1.f, R::nextInt(1, 7), 2.f));
 			tryAddingPickup(alien->getPosition());
 			player->addScore(alien->getScore());
+			floating_texts.push_back(new FloatingText(std::to_string(alien->getScore()), { alien->getPosition().x + R::nextFloat(-30, 30),  alien->getPosition().y + R::nextFloat(-30, 30) }));
 
 			delete aliens[i];
 			aliens.erase(aliens.begin() + i);
@@ -264,6 +330,20 @@ void Playing::pickupUpdates(float dt)
 	}
 }
 
+void Playing::floatingTextUpdates(float dt)
+{
+	for (size_t i = 0; i < floating_texts.size(); i++)
+	{
+		floating_texts[i]->update(dt);
+		if (floating_texts[i]->isDead())
+		{
+			delete floating_texts[i];
+			floating_texts.erase(floating_texts.begin() + i);
+			i--;
+		}
+	}
+}
+
 void Playing::levelTellerUpdate(float dt)
 {
 	sf::Vector2f v = { 0, 250.f };
@@ -272,6 +352,17 @@ void Playing::levelTellerUpdate(float dt)
 	{
 		should_tell_level = false;
 		level_teller->setPosition({ float(WindowProperties::getWidth() / 2.f), -50.f });
+	}
+}
+
+void Playing::shopTellerUpdate(float dt)
+{
+	sf::Vector2f v = { 300, 0.f };
+	shop_teller->move(v * dt);
+	if (shop_teller->getPosition().x > float(WindowProperties::getWidth()) - 50.f)
+	{
+		should_tell_shop = false;
+		shop_teller->setPosition({ 50.f, float(WindowProperties::getHeight()) / 2.f });
 	}
 }
 
@@ -337,6 +428,7 @@ void Playing::tryStartingNewLevel()
 		if (active_level % 2 == 0 && !shop_added)
 		{
 			should_add_shop = true;
+			should_tell_shop = true;
 			shop_added = true;
 		}
 		else

@@ -15,6 +15,11 @@ Explosion::Explosion(sf::Vector2f pos, float max_life_time, int type, float scal
 	sprite.setScale({ scale, scale });
 }
 
+Explosion::~Explosion()
+{
+	delete animation;
+}
+
 void Explosion::update(float dt)
 {
 	sprite.setTextureRect(animation->update(dt));

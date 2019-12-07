@@ -28,6 +28,16 @@ LevelEditor::~LevelEditor()
 		delete dummies.front();
 		dummies.erase(dummies.begin());
 	}
+	for (size_t i = 0; i < instructions.size(); i++)
+	{
+		delete instructions.front();
+		instructions.erase(instructions.begin());
+	}
+	for (size_t i = 0; i < lines.size(); i++)
+	{
+		delete lines.front();
+		lines.erase(lines.begin());
+	}
 }
 
 void LevelEditor::update(float dt, sf::Event e)
@@ -244,7 +254,7 @@ void LevelEditor::init_instructions()
 	{
 		"Pressing LMB on a dummy makes it active",
 		"Press RMB to set parameters as: [direction(0-7),delay(millis)]",
-		"Press C to shallow clone",
+		"Press C to clone",
 		"Press D to delete",
 		"Press S to save in a file"
 	};

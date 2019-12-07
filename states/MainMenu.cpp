@@ -14,7 +14,7 @@ MainMenu::~MainMenu()
 {
 	for (size_t i = 0; i < buttons.size();)
 	{
-		delete buttons[i];
+		delete buttons[0];
 		buttons.erase(buttons.begin());
 	}
 }
@@ -76,7 +76,7 @@ void MainMenu::checkInput(float dt, sf::Event e)
 		}
 		else if (buttons[2]->isClicked(window))
 		{
-			//state_manager.pushState(std::make_unique<HighScores>(window, state_manager));
+			state_manager.pushState(std::make_unique<HighScores>(window, state_manager));
 		}
 		else if (buttons[3]->isClicked(window))
 			should_pop = true;

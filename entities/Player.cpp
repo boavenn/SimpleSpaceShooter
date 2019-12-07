@@ -36,6 +36,11 @@ Player::~Player()
 	stopAllSounds();
 	if (!animations.empty())
 		animations.clear();
+	for (size_t i = 0; i < weapons.size(); i++)
+	{
+		delete weapons.front();
+		weapons.erase(weapons.begin());
+	}
 }
 
 void Player::update(float dt)

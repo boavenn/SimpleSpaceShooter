@@ -10,6 +10,7 @@ class Pickup : public Entity
 {
 public:
 	Pickup(sf::Vector2f init_pos, sf::Vector2f velocity);
+	~Pickup();
 	void update(float dt);
 	void draw(sf::RenderWindow& w);
 	virtual void giveBonus(Player* player) = 0;

@@ -18,6 +18,8 @@
 #include "../util/levels/Level.hpp"
 #include "../util/HUD.hpp"
 #include "../states/Shop.hpp"
+#include "../util/FloatingText.hpp"
+#include "GameOver.hpp"
 
 typedef Random R;
 
@@ -41,6 +43,7 @@ private:
 	std::vector<Alien*> aliens;
 	std::vector<Projectile*> alien_projectiles;
 	std::vector<Pickup*> pickups;
+	std::vector<FloatingText*> floating_texts;
 
 	Background* main_bg;
 	Background* layer1;
@@ -48,12 +51,15 @@ private:
 	sf::Sprite sidebar_r;
 	HUD* hud;
 	Box* level_teller;
+	Box* shop_teller;
 
 	std::vector<ParticleExplosion*> particle_explosions;
 	std::vector<Explosion*> sprite_explosions;
 
 	bool is_game_over = false;
+	bool gameover_loop = false;
 	bool should_tell_level = true;
+	bool should_tell_shop = false;
 	bool shop_active = false;
 	bool should_add_shop = false;
 	bool shop_added = false;
@@ -65,7 +71,9 @@ private:
 	void effectUpdates(float dt);
 	void backgroundUpdates(float dt);
 	void pickupUpdates(float dt);
+	void floatingTextUpdates(float dt);
 	void levelTellerUpdate(float dt);
+	void shopTellerUpdate(float dt);
 
 	void tryAddingPickup(sf::Vector2f pos);
 
