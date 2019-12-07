@@ -3,6 +3,7 @@
 #include "../../entities/aliens/Alien02.hpp"
 #include "../../entities/aliens/Alien03.hpp"
 #include "../../entities/aliens/Alien04.hpp"
+#include "../../entities/aliens/Alien05.hpp"
 #include <fstream>
 #include <sstream>
 

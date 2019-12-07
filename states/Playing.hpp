@@ -63,6 +63,7 @@ private:
 	bool shop_active = false;
 	bool should_add_shop = false;
 	bool shop_added = false;
+	bool berserk_mode_activated = false;
 	size_t active_level = 1;
 private:
 	void mapUpdates(float dt);

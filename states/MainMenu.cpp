@@ -7,7 +7,7 @@ MainMenu::MainMenu(sf::RenderWindow& w, StateManager& sm) : State(w, sm)
 	init_buttons();
 
 	addSoundBuffer("menu");
-	playSound("menu", 1.f, 50.f, true);
+	playSound("menu", 1.f, 25.f, true);
 }
 
 MainMenu::~MainMenu()
@@ -24,7 +24,7 @@ void MainMenu::update(float dt, sf::Event e)
 	if (!gained_focus && state_manager.size() < 2)
 	{
 		gained_focus = true;
-		playSound("menu", 1.f, 50.f, true);
+		playSound("menu", 1.f, 25.f, true);
 	}
 
 	checkInput(dt, e);

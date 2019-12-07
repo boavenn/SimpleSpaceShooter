@@ -39,6 +39,17 @@ bool Alien::gotHitBy(Projectile* proj)
 	return false;
 }
 
+void Alien::activateBerserkMode()
+{
+	in_berserk_mode = true;
+	int r = R::nextInt(0, 101);
+	if (r <= 50)
+		berserk_mode_dir = -1;
+	else
+		berserk_mode_dir = 1;
+	fire_chance += 20;
+}
+
 void Alien::tryFire(float dt)
 {
 	if (should_fire)
@@ -119,6 +130,39 @@ void Alien::tryDive(float dt)
 		velocity.x = dive_sign * 144.f * float(cos(2 * M_PI * diving_time / diving_time_max));
 		velocity.y = R::nextFloat(y - 100, y + 100) * float(sin(2.f * M_PI * diving_time / diving_time_max));
 	}
+}
+
+void Alien::checkBerserkMode(float dt)
+{
+	berserk_mode_timer += dt;
+	if (berserk_mode_timer >= berserk_mode_tick)
+	{
+		if(!change_dir)
+			velocity = { berserk_mode_dir * R::nextFloat(200, 300), R::nextFloat(200, 350) };
+		else
+		{
+			velocity.x += berserk_mode_dir * 50.f;
+			if (berserk_mode_dir < 0 && velocity.x <= -200)
+				change_dir = false;
+			else if (berserk_mode_dir > 0 && velocity.x >= 200)
+				change_dir = false;
+		}
+
+		if (!change_dir && R::nextInt(0, 101) <= 20)
+		{	
+			berserk_mode_dir = -berserk_mode_dir;
+			change_dir = true;
+		}
+
+		berserk_mode_timer -= berserk_mode_tick;
+	}
+
+	if (sprite.getPosition().y > float(WindowProperties::getHeight()))
+		sprite.setPosition({ sprite.getPosition().x, -50.f });
+	if (sprite.getPosition().x < 150.f)
+		sprite.setPosition({ float(WindowProperties::getWidth()) - 150.f, sprite.getPosition().y });
+	else if (sprite.getPosition().x > float(WindowProperties::getWidth()) - 150.f)
+		sprite.setPosition({ 150.f, sprite.getPosition().y });
 }
 
 void Alien::setInitPos(AscendDir dir)

@@ -23,13 +23,14 @@ public:
 	bool isFiring() { return firing; }
 	virtual std::vector<Projectile*> getProjectiles() = 0;
 	long getScore() { return score; }
+	void activateBerserkMode();
 
 protected:
 	void tryFire(float dt);
 	void tryAscend(float dt);
 	void checkDive(float dt);
 	void tryDive(float dt);
-	void setBerserkModeOn() { in_berserk_mode = true; }
+	void checkBerserkMode(float dt);
 
 	AscendDir ascend_direction;
 	sf::Vector2f init_pos;
@@ -53,7 +54,11 @@ protected:
 	bool is_ascending = true;
 	float ascend_delay = 0.f;
 	float ascend_delay_timer = 0.f;
+	int berserk_mode_dir;
 	bool in_berserk_mode = false;
+	float berserk_mode_tick = 0.2f;
+	float berserk_mode_timer = 0.f;
+	bool change_dir = false;
 	float diving_tick;
 	float diving_timer = 0.f;
 	float diving_time_max = 2.f;

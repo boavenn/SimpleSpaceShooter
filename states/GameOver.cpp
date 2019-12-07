@@ -1,4 +1,5 @@
 #include "GameOver.hpp"
+#include "Playing.hpp"
 
 GameOver::GameOver(sf::RenderWindow& w, StateManager& sm, long score) : State(w, sm)
 {

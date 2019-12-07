@@ -1,14 +1,14 @@
-#include "Alien04.hpp"
+#include "Alien05.hpp"
 
-Alien04::Alien04(sf::Vector2f pos, int direction, float delay, float hp) : Alien(pos, hp, direction, delay)
+Alien05::Alien05(sf::Vector2f pos, int direction, float delay, float hp) : Alien(pos, hp, direction, delay)
 {
 	Animation* animation = new Animation(0.2f);
 	for (int i = 0; i < 8; i++)
-		animation->addFrame({ 50 * i, 150, 50, 50 });
+		animation->addFrame({ 50 * i, 200, 50, 50 });
 	animations.insert(std::make_pair("Stationary", animation));
 
 	animation = new Animation(0.1f, false);
-	animation->addFrame({ 400, 150, 50, 50 });
+	animation->addFrame({ 400, 200, 50, 50 });
 	animations.insert(std::make_pair("GettingHit", animation));
 
 	sprite.setTextureRect(animations.at("Stationary")->getFirstFrame());
@@ -17,12 +17,12 @@ Alien04::Alien04(sf::Vector2f pos, int direction, float delay, float hp) : Alien
 
 	addSoundBuffer("blaster1");
 
-	dive_chance = 30;
-	fire_chance = 15;
-	score = 25;
+	dive_chance = 35;
+	fire_chance = 20;
+	score = 35;
 }
 
-void Alien04::update(float dt)
+void Alien05::update(float dt)
 {
 	if (!is_ascending)
 	{
@@ -62,15 +62,16 @@ void Alien04::update(float dt)
 		tryAscend(dt);
 }
 
-void Alien04::draw(sf::RenderWindow& w)
+void Alien05::draw(sf::RenderWindow& w)
 {
 	w.draw(sprite);
 }
 
-std::vector<Projectile*> Alien04::getProjectiles()
+std::vector<Projectile*> Alien05::getProjectiles()
 {
 	std::vector<Projectile*> temp;
-	temp.push_back(new Projectile({ this->bottom().x - 6.f, this->bottom().y }, { -50.f, 500.f }, 1, { 24, 20, 8, 12 }));
-	temp.push_back(new Projectile({ this->bottom().x + 6.f, this->bottom().y }, { 50.f, 500.f }, 1, { 24, 20, 8, 12 }));
+	temp.push_back(new Projectile({ this->bottom().x - 6.f, this->bottom().y }, { -50.f, 600.f }, 1, { 32, 20, 8, 12 }));
+	temp.push_back(new Projectile({ this->bottom().x, this->bottom().y }, { 0.f, 600.f }, 1, { 32, 20, 8, 12 }));
+	temp.push_back(new Projectile({ this->bottom().x + 6.f, this->bottom().y }, { 50.f, 600.f }, 1, { 32, 20, 8, 12 }));
 	return temp;
 }

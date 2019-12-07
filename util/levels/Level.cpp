@@ -1,5 +1,4 @@
 #include "Level.hpp"
-#include <iostream>
 
 Level::Level(int level)
 {
@@ -58,6 +57,9 @@ Alien* Level::createNewAlien(int type, sf::Vector2f pos, int direction, float de
 		break;
 	case 4:
 		temp = new Alien04(pos, direction, d, 20.f);
+		break;
+	case 5:
+		temp = new Alien05(pos, direction, d, 20.f);
 		break;
 	default:
 		temp = new Alien01(pos, direction, d, 5.f);

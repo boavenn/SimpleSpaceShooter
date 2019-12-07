@@ -1,5 +1,4 @@
 #include "Playing.hpp"
-#include <iostream>
 
 bool Playing::should_pause_sounds = false;
 
@@ -35,8 +34,9 @@ Playing::Playing(sf::RenderWindow& w, StateManager& sm) : State(w, sm), SoundMak
 
 	addSoundBuffer("blaster3");
 	addSoundBuffer("battle");
+	addSoundBuffer("pickup");
 
-	playSound("battle", 1.f, 50.f, true);
+	playSound("battle", 1.f, 25.f, true);
 }
 
 Playing::~Playing()
@@ -94,7 +94,7 @@ void Playing::update(float dt, sf::Event e)
 	if (state_manager.isOnTop(this) && shop_active)
 	{
 		shop_active = false;
-		playSound("battle", 1.f, 50.f, true);
+		playSound("battle", 1.f, 25.f, true);
 	}
 
 	checkInput(dt, e);
@@ -133,7 +133,6 @@ void Playing::update(float dt, sf::Event e)
 
 	if (is_game_over)
 	{
-		stopAllSounds();
 		state_manager.pushState(std::make_unique<GameOver>(window, state_manager, player->getScore()));
 		is_game_over = false;
 		gameover_loop = true;
@@ -174,10 +173,17 @@ void Playing::checkInput(float dt, sf::Event e)
 {
 	if (isAbleToInput(dt))
 	{
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) && !gameover_loop)
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 		{
+			if(!gameover_loop)
+				should_pop = true;
 			stopAllSounds();
-			should_pop = true;
+		}
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
+		{
+			if (gameover_loop)
+				stopAllSounds();
 		}
 	}
 }
@@ -319,7 +325,10 @@ void Playing::pickupUpdates(float dt)
 		pickups[i]->update(dt);
 
 		if (player->contains(pickups[i]))
+		{
 			pickups[i]->giveBonus(player);
+			playSound("pickup", 1.f, 100.f);
+		}
 
 		if (pickups[i]->shouldDie() || pickups[i]->isOutOfMap())
 		{
@@ -423,6 +432,13 @@ void Playing::tryAddingPickup(sf::Vector2f pos)
 
 void Playing::tryStartingNewLevel()
 {
+	if (aliens.size() < 9 && !berserk_mode_activated)
+	{
+		for (Alien* a : aliens)
+			a->activateBerserkMode();
+		berserk_mode_activated = true;
+	}
+
 	if (aliens.size() == 0 && active_level < levels.size())
 	{
 		if (active_level % 2 == 0 && !shop_added)
@@ -436,6 +452,7 @@ void Playing::tryStartingNewLevel()
 			active_level++;
 			should_tell_level = true;
 			shop_added = false;
+			berserk_mode_activated = false;
 			level_teller->setText("Level " + std::to_string(active_level));
 			level_teller->centerText();
 

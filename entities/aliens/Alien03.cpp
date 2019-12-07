@@ -17,7 +17,7 @@ Alien03::Alien03(sf::Vector2f pos, int direction, float delay, float hp) : Alien
 
 	addSoundBuffer("blaster1");
 
-	dive_chance = 20;
+	dive_chance = 25;
 	fire_chance = 20;
 	score = 20;
 }
@@ -43,13 +43,18 @@ void Alien03::update(float dt)
 			sprite.setTextureRect(animations.at("Stationary")->update(dt));
 
 		tryFire(dt);
-		checkDive(dt);
+
+		if (!in_berserk_mode)
+		{
+			checkDive(dt);
+			if (is_diving)
+				tryDive(dt);
+		}
+		else
+			checkBerserkMode(dt);
 
 		if (firing)
 			playSound("blaster1", 1.f);
-
-		if (is_diving)
-			tryDive(dt);
 
 		sprite.move(velocity * dt);
 	}

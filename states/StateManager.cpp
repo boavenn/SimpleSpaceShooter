@@ -22,8 +22,8 @@ void StateManager::pushState(std::unique_ptr<State> new_state, bool is_swapping,
 void StateManager::popState(unsigned quantity)
 {
 	for (size_t i = 0; i < quantity; i++)
-		if (!stack.empty())
-			stack.pop_back();
+		if (!stack.empty())		
+			stack.pop_back();		
 }
 
 bool StateManager::isEmpty()

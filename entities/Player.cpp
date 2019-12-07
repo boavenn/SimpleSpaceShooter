@@ -1,7 +1,7 @@
 #include "Player.hpp"
 #include "../states/Playing.hpp"
 
-Player::Player()
+Player::Player() : SoundMaking(10)
 {
 	reload_time = reload_time_max;
 	bullets_capacity = bullets_capacity_min;
@@ -29,6 +29,9 @@ Player::Player()
 	weapons.push_back(new TripleShot(this));
 	weapons.push_back(new QuadShot(this));
 	weapons.push_back(new EnhancedTriple(this));
+
+	addSoundBuffer("blaster2");
+	addSoundBuffer("blaster3");
 }
 
 Player::~Player()
@@ -122,6 +125,7 @@ void Player::checkAbilityToFire(float dt)
 			shot_timer -= shot_gap;
 			is_firing = true;
 			bullets_ready--;
+			playSound(weapons[active_weapon]->getSound(), 0.95f);
 		}
 	}
 }

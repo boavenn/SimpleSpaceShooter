@@ -1,6 +1,6 @@
 #include "TripleShot.hpp"
 
-TripleShot::TripleShot(Entity* entity) : Weapon(entity)
+TripleShot::TripleShot(Entity* entity) : Weapon(entity, "blaster2")
 {
 	base_dmg = 11.f;
 }

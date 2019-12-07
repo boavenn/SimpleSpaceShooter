@@ -1,7 +1,7 @@
 #include "DoubleShot.hpp"
 #include "../entities/Player.hpp"
 
-DoubleShot::DoubleShot(Entity* entity) : Weapon(entity)
+DoubleShot::DoubleShot(Entity* entity) : Weapon(entity, "blaster2")
 {
 	base_dmg = 11.f;
 }

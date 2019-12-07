@@ -24,10 +24,12 @@ ResourceManager::ResourceManager() : textures("tex", "png"), audio("audio", "wav
 		textures.add("explosion" + std::to_string(i));
 
 	audio.add("blaster1");
+	audio.add("blaster2");
 	audio.add("blaster3");
 	audio.add("battle");
 	audio.add("menu");
 	audio.add("shop");
+	audio.add("pickup");
 
 	fonts.add("MonospaceTypewriter");
 }

@@ -1,6 +1,6 @@
 #include "EnhancedTriple.hpp"
 
-EnhancedTriple::EnhancedTriple(Entity* entity) : Weapon(entity)
+EnhancedTriple::EnhancedTriple(Entity* entity) : Weapon(entity, "blaster3")
 {
 	base_dmg = 16.f;
 }

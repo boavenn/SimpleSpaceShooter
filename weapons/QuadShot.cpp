@@ -1,6 +1,6 @@
 #include "QuadShot.hpp"
 
-QuadShot::QuadShot(Entity* entity) : Weapon(entity)
+QuadShot::QuadShot(Entity* entity) : Weapon(entity, "blaster2")
 {
 	base_dmg = 15.f;
 }

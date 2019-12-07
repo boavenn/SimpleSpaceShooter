@@ -1,7 +1,7 @@
 #include "OneShot.hpp"
 #include "../entities/Player.hpp"
 
-OneShot::OneShot(Entity* entity) : Weapon(entity)
+OneShot::OneShot(Entity* entity) : Weapon(entity, "blaster2")
 {
 	base_dmg = 6.f;
 }

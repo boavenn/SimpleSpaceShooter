@@ -54,7 +54,7 @@ private:
 
 	// stats
 	long score = 0;
-	int active_weapon = 3;
+	int active_weapon = 0;
 	int bullets_capacity;
 	const int bullets_capacity_min = 3;
 	const int bullets_capacity_max = 10;
@@ -65,7 +65,7 @@ private:
 	const float shot_gap_max = 0.2f;
 	const float shot_gap_min = 0.1f;
 	const unsigned lives_max = 3;
-	int lives_left = 0;
+	int lives_left = 1;
 	float speed;
 	const float speed_min = 300.f;
 	const float speed_max = 600.f;
