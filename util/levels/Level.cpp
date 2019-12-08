@@ -53,13 +53,13 @@ Alien* Level::createNewAlien(int type, sf::Vector2f pos, int direction, float de
 		temp = new Alien02(pos, direction, d, 10.f);
 		break;
 	case 3:
-		temp = new Alien03(pos, direction, d, 15.f);
+		temp = new Alien03(pos, direction, d, 20.f);
 		break;
 	case 4:
-		temp = new Alien04(pos, direction, d, 20.f);
+		temp = new Alien04(pos, direction, d, 25.f);
 		break;
 	case 5:
-		temp = new Alien05(pos, direction, d, 20.f);
+		temp = new Alien05(pos, direction, d, 30.f);
 		break;
 	default:
 		temp = new Alien01(pos, direction, d, 5.f);

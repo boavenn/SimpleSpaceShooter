@@ -125,7 +125,7 @@ void Shop::checkInput(float dt, sf::Event e)
 			if (player->getMoney() >= prices.at(options[4]->getText()) && player->getReloadTime() > player->getReloadTimeMin())
 			{
 				player->decreaseReloadTime(0.005f);
-				player->subMoney(prices.at(options[5]->getText()));
+				player->subMoney(prices.at(options[4]->getText()));
 				input_ability = false;
 			}
 		}

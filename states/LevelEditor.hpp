@@ -30,6 +30,9 @@ private:
 	bool delete_active = false;
 	bool saving = false;
 
+	float dir_change_timer = 0.f;
+	float dir_change_gap = 0.1f;
+
 	std::vector<sf::RectangleShape*> lines;
 	InputButton* setter;
 	InputButton* saver;

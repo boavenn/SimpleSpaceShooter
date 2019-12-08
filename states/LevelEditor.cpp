@@ -87,6 +87,18 @@ void LevelEditor::checkInput(float dt, sf::Event e)
 			saver->isInputActive() = true;
 		}
 
+		dir_change_timer += dt;
+		if (dir_change_timer >= dir_change_gap)
+		{
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+			{
+				for (Dummy* d : dummies)
+					if (d->isHovered(window))
+						d->addDirection();
+			}
+			dir_change_timer -= dir_change_gap;
+		}
+
 		if (!setter->isInputActive())
 		{
 			if (active_dummy)
@@ -95,12 +107,8 @@ void LevelEditor::checkInput(float dt, sf::Event e)
 				if (!input.empty())
 				{
 					std::stringstream ss(input);
-					int dir;
-					char sep;
 					float delay;
-					ss >> dir;
-					active_dummy->setDirection(dir);
-					ss >> sep >> delay;
+					ss >> delay;
 					active_dummy->setDelay(delay / 1000.f);
 				}				
 			}
@@ -253,19 +261,21 @@ void LevelEditor::init_instructions()
 	std::string instr[] =
 	{
 		"Pressing LMB on a dummy makes it active",
-		"Press RMB to set parameters as: [direction(0-7),delay(millis)]",
+		"Press RMB to set ascend delay in milliseconds",
 		"Press C to clone",
 		"Press D to delete",
-		"Press S to save in a file"
+		"Press S to save in a file",
+		"Press A to change ascending direction"
 	};
 
-	for (size_t i = 0; i < 5; i++)
+	for (size_t i = 0; i < 6; i++)
 	{
-		instructions.push_back(new Box({ 150.f, 20.f }, { float(WindowProperties::getWidth()) / 2.f, 530.f + i * 50.f }));
+		instructions.push_back(new Box({ 200.f, 25.f }, { 261.f, 470.f + i * 50.f }));
 		instructions.back()->setFont("MonospaceTypewriter");
 		instructions.back()->setTextIdleColor(sf::Color::White);
+		instructions.back()->setTextScale({ 1.2f, 1.2f });
 		instructions.back()->setTextOutlineColor(sf::Color::Black);
 		instructions.back()->setText(instr[i]);
-		instructions.back()->centerText();
+		instructions.back()->adjustTextToLeft(15.f);
 	}
 }
