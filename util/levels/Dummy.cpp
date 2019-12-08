@@ -9,7 +9,7 @@ Dummy::Dummy(std::string tex, sf::IntRect rect, int type, sf::Vector2f pos)
 	arrow.setTexture(ResourceManager::get().textures.get("util"));
 	arrow.setTextureRect({ 14, 0, 10, 12 });
 	arrow.setOrigin({ 5.f, 6.f });
-	arrow.setRotation(direction * 45 + 180);
+	arrow.setRotation(direction * 45.f + 180.f);
 	arrow.setPosition({ sprite.getPosition().x, sprite.getPosition().y - 30.f });
 	this->tex = tex;
 	this->rect = rect;
@@ -19,6 +19,7 @@ Dummy::Dummy(std::string tex, sf::IntRect rect, int type, sf::Vector2f pos)
 Dummy::Dummy(Dummy* d) : Dummy(d->tex, d->rect, d->type, { d->getPosition().x - 30.f, d->getPosition().y - 30.f })
 {
 	direction = d->direction;
+	arrow.setRotation(float(direction) * 45.f + 180);
 	delay = d->delay;
 }
 
@@ -57,5 +58,5 @@ void Dummy::addDirection()
 	direction++;
 	if (direction > 7)
 		direction = 0;
-	arrow.setRotation(float(direction) * 45.f + 180);
+	arrow.setRotation(float(direction) * 45.f + 180.f);
 }

@@ -15,6 +15,7 @@ Playing::Playing(sf::RenderWindow& w, StateManager& sm) : State(w, sm), SoundMak
 	level_teller = new Box({ 100.f, 50.f }, { float(WindowProperties::getWidth() / 2.f), -50.f });
 	level_teller->setFont("MonospaceTypewriter");
 	level_teller->setText("Level 1");
+	level_teller->setMainIdleColor(sf::Color::Transparent);
 	level_teller->setTextIdleColor(sf::Color::Green);
 	level_teller->setTextScale({ 0.5f, 0.5f });
 	level_teller->centerText();
@@ -22,11 +23,12 @@ Playing::Playing(sf::RenderWindow& w, StateManager& sm) : State(w, sm), SoundMak
 	shop_teller = new Box({ 100.f, 50.f }, { 50.f, float(WindowProperties::getHeight()) / 2.f });
 	shop_teller->setFont("MonospaceTypewriter");
 	shop_teller->setText("Shopping time");
+	shop_teller->setMainIdleColor(sf::Color::Transparent);
 	shop_teller->setTextIdleColor(sf::Color::Green);
 	shop_teller->setTextScale({ 0.5f, 0.5f });
 	shop_teller->centerText();
 
-	for (int i = 1; i <= 5; i++)
+	for (size_t i = starting_level; i <= max_levels; i++)
 		levels.push_back(new Level(i));
 
 	std::vector<Alien*> temp = levels.front()->loadFromFile();
@@ -441,7 +443,7 @@ void Playing::tryStartingNewLevel()
 
 	if (aliens.size() == 0 && active_level < levels.size())
 	{
-		if (active_level % 2 == 0 && !shop_added)
+		if (active_level % 4 == 0 && !shop_added)
 		{
 			should_add_shop = true;
 			should_tell_shop = true;

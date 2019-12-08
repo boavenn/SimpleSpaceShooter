@@ -65,6 +65,8 @@ private:
 	bool shop_added = false;
 	bool berserk_mode_activated = false;
 	size_t active_level = 1;
+	const size_t starting_level = 1;
+	const size_t max_levels = 10;
 private:
 	void mapUpdates(float dt);
 	void playerUpdates(float dt);

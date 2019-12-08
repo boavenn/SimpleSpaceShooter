@@ -11,8 +11,7 @@ Game::Game() : window(sf::VideoMode(WindowProperties::getWidth(), WindowProperti
 	fps->setText("0");
 	fps->setMainIdleColor(sf::Color::Black);
 	fps->setTextIdleColor(sf::Color::Green);
-	// Here the first state like MainMenu should be pushed to StateManager
-	// state_manager.pushState(std::make_unique<FirstState>(window, state_manager), 0, 1)
+
 	state_manager.pushState(std::make_unique<MainMenu>(window, state_manager), 0, 1);
 }
 

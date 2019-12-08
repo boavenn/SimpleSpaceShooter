@@ -201,9 +201,9 @@ void Shop::init_options()
 	prices.insert(std::make_pair("Reload time", 35));
 	prices.insert(std::make_pair("Ship speed", 20));
 
-	prices.insert(std::make_pair("Ultra triple", 400));
-	prices.insert(std::make_pair("Quad shot", 200));
-	prices.insert(std::make_pair("Triple shot", 100));
+	prices.insert(std::make_pair("Ultra triple", 600));
+	prices.insert(std::make_pair("Quad shot", 300));
+	prices.insert(std::make_pair("Triple shot", 150));
 	prices.insert(std::make_pair("Double shot", 50));
 
 	float py = 200.f;
@@ -214,7 +214,6 @@ void Shop::init_options()
 		options.back()->setTextureRect({ 0, 0, 200, 50 });
 		options.back()->setFont("MonospaceTypewriter");
 		options.back()->setText(names[i]);
-		options.back()->setMainIdleColor(sf::Color::White);
 		options.back()->setTextIdleColor(sf::Color::White);
 		options.back()->setTextActiveColor(sf::Color::Green);
 		options.back()->setTextScale({ 0.5f, 0.5f });
@@ -225,7 +224,6 @@ void Shop::init_options()
 		price_boxes.back()->setTextureRect({ 200, 0, 100, 50 });
 		price_boxes.back()->setFont("MonospaceTypewriter");
 		price_boxes.back()->setText(std::to_string(prices.at(names[i])) + "$");
-		price_boxes.back()->setMainIdleColor(sf::Color::White);
 		price_boxes.back()->setTextIdleColor(sf::Color::White);
 		price_boxes.back()->setTextScale({ 0.5f, 0.5f });
 		price_boxes.back()->adjustTextToRight(15.f);
@@ -240,7 +238,6 @@ void Shop::init_options()
 		options.back()->setTextureRect({ 0, 0, 200, 50 });
 		options.back()->setFont("MonospaceTypewriter");
 		options.back()->setText(names[util_quantity + i]);
-		options.back()->setMainIdleColor(sf::Color::White);
 		options.back()->setTextIdleColor(sf::Color::White);
 		options.back()->setTextActiveColor(sf::Color::Green);
 		options.back()->setTextScale({ 0.5f, 0.5f });
@@ -251,7 +248,6 @@ void Shop::init_options()
 		price_boxes.back()->setTextureRect({ 200, 0, 100, 50 });
 		price_boxes.back()->setFont("MonospaceTypewriter");
 		price_boxes.back()->setText(std::to_string(prices.at(names[util_quantity + i])) + "$");
-		price_boxes.back()->setMainIdleColor(sf::Color::White);
 		price_boxes.back()->setTextIdleColor(sf::Color::White);
 		price_boxes.back()->setTextScale({ 0.5f, 0.5f });
 		price_boxes.back()->adjustTextToRight(15.f);
@@ -263,7 +259,6 @@ void Shop::init_options()
 	quit->setTextureRect({ 0, 0, 200, 50 });
 	quit->setFont("MonospaceTypewriter");
 	quit->setText("QUIT SHOP");
-	quit->setMainIdleColor(sf::Color::White);
 	quit->setTextIdleColor(sf::Color::White);
 	quit->setTextActiveColor(sf::Color::Green);
 	quit->setTextScale({ 0.5f, 0.5f });

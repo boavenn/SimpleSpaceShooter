@@ -3,7 +3,7 @@
 
 DoubleShot::DoubleShot(Entity* entity) : Weapon(entity, "blaster2")
 {
-	base_dmg = 11.f;
+	base_dmg = 6.f;
 }
 
 std::vector<Projectile*> DoubleShot::getNewProjectiles(float v_mod)

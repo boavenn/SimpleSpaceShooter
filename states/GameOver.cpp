@@ -23,7 +23,6 @@ GameOver::GameOver(sf::RenderWindow& w, StateManager& sm, long score) : State(w,
 	nickname_box->setTextScale({ 0.5, 0.5 });
 	nickname_box->setTextIdleColor(sf::Color::White);
 	nickname_box->setTextActiveColor(sf::Color::White);
-	nickname_box->setMainIdleColor(sf::Color::White);
 	nickname_box->setTexture("buttons");
 	nickname_box->setTextureRect({ 0, 0, 200, 50 });
 }

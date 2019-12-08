@@ -83,6 +83,7 @@ void HUD::init_boxes()
 	
 	money = new Box({ 100.f, 50.f }, { px, py });
 	money->setFont("MonospaceTypewriter");
+	money->setMainIdleColor(sf::Color::Transparent);
 	money->setText(std::to_string(player->getMoney()) + "$");
 	money->setTextIdleColor(sf::Color::White);
 	money->setTextScale({ 0.5f, 0.5f });
@@ -90,6 +91,7 @@ void HUD::init_boxes()
 
 	score = new Box({ 200.f, 50.f }, { float(WindowProperties::getWidth()) / 2.f, 10.f });
 	score->setFont("MonospaceTypewriter");
+	score->setMainIdleColor(sf::Color::Transparent);
 	score->setText("Score:  0");
 	score->setTextIdleColor(sf::Color::White);
 	score->setTextScale({ 0.4f, 0.4f });

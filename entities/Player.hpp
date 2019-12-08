@@ -54,7 +54,7 @@ private:
 
 	// stats
 	long score = 0;
-	int active_weapon = 0;
+	int active_weapon = 1;
 	int bullets_capacity;
 	const int bullets_capacity_min = 3;
 	const int bullets_capacity_max = 10;

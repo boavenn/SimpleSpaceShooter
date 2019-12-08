@@ -2,7 +2,7 @@
 
 QuadShot::QuadShot(Entity* entity) : Weapon(entity, "blaster2")
 {
-	base_dmg = 15.f;
+	base_dmg = 11.f;
 }
 
 std::vector<Projectile*> QuadShot::getNewProjectiles(float v_mod)

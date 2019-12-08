@@ -80,25 +80,6 @@ void LevelEditor::checkInput(float dt, sf::Event e)
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 			should_pop = true;
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-		{
-			saving = true;
-			saver_visible = true;
-			saver->isInputActive() = true;
-		}
-
-		dir_change_timer += dt;
-		if (dir_change_timer >= dir_change_gap)
-		{
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-			{
-				for (Dummy* d : dummies)
-					if (d->isHovered(window))
-						d->addDirection();
-			}
-			dir_change_timer -= dir_change_gap;
-		}
-
 		if (!setter->isInputActive())
 		{
 			if (active_dummy)
@@ -115,6 +96,18 @@ void LevelEditor::checkInput(float dt, sf::Event e)
 
 			setter_visible = false;
 			setter->resetInput();
+
+			dir_change_timer += dt;
+			if (dir_change_timer >= dir_change_gap)
+			{
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+				{
+					for (Dummy* d : dummies)
+						if (d->isHovered(window))
+							d->addDirection();
+				}
+				dir_change_timer -= dir_change_gap;
+			}
 		}
 
 		if (!sf::Mouse::isButtonPressed(sf::Mouse::Left) && !setter->isInputActive())
@@ -134,6 +127,13 @@ void LevelEditor::checkInput(float dt, sf::Event e)
 					break;
 				}
 			}
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+			{
+				saving = true;
+				saver_visible = true;
+				saver->isInputActive() = true;
+			}
 		}
 
 		if (active_dummy)
@@ -147,13 +147,13 @@ void LevelEditor::checkInput(float dt, sf::Event e)
 				setter_visible = true;
 			}
 
-			if (!copy_active && sf::Keyboard::isKeyPressed(sf::Keyboard::C))
+			if (!setter->isInputActive() && !copy_active && sf::Keyboard::isKeyPressed(sf::Keyboard::C))
 			{
 				copy_active = true;
 				dummies.push_back(new Dummy(active_dummy));
 			}
 
-			if (!delete_active && sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+			if (!setter->isInputActive() && !delete_active && sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 			{
 				for (size_t i = 0; i < dummies.size(); i++)
 				{
@@ -272,6 +272,7 @@ void LevelEditor::init_instructions()
 	{
 		instructions.push_back(new Box({ 200.f, 25.f }, { 261.f, 470.f + i * 50.f }));
 		instructions.back()->setFont("MonospaceTypewriter");
+		instructions.back()->setMainIdleColor(sf::Color::Transparent);
 		instructions.back()->setTextIdleColor(sf::Color::White);
 		instructions.back()->setTextScale({ 1.2f, 1.2f });
 		instructions.back()->setTextOutlineColor(sf::Color::Black);

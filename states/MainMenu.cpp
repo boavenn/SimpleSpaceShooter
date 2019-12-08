@@ -107,7 +107,6 @@ void MainMenu::init_buttons()
 	{
 		buttons.push_back(new Button({ 200.f, 50.f }, { float(WindowProperties::getWidth()) / 2.f, 300.f + 70.f * i }));
 		buttons.back()->setTexture("buttons");
-		buttons.back()->setMainIdleColor(sf::Color::White);
 		buttons.back()->addAnimation("idle", 0.2f);
 		buttons.back()->getAnimationOf("idle").addFrame({ 0, 0, 200, 50 });
 		buttons.back()->addAnimation("active", 0.05f);

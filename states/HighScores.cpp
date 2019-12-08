@@ -9,7 +9,6 @@ HighScores::HighScores(sf::RenderWindow& w, StateManager& sm) : State(w, sm)
 		scores_b.back()->setFont("MonospaceTypewriter");
 		scores_b.back()->setTextScale({ 0.5f, 0.5f });
 		scores_b.back()->setTextIdleColor(sf::Color::White);
-		scores_b.back()->setMainIdleColor(sf::Color::White);
 		scores_b.back()->setTexture("buttons");
 		scores_b.back()->setTextureRect({ 0, 0, 200, 50 });
 
@@ -17,7 +16,6 @@ HighScores::HighScores(sf::RenderWindow& w, StateManager& sm) : State(w, sm)
 		names_b.back()->setFont("MonospaceTypewriter");
 		names_b.back()->setTextScale({ 0.5f, 0.5f });
 		names_b.back()->setTextIdleColor(sf::Color::White);
-		names_b.back()->setMainIdleColor(sf::Color::White);
 		names_b.back()->setTexture("buttons");
 		names_b.back()->setTextureRect({ 0, 0, 200, 50 });
 	}
@@ -34,7 +32,6 @@ HighScores::HighScores(sf::RenderWindow& w, StateManager& sm) : State(w, sm)
 	for (int i = 0; i < 10; i++)
 		quit->getAnimationOf("active").addFrame({ 0, 50 + 50 * i, 200, 50 });
 	quit->setTextIdleColor(sf::Color::White);
-	quit->setMainIdleColor(sf::Color::White);
 	quit->setTextActiveColor(sf::Color(94, 255, 209));
 	quit->centerText();
 
