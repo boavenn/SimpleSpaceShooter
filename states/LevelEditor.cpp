@@ -261,11 +261,11 @@ void LevelEditor::init_instructions()
 	std::string instr[] =
 	{
 		"Pressing LMB on a dummy makes it active",
-		"Press RMB to set ascend delay in milliseconds",
+		"Press RMB to set descend delay in milliseconds",
 		"Press C to clone",
 		"Press D to delete",
 		"Press S to save in a file",
-		"Press A to change ascending direction"
+		"Press A to change descend direction"
 	};
 
 	for (size_t i = 0; i < 6; i++)
