@@ -8,8 +8,8 @@ You can watch a quick gameplay [here](https://youtu.be/ys475QWXbcY) :poop:
 ![pic3](res/github/lvlEditingDemo.gif)
 
 ## Built with
-* SFML - Basically everything
-* SimpleGameFramework - My own sfml framework I used to make the core of the game
+* [SFML](https://www.sfml-dev.org/) - Basically everything
+* [SimpleGameFramework](https://github.com/boavenn/SimpleGameFramework) - My own sfml framework I used to make the core of the game
 
 ## Sources
 Here are the sources to things i did not make by myself:\
