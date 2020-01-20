@@ -1,8 +1,8 @@
 #pragma once
 #include "../Entity.hpp"
-#include "../util/Animation.hpp"
-#include "../util/WindowProperties.hpp"
-#include "../res/ResourceManager.hpp"
+#include "../../util/Animation.hpp"
+#include "../../util/WindowProperties.hpp"
+#include "../../res/ResourceManager.hpp"
 
 class Player;
 

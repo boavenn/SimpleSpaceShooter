@@ -1,6 +1,6 @@
 #pragma once
-#include "../entities/Entity.hpp"
-#include "../res/ResourceManager.hpp"
+#include "../../entities/Entity.hpp"
+#include "../../res/ResourceManager.hpp"
 
 class Dummy : public Entity
 {

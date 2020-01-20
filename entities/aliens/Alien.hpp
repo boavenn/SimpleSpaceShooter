@@ -2,8 +2,8 @@
 #include "../Entity.hpp"
 #include "../Projectile.hpp"
 #include "../../res/ResourceManager.hpp"
-#include "../util/Random.hpp"
-#include "../util/SoundMaking.hpp"
+#include "../../util/Random.hpp"
+#include "../../util/SoundMaking.hpp"
 
 typedef Random R;
 

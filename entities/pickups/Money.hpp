@@ -1,6 +1,6 @@
 #pragma once
 #include "Pickup.hpp"
-#include "../entities/Player.hpp"
+#include "../../entities/Player.hpp"
 
 class Money : public Pickup
 {
