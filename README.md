@@ -12,7 +12,7 @@ You can watch a quick gameplay [here](https://youtu.be/ys475QWXbcY) :poop:
 * [SimpleGameFramework](https://github.com/boavenn/SimpleGameFramework) - My own sfml framework I used to make the core of the game
 
 ## Sources
-Here are the sources to things i did not make by myself:\
+Everything except these is made by me:\
 Sprites:
 * [Explosions1](https://sinestesia.itch.io/2d-explosions-animations)
 * [Explosions2](https://sinestesia.itch.io/free-2d-explosion-animations-2)
