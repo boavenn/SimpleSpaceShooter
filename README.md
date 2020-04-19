@@ -12,12 +12,12 @@ You can watch a quick gameplay [here](https://youtu.be/ys475QWXbcY) :poop:
 * [SimpleGameFramework](https://github.com/boavenn/SimpleGameFramework) - My own sfml framework I used to make the core of the game
 
 ## Sources
-Everything except these is made by me:\
-Sprites:
+Everything is made by me except these:
+##### Sprites:
 * [Explosions1](https://sinestesia.itch.io/2d-explosions-animations)
 * [Explosions2](https://sinestesia.itch.io/free-2d-explosion-animations-2)
 
-Audio:
+##### Audio:
 * [music](https://gooseninja.itch.io/space-music-pack)
 * [blaster1](https://freesound.org/people/Theogobbo/sounds/397473/)
 * [blaster2](https://freesound.org/people/MikeE63/sounds/466867/)
